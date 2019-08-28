@@ -1,0 +1,15 @@
+{
+  "translation": {
+    "mainTitle": "MI: Kiosk Application Text",
+
+    "home": {
+      "heading": "MI: Home Page",
+      "content": "MI: This is the content of the home page."
+    },
+
+    "page-two": {
+      "heading": "MI: Page Two",
+      "content": "MI: This is the content of page two."
+    }
+  }
+}

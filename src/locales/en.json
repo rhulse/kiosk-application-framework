@@ -1,0 +1,15 @@
+{
+  "translation": {
+    "mainTitle": "Kiosk <span data-gloss=\"application\">Application</span> Text",
+
+    "home": {
+      "heading": "Home Page",
+      "content": "This is the content of the home page."
+    },
+
+    "page-two": {
+      "heading": "Page Two",
+      "content": "This is the content of page two."
+    }
+  }
+}
