@@ -4,3 +4,14 @@
   width: 1200px;
   height: 800px;
 }
+
+.language-controls {
+  float: right;
+  button {
+    @extend .mr-2;
+  }
+
+  button:last-child {
+    @extend .mr-0;
+  }
+}

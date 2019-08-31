@@ -1,0 +1,15 @@
+{
+  "i18n": {
+    "locales": [
+      {
+        "code": "mi",
+        "name": "Māori"
+      },
+      {
+        "code": "en",
+        "name": "English"
+      }
+    ],
+    "defaultLocale": "en"
+  }
+}

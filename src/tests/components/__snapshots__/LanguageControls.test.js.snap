@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the component with no props 1`] = `"Locale prop for LanguageControls not set"`;
+
+exports[`renders the component with one language 1`] = `
+<div
+  className="language-controls"
+>
+  <button
+    className="btn btn-primary"
+    onClick={[Function]}
+  >
+    English
+  </button>
+</div>
+`;
+
+exports[`renders the component with two languages 1`] = `
+<div
+  className="language-controls"
+>
+  <button
+    className="btn btn-primary"
+    onClick={[Function]}
+  >
+    English
+  </button>
+  <button
+    className="btn btn-primary"
+    onClick={[Function]}
+  >
+    french
+  </button>
+</div>
+`;

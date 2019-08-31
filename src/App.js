@@ -1,18 +1,12 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
-import "./i18n";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import config from "./configuration";
 
 import Home from "./pages/Home";
 import PageTwo from "./pages/PageTwo";
+import LanguageControls from "./components/LanguageControls";
 
 function App() {
-  const { i18n } = useTranslation();
-
-  const changeLanguage = lng => {
-    i18n.changeLanguage(lng);
-  };
-
   return (
     <div className="container">
       <Router>
@@ -23,20 +17,7 @@ function App() {
           <Link className="btn btn-secondary" to="/page-two">
             Page Two
           </Link>
-          <div className="language-controls float-right">
-            <button
-              className="btn btn-primary mr-2"
-              onClick={() => changeLanguage("mi")}
-            >
-              Māori
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => changeLanguage("en")}
-            >
-              English
-            </button>
-          </div>
+          <LanguageControls locales={config.i18n.locales} />
         </header>
         <main className="m-4">
           <Switch>
