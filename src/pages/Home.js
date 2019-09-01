@@ -1,4 +1,5 @@
 import React from "react";
+
 import TranslatedRichText from "../components/TranslatedRichText";
 
 export default function Home() {

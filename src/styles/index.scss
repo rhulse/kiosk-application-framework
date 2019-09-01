@@ -15,3 +15,8 @@
     @extend .mr-0;
   }
 }
+
+// overide bootstrap glow around button
+.btn:focus {
+  box-shadow: none !important;
+}
