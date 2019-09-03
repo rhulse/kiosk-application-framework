@@ -11,6 +11,7 @@
     "react-dom": "^16.9.0",
     "react-html-parser": "^2.0.2",
     "react-i18next": "^10.12.2",
+    "react-idle-timer": "^4.2.9",
     "react-router-dom": "^5.0.1",
     "react-test-renderer": "^16.9.0"
   },
