@@ -6,8 +6,6 @@
 
 import React, { Component } from "react";
 
-// const ACTIVATE_AFTER_X = 1000 * 3;
-
 const styles = {
   position: "fixed",
   left: 0,
@@ -24,17 +22,16 @@ const styles = {
 
 export default class ScreenSaver extends Component {
   /**
-   * Sets default property values
+   * Default property values
    * @type {Object}
    * @private
    */
   static defaultProps = {
-    running: false,
     fadeDuration: 20
   };
 
   /**
-   * Sets initial component state
+   * Initial component state
    * @type {Object}
    * @private
    */
@@ -109,7 +106,7 @@ export default class ScreenSaver extends Component {
     const { fadeDuration } = this.props;
     let { opacity } = this.state;
 
-    this._zoomUp();
+    this._zoomUp(); // start
     var timer = setInterval(() => {
       if (opacity >= 1) {
         this.setState({ opacity: 1 });

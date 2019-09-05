@@ -4,6 +4,7 @@ import IdleTimer from "react-idle-timer";
 
 import GlobalState from "./contexts/GlobalState";
 import ScreenSaver from "./components/ScreenSaver";
+import config from "./configuration";
 
 import Header from "./components/Header";
 import Main from "./components/Main";
@@ -22,13 +23,13 @@ function App() {
 
   return (
     <>
-      <ScreenSaver ref={screenSaver}></ScreenSaver>
+      <ScreenSaver ref={screenSaver} />
       <IdleTimer
         ref={idleTimer}
         onActive={appIsActive}
         onIdle={appIsIdle}
         debounce={250}
-        timeout={1000 * 3}
+        timeout={config.screensaver.seconds_timeout_to_start}
         startOnLoad
       />
       <div className="container">

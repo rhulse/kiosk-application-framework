@@ -11,5 +11,8 @@
       }
     ],
     "defaultLocale": "en"
+  },
+  "screensaver": {
+    "seconds_timeout_to_start": 300000
   }
 }
