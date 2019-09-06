@@ -42,17 +42,6 @@ export default class ScreenSaver extends Component {
     height: 0
   };
 
-  constructor(props) {
-    super(props);
-
-    this.start = this.start.bind(this);
-    this.stop = this.stop.bind(this);
-    this._fadeIn = this._fadeIn.bind(this);
-    this._fadeOut = this._fadeOut.bind(this);
-    this._zoomUp = this._zoomUp.bind(this);
-    this._zoomDown = this._zoomDown.bind(this);
-  }
-
   render() {
     const { children } = this.props;
     const { opacity, width, height } = this.state;
@@ -68,25 +57,25 @@ export default class ScreenSaver extends Component {
     }
   }
 
-  start() {
+  start = () => {
     this.setState({ running: true });
     this._fadeIn();
-  }
+  };
 
-  stop() {
+  stop = () => {
     this._fadeOut();
     this.setState({ running: false });
-  }
+  };
 
-  _zoomUp() {
+  _zoomUp = () => {
     this.setState({ width: "100%", height: "100%" });
-  }
+  };
 
-  _zoomDown() {
+  _zoomDown = () => {
     this.setState({ width: 0, height: 0 });
-  }
+  };
 
-  _fadeOut() {
+  _fadeOut = () => {
     const { fadeDuration } = this.props;
     let { opacity } = this.state;
 
@@ -100,7 +89,7 @@ export default class ScreenSaver extends Component {
         this.setState({ opacity });
       }
     }, fadeDuration);
-  }
+  };
 
   _fadeIn = () => {
     const { fadeDuration } = this.props;
