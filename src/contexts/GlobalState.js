@@ -3,9 +3,11 @@ import config from "../configuration";
 import i18n from "../i18n";
 
 export const UPDATE_LANGUAGE = "UPDATE_LANGUAGE";
+export const ADD_GLOSS = "ADD_GLOSS";
 
 const initialState = {
-  locale: config.i18n.defaultLocale
+  locale: config.i18n.defaultLocale,
+  gloss: null
 };
 
 export const PrefsContext = createContext();
@@ -15,6 +17,9 @@ const prefsReducer = (state, action) => {
     case UPDATE_LANGUAGE:
       i18n.changeLanguage(action.language);
       return { ...state, locale: action.language };
+
+    case ADD_GLOSS:
+      return { ...state, gloss: action.gloss };
 
     default:
       break;

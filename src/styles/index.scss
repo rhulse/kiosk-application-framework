@@ -16,6 +16,26 @@
   }
 }
 
+[data-gloss] {
+  @extend .btn;
+  @extend .btn-light;
+  padding: 0 3px 0 3px;
+}
+
+.gloss {
+  position: absolute;
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  cursor: pointer;
+
+  &-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: white;
+  }
+}
 // overide bootstrap glow around button
 .btn:focus {
   box-shadow: none !important;

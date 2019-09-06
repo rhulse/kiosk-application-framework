@@ -4,7 +4,7 @@
 
     "home": {
       "heading": "Home Page",
-      "content": "This is the content of the home page."
+      "content": "<p>This is the content of the home page. This text has a <span data-gloss='gloss'>Gloss</span> which is a way to provide translations of words.</p><p>This is the second para the has another gloss on a <span data-gloss='different'>different</span> word.</p>"
     },
 
     "page-two": {

@@ -1,13 +1,10 @@
 import React, { useRef, useCallback } from "react";
-import { BrowserRouter } from "react-router-dom";
 import IdleTimer from "react-idle-timer";
-
 import GlobalState from "./contexts/GlobalState";
+
 import ScreenSaver from "./components/ScreenSaver";
 import config from "./configuration";
-
-import Header from "./components/Header";
-import Main from "./components/Main";
+import Kiosk from "./components/Kiosk";
 
 function App() {
   const idleTimer = useRef(null);
@@ -32,14 +29,9 @@ function App() {
         timeout={config.screensaver.seconds_timeout_to_start}
         startOnLoad
       />
-      <div className="container">
-        <GlobalState>
-          <BrowserRouter>
-            <Header />
-            <Main />
-          </BrowserRouter>
-        </GlobalState>
-      </div>
+      <GlobalState>
+        <Kiosk />
+      </GlobalState>
     </>
   );
 }
