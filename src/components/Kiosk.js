@@ -38,7 +38,7 @@ function Kiosk(props) {
     returnToHome(props);
     setLanguageToDefault(dispatch);
     screenSaver.current.start();
-  }, []);
+  }, [props, dispatch]);
 
   useEffect(() => {
     dispatch({ type: SET_GLOSS, gloss: glossRef.current });
