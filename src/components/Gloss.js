@@ -24,13 +24,18 @@ export default class Gloss extends Component {
 
     const wordInformation = this._getWordInformation(glossedElement);
 
+    // set the words first
+    this.setState({
+      ...wordInformation
+    });
+
+    // then calulate XY based on the size
     const glossXY = this._calculateGlossXY(glossedElement);
 
     this._addCheckForExternalClicks();
 
     this.setState({
-      ...glossXY,
-      ...wordInformation
+      ...glossXY
     });
   };
 
@@ -92,10 +97,19 @@ export default class Gloss extends Component {
   };
 
   _calculateGlossXY = element => {
-    const bounds = element.getBoundingClientRect();
+    const { top, left, width } = element.getBoundingClientRect();
+    const ARROW_SIZE = 14;
 
-    const newLeft = bounds.left + bounds.width / 2;
-    const newTop = bounds.top + 50;
+    const {
+      height: glossHeight,
+      width: glossWidth
+    } = this.glossContainer.getBoundingClientRect();
+
+    const glossLeftOffset = glossWidth / 2;
+
+    const middleOfElement = width / 2;
+    const newLeft = left + middleOfElement - glossLeftOffset;
+    const newTop = top - glossHeight - ARROW_SIZE;
 
     return { top: newTop, left: newLeft };
   };
