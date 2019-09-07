@@ -35,7 +35,7 @@ export default class Gloss extends Component {
     return { top: newTop, left: newLeft };
   };
 
-  showGloss = event => {
+  show = event => {
     event.preventDefault();
 
     const glossedElement = event.target;
@@ -50,8 +50,9 @@ export default class Gloss extends Component {
     });
   };
 
-  closeGloss = event => {
-    event.preventDefault();
+  hide = event => {
+    // called by screen saver, so no event...
+    event && event.preventDefault();
 
     this.setState({ ...defaultPosition, ...defaultGlossInformation });
   };
@@ -60,7 +61,7 @@ export default class Gloss extends Component {
     const glossElements = this._fetchGlossElements(containerElement);
 
     glossElements.forEach(glossElement => {
-      glossElement.addEventListener("click", this.showGloss);
+      glossElement.addEventListener("click", this.show);
     });
   };
 
@@ -68,7 +69,7 @@ export default class Gloss extends Component {
     const glossElements = this._fetchGlossElements(containerElement);
 
     glossElements.forEach(glossElement => {
-      glossElement.removeEventListener("click", this.showGloss);
+      glossElement.removeEventListener("click", this.show);
     });
   };
 
@@ -82,7 +83,7 @@ export default class Gloss extends Component {
   render() {
     return (
       <div style={this.styles()} className="gloss">
-        <span onClick={this.closeGloss} className="gloss-close">
+        <span onClick={this.hide} className="gloss-close">
           X
         </span>
         <h3>{this.state.word}</h3>
