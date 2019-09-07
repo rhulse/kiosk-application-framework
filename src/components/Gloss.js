@@ -74,8 +74,7 @@ export default class Gloss extends Component {
   };
 
   styles = () => {
-    const top = this.state.top;
-    const left = this.state.left;
+    const { top, left } = this.state;
 
     return { ...defaultPosition, top: top, left: left };
   };
