@@ -1,6 +1,6 @@
 import React, { useRef, useContext, useEffect, useCallback } from "react";
-import { BrowserRouter } from "react-router-dom";
-import { PrefsContext, ADD_GLOSS } from "../contexts/GlobalState";
+import { PrefsContext, SET_GLOSS, SET_LANGUAGE } from "../contexts/GlobalState";
+import { withRouter } from "react-router-dom";
 
 import IdleTimer from "react-idle-timer";
 import ScreenSaver from "./ScreenSaver";
@@ -10,11 +10,22 @@ import Header from "./Header";
 import Main from "./Main";
 import Gloss from "./Gloss";
 
-export default function Kiosk() {
+const hideOpenGloss = glossRef => {
+  glossRef.current.hide();
+};
+
+const returnToHome = props => {
+  props.history.push("/");
+};
+
+const setLanguageToDefault = dispatch => {
+  dispatch({ type: SET_LANGUAGE, language: config.i18n.defaultLocale });
+};
+
+function Kiosk(props) {
   const glossRef = useRef(null);
   const idleTimer = useRef(null);
   const screenSaver = useRef(null);
-
   const { dispatch } = useContext(PrefsContext);
 
   const appIsActive = useCallback(() => {
@@ -22,12 +33,15 @@ export default function Kiosk() {
   }, []);
 
   const appIsIdle = useCallback(() => {
-    glossRef.current.hide();
+    // TODO: Add session end
+    hideOpenGloss(glossRef);
+    returnToHome(props);
+    setLanguageToDefault(dispatch);
     screenSaver.current.start();
   }, []);
 
   useEffect(() => {
-    dispatch({ type: ADD_GLOSS, gloss: glossRef.current });
+    dispatch({ type: SET_GLOSS, gloss: glossRef.current });
   }, [dispatch]);
 
   return (
@@ -42,12 +56,12 @@ export default function Kiosk() {
         startOnLoad
       />
       <div className="container">
-        <BrowserRouter>
-          <Header />
-          <Main />
-        </BrowserRouter>
+        <Header />
+        <Main />
         <Gloss ref={glossRef} />
       </div>
     </>
   );
 }
+
+export default withRouter(Kiosk);

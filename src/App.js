@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
 import GlobalState from "./contexts/GlobalState";
 import Kiosk from "./components/Kiosk";
 
@@ -6,7 +7,9 @@ function App() {
   return (
     <>
       <GlobalState>
-        <Kiosk />
+        <BrowserRouter>
+          <Kiosk />
+        </BrowserRouter>
       </GlobalState>
     </>
   );

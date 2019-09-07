@@ -2,8 +2,8 @@ import React, { createContext, useReducer } from "react";
 import config from "../configuration";
 import i18n from "../i18n";
 
-export const UPDATE_LANGUAGE = "UPDATE_LANGUAGE";
-export const ADD_GLOSS = "ADD_GLOSS";
+export const SET_LANGUAGE = "SET_LANGUAGE";
+export const SET_GLOSS = "SET_GLOSS";
 
 const initialState = {
   locale: config.i18n.defaultLocale,
@@ -14,11 +14,11 @@ export const PrefsContext = createContext();
 
 const prefsReducer = (state, action) => {
   switch (action.type) {
-    case UPDATE_LANGUAGE:
+    case SET_LANGUAGE:
       i18n.changeLanguage(action.language);
       return { ...state, locale: action.language };
 
-    case ADD_GLOSS:
+    case SET_GLOSS:
       return { ...state, gloss: action.gloss };
 
     default:

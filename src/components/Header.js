@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { PrefsContext, UPDATE_LANGUAGE } from "../contexts/GlobalState";
+import { PrefsContext, SET_LANGUAGE } from "../contexts/GlobalState";
 
 import config from "../configuration";
 
@@ -10,7 +10,7 @@ export default function Header() {
   const { state, dispatch } = useContext(PrefsContext);
 
   const changeLanguage = lang => {
-    dispatch({ type: UPDATE_LANGUAGE, language: lang });
+    dispatch({ type: SET_LANGUAGE, language: lang });
   };
 
   return (
