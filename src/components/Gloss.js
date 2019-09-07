@@ -12,28 +12,10 @@ const defaultGlossInformation = {
   description: "No Data for Word"
 };
 
+const downEventTypes = ["mousedown", "touchdown"];
+
 export default class Gloss extends Component {
   state = { ...defaultPosition, ...defaultGlossInformation };
-
-  _getWordInformation = element => {
-    const contentKey = element.getAttribute("data-gloss");
-
-    const info = glossData[contentKey] || defaultGlossInformation;
-
-    return {
-      word: info.word,
-      description: info.description
-    };
-  };
-
-  _calculateGlossXY = element => {
-    const bounds = element.getBoundingClientRect();
-
-    const newLeft = bounds.left + bounds.width / 2;
-    const newTop = bounds.top + 50;
-
-    return { top: newTop, left: newLeft };
-  };
 
   show = event => {
     event.preventDefault();
@@ -44,6 +26,8 @@ export default class Gloss extends Component {
 
     const glossXY = this._calculateGlossXY(glossedElement);
 
+    this._addCheckForExternalClicks();
+
     this.setState({
       ...glossXY,
       ...wordInformation
@@ -53,6 +37,7 @@ export default class Gloss extends Component {
   hide = event => {
     // called by screen saver, so no event...
     event && event.preventDefault();
+    this._removeCheckForExternalClicks();
 
     this.setState({ ...defaultPosition, ...defaultGlossInformation });
   };
@@ -81,7 +66,12 @@ export default class Gloss extends Component {
 
   render() {
     return (
-      <div style={this.styles()} className="gloss">
+      <div
+        // store on 'this' rather than state to avoid a rerender
+        ref={ref => (this.glossContainer = ref)}
+        style={this.styles()}
+        className="gloss"
+      >
         <span onClick={this.hide} className="gloss-close">
           X
         </span>
@@ -90,6 +80,43 @@ export default class Gloss extends Component {
       </div>
     );
   }
+  _getWordInformation = element => {
+    const contentKey = element.getAttribute("data-gloss");
+
+    const info = glossData[contentKey] || defaultGlossInformation;
+
+    return {
+      word: info.word,
+      description: info.description
+    };
+  };
+
+  _calculateGlossXY = element => {
+    const bounds = element.getBoundingClientRect();
+
+    const newLeft = bounds.left + bounds.width / 2;
+    const newTop = bounds.top + 50;
+
+    return { top: newTop, left: newLeft };
+  };
+
+  _checkForExternalAction = event => {
+    if (!this.glossContainer.contains(event.target)) {
+      this.hide();
+    }
+  };
+
+  _addCheckForExternalClicks = () => {
+    downEventTypes.forEach(eventType => {
+      window.addEventListener(eventType, this._checkForExternalAction);
+    });
+  };
+
+  _removeCheckForExternalClicks = () => {
+    downEventTypes.forEach(eventType => {
+      window.removeEventListener(eventType, this._checkForExternalAction);
+    });
+  };
 
   _fetchGlossElements(containerElement) {
     return containerElement.querySelectorAll("[data-gloss]");
