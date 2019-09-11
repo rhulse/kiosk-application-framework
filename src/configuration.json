@@ -14,5 +14,9 @@
   },
   "screensaver": {
     "seconds_timeout_to_start": 300000
+  },
+  "analytics": {
+    "googleGA": "",
+    "googleGTAG": ""
   }
 }

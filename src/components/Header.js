@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { PrefsContext, SET_LANGUAGE } from "../contexts/GlobalState";
+import { useAnalytics } from "../analytics/Analytics";
 
 import config from "../configuration";
 
@@ -8,8 +9,10 @@ import LanguageControls from "./LanguageControls";
 
 export default function Header() {
   const { state, dispatch } = useContext(PrefsContext);
+  const analytics = useAnalytics();
 
   const changeLanguage = lang => {
+    analytics.setLanguage(lang);
     dispatch({ type: SET_LANGUAGE, language: lang });
   };
 

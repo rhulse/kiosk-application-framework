@@ -1,6 +1,10 @@
 import React, { useRef, useContext, useEffect, useCallback } from "react";
-import { PrefsContext, SET_GLOSS, SET_LANGUAGE } from "../contexts/GlobalState";
+import { track } from "react-tracking";
 import { withRouter } from "react-router-dom";
+
+import { analyticsDispatcher, useAnalytics } from "../analytics/Analytics";
+
+import { PrefsContext, SET_GLOSS, SET_LANGUAGE } from "../contexts/GlobalState";
 
 import IdleTimer from "react-idle-timer";
 import ScreenSaver from "./ScreenSaver";
@@ -10,12 +14,23 @@ import Header from "./Header";
 import Main from "./Main";
 import Gloss from "./Gloss";
 
+const listenForRouteChanges = (analytics, history) => {
+  return history.listen((location, action) => {
+    // if (location.state !== "reset") {
+    // we do not register an automatic return to the home page.
+    analytics.pageView(location.pathname);
+    // }
+    // location is an object like window.location
+    // console.log(action, location.pathname, location.state);
+  });
+};
+
 const hideOpenGloss = glossRef => {
   glossRef.current.hide();
 };
 
 const returnToHome = props => {
-  props.history.push("/");
+  props.history.push("/", "reset");
 };
 
 const setLanguageToDefault = dispatch => {
@@ -27,6 +42,7 @@ function Kiosk(props) {
   const idleTimer = useRef(null);
   const screenSaver = useRef(null);
   const { dispatch } = useContext(PrefsContext);
+  const analytics = useAnalytics();
 
   const appIsActive = useCallback(() => {
     screenSaver.current.stop();
@@ -41,8 +57,23 @@ function Kiosk(props) {
   }, [props, dispatch]);
 
   useEffect(() => {
+    /* 
+      NB: This causes a second render at startup when the gloss reference is set.
+      See gloss module for more information on why this is needed
+    */
     dispatch({ type: SET_GLOSS, gloss: glossRef.current });
   }, [dispatch]);
+
+  useEffect(() => {
+    // start watching for route changes AFTER the above startup regime
+    // we don't want the first page render to register on startup as this
+    // can throw off page view stats
+    const unlisten = listenForRouteChanges(analytics, props.history);
+
+    return unlisten;
+    // ignore linting rule
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -64,4 +95,4 @@ function Kiosk(props) {
   );
 }
 
-export default withRouter(Kiosk);
+export default track({}, { dispatch: analyticsDispatcher })(withRouter(Kiosk));
