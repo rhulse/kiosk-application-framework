@@ -16,6 +16,8 @@ The aim of the framework is to lower bar for small (or large) organisations who 
 
 I have based this work on the guidliines in Te Papa's [Design Language System](https://dls.tepapa.govt.nz/).
 
+Rather than create an empty framework with documentation, I have opted to create an example application that shows how to use it. Remove what you don't need, copy and paste, whatever works.
+
 ## Background
 
 From early 2017 to September 2018 a group of people, including myself, worked on a framework to simplify the creation and deployment of touch-screen interactives at Te Papa, The Museum of New Zealand. This was called the Digital Experience Delivery System, or DEDS (pronounced Deeds). It was later renamed Te Papahiko, or The Digital Foundation. I was product owner for the project.
@@ -51,6 +53,10 @@ The code needs to be simple enough that you don't need a deep knowledege of Reac
 3. Easy to update, easy to deploy
 
 This project cannot be all things to all people. There won't be a CMS, but you could replace the content stored in locales with some sort of CMS. It's been my experience that content in museum floors is infrequently updated, so rather than have all the complixty of a CMS, just make the interactive easy to update and deploy. That's on the roadmap.
+
+4. Encapsulation
+
+Like things should be together. Not necessarily a class, but together. Easier to read, easier to modify. Don't create unnecessary abstractions. Code to make it easy for future developers to understand and modify the code. That future developer might be you!
 
 ## Features
 
