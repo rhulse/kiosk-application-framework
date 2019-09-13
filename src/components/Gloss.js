@@ -1,6 +1,24 @@
 import React, { Component } from "react";
 import glossData from "../content/glossData";
 
+/* 
+  Design Note
+
+  The design was complicated by the need to dyamically update the gloss content
+  for each work clicked.
+
+  The Gloss component includes all Gloss related logic, including that used
+  to attach the gloss to any onClick events. This approach was taken - rather
+  than moving the add/remove event to specific components - in order to encasulate
+  all Gloss-related concerns in one place.
+  
+  This make it simpler to maintain, and the add/remove won't have to be repeated
+
+  That choice did mean storing a gloss object reference in the Global state, so it 
+  could be accessed anywhere. Better of two evils, IMHO.
+
+*/
+
 const defaultPosition = {
   position: "absolute",
   left: "-9990px",
