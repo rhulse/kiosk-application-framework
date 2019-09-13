@@ -27,7 +27,9 @@ const defaultPosition = {
 
 const defaultGlossInformation = {
   word: "Unknown Word",
-  description: "No Data for Word"
+  description: "No Data for Word",
+  language: "Lang",
+  partOfSpeech: "Noun"
 };
 
 const downEventTypes = ["mousedown", "touchdown"];
@@ -98,8 +100,11 @@ export default class Gloss extends Component {
         <span onClick={this.hide} className="gloss-close">
           X
         </span>
-        <h3>{this.state.word}</h3>
+        <h6>{this.state.word}</h6>
         <p>{this.state.description}</p>
+        <p>
+          {this.state.language} | {this.state.partOfSpeech}
+        </p>
       </div>
     );
   }

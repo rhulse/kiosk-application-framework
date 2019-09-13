@@ -1,14 +1,17 @@
 {
-  "key" : {
+  "key": {
     "word": "Word to be glossed, for reference. The app displays text extracted from the HTML",
     "description": "Translation of the word",
+    "language": "Language",
+    "partOfSpeech": "Noun",
     "audio": "Optional audio file"
   },
 
-  "gloss" : {
+  "gloss": {
     "word": "Gloss",
     "description": "Translation of the word Gloss",
+    "language": null,
+    "partOfSpeech": null,
     "audio": null
   }
-
 }
