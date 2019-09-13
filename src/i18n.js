@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import English from "./locales/en";
-import Māori from "./locales/mi";
+import English from "./content/locales/en";
+import Māori from "./content/locales/mi";
 
 import config from "./configuration";
 

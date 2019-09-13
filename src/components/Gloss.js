@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import glossData from "../glossData.json";
+import glossData from "../content/glossData";
 
 const defaultPosition = {
   position: "absolute",
