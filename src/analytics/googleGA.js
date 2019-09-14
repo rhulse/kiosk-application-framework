@@ -1,4 +1,4 @@
-import { SET_LANGUAGE, PAGE_VIEW } from "./types";
+import { SET_LANGUAGE, PAGE_VIEW, EVENT } from "./types";
 
 export default class GoogleGA {
   constructor(providerId, defaultLanguage, debug = false) {
@@ -65,6 +65,10 @@ export default class GoogleGA {
         this.pageView(payload.url);
         break;
 
+      case EVENT:
+        this.event(payload.eventData);
+        break;
+
       default:
         break;
     }
@@ -77,6 +81,12 @@ export default class GoogleGA {
 
   setLanguage(lang) {
     this.ga("set", "language", lang);
+  }
+
+  // ga('send', 'event', [eventCategory]*, [eventAction]*, [eventLabel], [eventValue], [fieldsObject]);
+  event(eventData) {
+    console.log("[EVENT]", eventData);
+    this.ga("send", "event", eventData);
   }
   getScriptURL() {
     if (this.debug) {

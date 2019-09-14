@@ -1,4 +1,4 @@
-import { SET_LANGUAGE, PAGE_VIEW } from "./types";
+import { SET_LANGUAGE, PAGE_VIEW, EVENT } from "./types";
 import config from "../configuration";
 
 import GoogleAnalyticsProvider from "./googleGA";
@@ -24,8 +24,11 @@ export class Analytics {
     });
   }
 
-  event(event) {
-    console.log(event);
+  event(eventData) {
+    this.dispatch({
+      type: EVENT,
+      payload: { eventData: eventData }
+    });
   }
 
   pageView(url) {
