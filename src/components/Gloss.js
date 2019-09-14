@@ -28,9 +28,9 @@ const defaultPosition = {
 
 const defaultGlossInformation = {
   word: "Unknown Word",
-  description: "No Data for Word",
-  language: "Lang",
-  partOfSpeech: "Noun"
+  description: "No desciption",
+  language: "No Lang",
+  partOfSpeech: "No Part"
 };
 
 const downEventTypes = ["mousedown", "touchdown"];
