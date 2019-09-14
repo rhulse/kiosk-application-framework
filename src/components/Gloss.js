@@ -114,6 +114,7 @@ export default class Gloss extends Component {
     const info = glossData[contentKey] || defaultGlossInformation;
 
     return {
+      clickedWord: element.innerHTML,
       word: info.word,
       description: info.description,
       language: info.language,
