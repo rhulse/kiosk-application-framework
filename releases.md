@@ -1,5 +1,10 @@
 # Releases
 
+## 0.1.2
+
+- Added analytics
+- Added gloss
+
 ## 0.1.1
 
 - Moved Language controls into it's own component.
