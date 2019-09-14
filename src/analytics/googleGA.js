@@ -3,23 +3,21 @@ import { SET_LANGUAGE, PAGE_VIEW } from "./types";
 export default class GoogleGA {
   constructor(providerId, defaultLanguage, debug = false) {
     console.log("Initialsing GA Analytics.");
+
+    this.debug = debug;
+
     if (providerId) {
-      this.initialise(providerId, defaultLanguage, debug);
-      this.providerID = providerId;
+      this.initialise(providerId, defaultLanguage);
     } else {
       console.log("No provider ID - logging to console instead.");
       return;
     }
   }
 
-  initialise(providerID, defaultLanguage, debug) {
+  initialise(providerID, defaultLanguage) {
     if (!providerID) return;
-    console.log(debug);
-    let analyticsScript = "https://www.google-analytics.com/analytics.js";
 
-    if (debug === true) {
-      analyticsScript = "https://www.google-analytics.com/analytics_debug.js";
-    }
+    const analyticsScript = this.getScriptURL();
 
     /*
       We are using analytics.js rather than gtag.js because 
@@ -79,5 +77,12 @@ export default class GoogleGA {
 
   setLanguage(lang) {
     this.ga("set", "language", lang);
+  }
+  getScriptURL() {
+    if (this.debug) {
+      return "https://www.google-analytics.com/analytics_debug.js";
+    } else {
+      return "https://www.google-analytics.com/analytics.js";
+    }
   }
 }
