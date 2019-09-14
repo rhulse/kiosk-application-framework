@@ -1,18 +1,14 @@
 import { SET_LANGUAGE, PAGE_VIEW } from "./types";
 
 export default class GoogleGA {
-  constructor(providerId = null, defaultLanguage) {
-    if (providerId === null) {
-      console.log(
-        "Initialsing GA Analytics: No provider ID - logging to console instead."
-      );
-      this.initialised = false;
-      return null;
-    } else {
-      console.log("Initialsing GA Analytics.");
+  constructor(providerId, defaultLanguage) {
+    console.log("Initialsing GA Analytics.");
+    if (providerId) {
       this.initialise(providerId, defaultLanguage);
-      this.initialised = true;
       this.providerID = providerId;
+    } else {
+      console.log("No provider ID - logging to console instead.");
+      return;
     }
   }
 

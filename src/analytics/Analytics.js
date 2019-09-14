@@ -12,11 +12,7 @@ const provider = new GoogleAnalyticsProvider(
 
 // used by the react-tracker provider
 export const analyticsDispatcher = event => {
-  if (provider.initialised === true) {
-    provider.dispatch(event);
-  } else {
-    console.log("Analytics event ignored - no provider ID is set");
-  }
+  provider.dispatch(event);
 };
 
 export function useAnalytics(props) {
