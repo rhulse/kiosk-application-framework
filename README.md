@@ -36,7 +36,7 @@ This project is released under an open MIT license for anyone to use, or to buil
 
 0. Leverage off the work of others
 
-There are well maintained packages covering internaltionalsion, application event tracking, idle monitoring, and so on.
+There are well maintained packages covering internationalisation, idle monitoring, and so on.
 
 Why reinvent the wheel?
 
