@@ -45,6 +45,7 @@ export default class GoogleGA {
   }
 
   ga(...args) {
+    console.log(...args);
     // ga must be accessed this way, creating an alias does not work
     if (window.ga) {
       window.ga(...args);
@@ -74,6 +75,7 @@ export default class GoogleGA {
     }
   }
 
+  // ga('send', 'pageview', [page], [fieldsObject]);
   pageView(url) {
     this.ga("set", "page", url);
     this.ga("send", "pageview");
@@ -93,6 +95,16 @@ export default class GoogleGA {
     // console.log("[EVENT]", eventData);
     this.ga("send", "event", eventData);
   }
+
+  // ga('send', 'timing', [timingCategory], [timingVar], [timingValue], [timingLabel], [fieldsObject]);
+  timing(timingData) {
+    // console.log("[TIMING]", timingData);
+  }
+
+  // ga('send', 'screenview', [fieldsObject]);
+  // [fieldsObject] = appName*, appId, appVersion, appInstallerId
+  sreenView(screenData) {}
+
   getScriptURL() {
     if (this.debug) {
       return "https://www.google-analytics.com/analytics_debug.js";
