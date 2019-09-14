@@ -1,10 +1,10 @@
 import { SET_LANGUAGE, PAGE_VIEW } from "./types";
 
 export default class GoogleGA {
-  constructor(providerId, defaultLanguage) {
+  constructor(providerId, defaultLanguage, debug = false) {
     console.log("Initialsing GA Analytics.");
     if (providerId) {
-      this.initialise(providerId, defaultLanguage);
+      this.initialise(providerId, defaultLanguage, debug);
       this.providerID = providerId;
     } else {
       console.log("No provider ID - logging to console instead.");
@@ -12,9 +12,9 @@ export default class GoogleGA {
     }
   }
 
-  initialise(providerID, defaultLanguage, debug = false) {
+  initialise(providerID, defaultLanguage, debug) {
     if (!providerID) return;
-
+    console.log(debug);
     let analyticsScript = "https://www.google-analytics.com/analytics.js";
 
     if (debug === true) {
