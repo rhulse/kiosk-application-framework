@@ -78,12 +78,15 @@ export default class Gloss extends Component {
     this._removeCheckForExternalClicks();
 
     this.setState({ ...defaultPosition, ...defaultGlossInformation });
+    /*
+      We don't track the close event on Gloss. Close events just clutter 
+      up the analytics. If a Gloss is opened - and we DO care about tracking 
+      what word was clicked - it has to close at some stage. Knowing that it
+      was closed tells us nothing. What goes up, must come done. QED.
 
-    this.analyticsEvent({
-      eventCategory: "Gloss",
-      eventAction: "Close",
-      eventLabel: this.state.clickedWord
-    });
+      The length of the open *might* be useful, but I doubt it. In the case of
+      audio (if available), the numbers of plays per open would be more useful.
+    */
   };
 
   addGlossListeners = containerElement => {
