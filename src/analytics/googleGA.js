@@ -85,7 +85,7 @@ export default class GoogleGA {
 
   // ga('send', 'event', [eventCategory]*, [eventAction]*, [eventLabel], [eventValue], [fieldsObject]);
   event(eventData) {
-    console.log("[EVENT]", eventData);
+    // console.log("[EVENT]", eventData);
     this.ga("send", "event", eventData);
   }
   getScriptURL() {
