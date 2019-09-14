@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import glossData from "../content/glossData";
+import { TrackerContext } from "../contexts/EventTracker";
 
 /* 
   Design Note
@@ -35,7 +36,13 @@ const defaultGlossInformation = {
 const downEventTypes = ["mousedown", "touchdown"];
 
 export default class Gloss extends Component {
+  static contextType = TrackerContext;
+
   state = { ...defaultPosition, ...defaultGlossInformation };
+
+  analyticsEvent = event => {
+    this.context.analytics.event(event);
+  };
 
   show = event => {
     event.preventDefault();
@@ -57,6 +64,12 @@ export default class Gloss extends Component {
     this.setState({
       ...glossXY
     });
+
+    this.analyticsEvent({
+      eventCategory: "Gloss",
+      eventAction: "Open",
+      eventLabel: this.state.clickedWord
+    });
   };
 
   hide = event => {
@@ -65,6 +78,12 @@ export default class Gloss extends Component {
     this._removeCheckForExternalClicks();
 
     this.setState({ ...defaultPosition, ...defaultGlossInformation });
+
+    this.analyticsEvent({
+      eventCategory: "Gloss",
+      eventAction: "Close",
+      eventLabel: this.state.clickedWord
+    });
   };
 
   addGlossListeners = containerElement => {
