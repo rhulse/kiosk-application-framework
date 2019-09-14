@@ -1,8 +1,7 @@
 import React, { useRef, useContext, useEffect, useCallback } from "react";
-import { track } from "react-tracking";
 import { withRouter } from "react-router-dom";
 
-import { analyticsDispatcher, useAnalytics } from "../analytics/Analytics";
+import { useAnalytics } from "../analytics/Analytics";
 
 import { PrefsContext, SET_GLOSS, SET_LANGUAGE } from "../contexts/GlobalState";
 
@@ -47,6 +46,8 @@ function Kiosk(props) {
   const appIsActive = useCallback(() => {
     screenSaver.current.stop();
   }, []);
+
+  // props.test = "frog";
 
   const appIsIdle = useCallback(() => {
     // TODO: Add session end
@@ -95,4 +96,4 @@ function Kiosk(props) {
   );
 }
 
-export default track({}, { dispatch: analyticsDispatcher })(withRouter(Kiosk));
+export default withRouter(Kiosk);

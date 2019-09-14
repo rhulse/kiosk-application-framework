@@ -92,9 +92,9 @@ Analytics is currently in an ALPHA state.
 
 Analytics will be built in to every component, including time of page, and session duration.
 
-I designed the Analytics regime for DEDS, and in the project I want to take it to the next level of usefulness.
+I designed the Analytics regime for DEDS, and in this project I want to take it to the next level of usefulness.
 
-Analytics uses the react-tracking library, maintained by the New York Times, at its core. There is a provider model, so you can use any analytics provider you want, or two at the same time. This could be useful for getting high level stats via Google Analytics, and more detailed analysis for an interactive, or a group of interactive, with the [ELK Stack](https://www.elastic.co/what-is/elk-stack).
+We use a simple cotext to pass down the Analytics object to functions and classes. There is a provider model, so you can use any analytics provider you want, or two at the same time. This could be useful for getting high level stats via Google Analytics, and more detailed analysis for an interactive, or a group of interactive, with the [ELK Stack](https://www.elastic.co/what-is/elk-stack).
 
 ### Image Galleries
 

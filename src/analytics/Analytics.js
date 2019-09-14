@@ -1,5 +1,3 @@
-import { useTracking } from "react-tracking";
-// gtag is our connector for analytics - it could be anything.
 import { SET_LANGUAGE, PAGE_VIEW } from "./types";
 import config from "../configuration";
 
@@ -10,38 +8,34 @@ const provider = new GoogleAnalyticsProvider(
   config.i18n.defaultLocale
 );
 
-// used by the react-tracker provider
-export const analyticsDispatcher = event => {
-  provider.dispatch(event);
-};
-
 export function useAnalytics(props) {
   return new Analytics();
 }
 
-class Analytics {
+export class Analytics {
   constructor() {
-    this.tracker = useTracking();
-    this.trackRaw = this.tracker.trackEvent;
+    this.dispatch = (...args) => provider.dispatch(...args);
   }
 
   setLanguage(language) {
-    this.trackRaw({
+    this.dispatch({
       type: SET_LANGUAGE,
       payload: { language: language }
     });
   }
 
-  event(event) {}
+  event(event) {
+    console.log(event);
+  }
 
   pageView(url) {
-    this.trackRaw({
+    this.dispatch({
       type: PAGE_VIEW,
       payload: { url: url }
     });
   }
 
   trackRaw(args) {
-    return this.trackRaw(args);
+    return this.dispatch(args);
   }
 }
