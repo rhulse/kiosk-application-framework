@@ -81,6 +81,11 @@ export default class GoogleGA {
 
   setLanguage(lang) {
     this.ga("set", "language", lang);
+    this.event({
+      eventCategory: "Language",
+      eventAction: "Change",
+      eventLabel: lang
+    });
   }
 
   // ga('send', 'event', [eventCategory]*, [eventAction]*, [eventLabel], [eventValue], [fieldsObject]);
