@@ -10,8 +10,8 @@
   "gloss": {
     "word": "Gloss",
     "description": "Translation of the word Gloss",
-    "language": null,
-    "partOfSpeech": null,
+    "language": "A Language",
+    "partOfSpeech": "noun",
     "audio": null
   }
 }

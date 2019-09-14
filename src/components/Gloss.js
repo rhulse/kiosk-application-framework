@@ -115,7 +115,9 @@ export default class Gloss extends Component {
 
     return {
       word: info.word,
-      description: info.description
+      description: info.description,
+      language: info.language,
+      partOfSpeech: info.partOfSpeech
     };
   };
 
