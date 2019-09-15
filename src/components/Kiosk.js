@@ -15,10 +15,10 @@ import Gloss from "./Gloss";
 
 const listenForRouteChanges = (analytics, history) => {
   return history.listen((location, action) => {
-    // if (location.state !== "reset") {
-    // we do not register an automatic return to the home page.
-    analytics.pageView(location.pathname);
-    // }
+    if (location.state !== "reset") {
+      // we do not register an automatic return to the home page.
+      analytics.pageView(location.pathname);
+    }
     // location is an object like window.location
     // console.log(action, location.pathname, location.state);
   });
