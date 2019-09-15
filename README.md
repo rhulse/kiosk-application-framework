@@ -58,6 +58,10 @@ This project cannot be all things to all people. There won't be a CMS, but you c
 
 Like things should be together. Not necessarily a class, but together. Easier to read, easier to modify. Don't create unnecessary abstractions. Code to make it easy for future developers to understand and modify the code. That future developer might be you!
 
+5. Design is clear, or well documented
+
+I am a big fan of documenting why things were done a certain way. Perhaps some future dev will find this useful if they need to do some refactoring.
+
 ## Features
 
 ### Multi Language Support
@@ -65,6 +69,8 @@ Like things should be together. Not necessarily a class, but together. Easier to
 At Te Papa all interactives were created with Māori and English versions. If you use this application in New Zealand I'd strongly encourage you to use both languages - Māori is an official language and it is the right thing to do.
 
 Kiosk Application uses the mature react-i18next library to provide this functionality.
+
+Analytics: When the language is changed, and event is sent with the code of the language..
 
 ### Gloss
 
@@ -74,7 +80,7 @@ At Te Papa this was used to provide translations for te reo Māori. It could als
 
 The Te Papa DLS has [more information](https://dls.tepapa.govt.nz/_pages/patterns/gloss/).
 
-More fields will be added as per the DLS.
+Analytics: When a gloss is opened it sends an Open event, with the word that triggered the event. It does not send a close event, as this really does not provide any useful information. The user has to close the gloss at some stage, and duration open doesn't seem like a hepful measure, altough number of audio plays _may_ be useful.
 
 ### Screensaver/Attractor Loop
 
