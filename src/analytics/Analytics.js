@@ -10,10 +10,14 @@ import config from "../configuration";
 
 import GoogleAnalyticsProvider from "./googleGA";
 
-const provider = new GoogleAnalyticsProvider(
-  config.analytics.googleGA,
-  config.i18n.defaultLocale
-);
+const provider = new GoogleAnalyticsProvider({
+  providerId: config.analytics.googleGA,
+  defaultLanguage: config.i18n.defaultLocale,
+  applicationName: config.application.name,
+  applicationVersion: config.application.version,
+  debug: false,
+  consoleLogging: true
+});
 
 export function useAnalytics(props) {
   return new Analytics();

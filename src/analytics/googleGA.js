@@ -8,26 +8,33 @@ import {
 } from "./types";
 
 export default class GoogleGA {
-  constructor(
+  constructor({
     providerId,
     defaultLanguage,
-    debug = false,
-    consoleLogging = true
-  ) {
+    applicationName,
+    applicationVersion,
+    debug,
+    consoleLogging
+  }) {
     console.log("Initialsing GA Analytics.");
 
     this.debug = debug;
     this.consoleLoggging = consoleLogging;
 
     if (providerId) {
-      this.initialise(providerId, defaultLanguage);
+      this.initialise(
+        providerId,
+        defaultLanguage,
+        applicationName,
+        applicationVersion
+      );
     } else {
       console.log("No provider ID - logging to console instead.");
       return;
     }
   }
 
-  initialise(providerID, defaultLanguage) {
+  initialise(providerID, defaultLanguage, applicationName, applicationVersion) {
     if (!providerID) return;
 
     const analyticsScript = this.getScriptURL();
@@ -54,6 +61,9 @@ export default class GoogleGA {
     /* eslint-enable */
 
     this.ga("create", providerID, "auto");
+    this.ga("set", "appName", applicationName);
+    this.ga("set", "appVersion", applicationVersion);
+
     // initial language setting is done without sending an event (which would start a false session)
     this.setLanguage(defaultLanguage, false);
   }
