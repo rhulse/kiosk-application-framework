@@ -86,21 +86,27 @@ Analytics: When a gloss is opened it sends an Open event, with the word that tri
 
 This app has a basic screen saver. This will be enhanced to bring it into line with the [functionlity in the Te Papa DLS](https://dls.tepapa.govt.nz/_pages/principles/screensaver/).
 
+### Analytics
+
+Analytics is built in to every component, including time on page, and session duration.
+
+I designed the Analytics regime for DEDS, and in this project I want to take it to the next level of usefulness.
+
+We use a simple cotext to pass down the Analytics object to functions and classes. There is a provider model, so you can use any analytics provider you want, or two at the same time. This could be useful for getting high level stats via Google Analytics, and more detailed analysis for an interactive, or a group of interactive, with the [ELK Stack](https://www.elastic.co/what-is/elk-stack).
+
+This project uses analytics.js rather than gtag.js as the latter does not have support for session termination.
+
+Pages views are tracked, but not the first page view at startup, or the final page view of a session when the application returns to the home page automatically.
+
+Page view duration and session time is also tracked via the Google timing API. Google samples this data, so we try not to pollute it with data that is wrong, or that serves no point.
+
+The session start and end events use a fake URL (/session) so as not to pollute real page view stats.
+
 ## Roadmap (Features to be done)
 
 ### Styling
 
 At the moment the project is using Bootstrap, to bootstrap the project. The plan is to do something custom.
-
-### Analytics
-
-Analytics is currently in an ALPHA state.
-
-Analytics will be built in to every component, including time of page, and session duration.
-
-I designed the Analytics regime for DEDS, and in this project I want to take it to the next level of usefulness.
-
-We use a simple cotext to pass down the Analytics object to functions and classes. There is a provider model, so you can use any analytics provider you want, or two at the same time. This could be useful for getting high level stats via Google Analytics, and more detailed analysis for an interactive, or a group of interactive, with the [ELK Stack](https://www.elastic.co/what-is/elk-stack).
 
 ### Image Galleries
 
