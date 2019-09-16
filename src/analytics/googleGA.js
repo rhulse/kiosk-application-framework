@@ -1,10 +1,23 @@
-import { SET_LANGUAGE, PAGE_VIEW, EVENT } from "./types";
+import {
+  SET_LANGUAGE,
+  PAGE_VIEW,
+  EVENT,
+  TIMING,
+  SESSION,
+  SET_PAGE
+} from "./types";
 
 export default class GoogleGA {
-  constructor(providerId, defaultLanguage, debug = false) {
+  constructor(
+    providerId,
+    defaultLanguage,
+    debug = false,
+    consoleLogging = true
+  ) {
     console.log("Initialsing GA Analytics.");
 
     this.debug = debug;
+    this.consoleLoggging = consoleLogging;
 
     if (providerId) {
       this.initialise(providerId, defaultLanguage);
@@ -41,11 +54,11 @@ export default class GoogleGA {
     /* eslint-enable */
 
     this.ga("create", providerID, "auto");
-    this.setLanguage(defaultLanguage);
+    // initial language setting is done without sending an event (which would start a false session)
+    this.setLanguage(defaultLanguage, false);
   }
 
   ga(...args) {
-    console.log(...args);
     // ga must be accessed this way, creating an alias does not work
     if (window.ga) {
       window.ga(...args);
@@ -66,8 +79,20 @@ export default class GoogleGA {
         this.pageView(payload.url);
         break;
 
+      case SET_PAGE:
+        this.setPage(payload.url);
+        break;
+
       case EVENT:
         this.event(payload.eventData);
+        break;
+
+      case TIMING:
+        this.timing(payload.timingData);
+        break;
+
+      case SESSION:
+        this.session(payload.state);
         break;
 
       default:
@@ -77,28 +102,41 @@ export default class GoogleGA {
 
   // ga('send', 'pageview', [page], [fieldsObject]);
   pageView(url) {
-    this.ga("set", "page", url);
+    this.consoleLoggging && console.log("[PAGEVIEW]", url);
+    this.setPage(url);
     this.ga("send", "pageview");
   }
 
-  setLanguage(lang) {
+  setPage(url) {
+    this.ga("set", "page", url);
+  }
+
+  setLanguage(lang, withEvent = true) {
+    this.consoleLoggging && console.log("[LANGUAGE]", "lang");
     this.ga("set", "language", lang);
-    this.event({
-      eventCategory: "Language",
-      eventAction: "Change",
-      eventLabel: lang
-    });
+    withEvent &&
+      this.event({
+        eventCategory: "Language",
+        eventAction: "Change",
+        eventLabel: lang
+      });
   }
 
   // ga('send', 'event', [eventCategory]*, [eventAction]*, [eventLabel], [eventValue], [fieldsObject]);
   event(eventData) {
-    // console.log("[EVENT]", eventData);
+    this.consoleLoggging && console.log("[EVENT]", eventData);
     this.ga("send", "event", eventData);
   }
 
   // ga('send', 'timing', [timingCategory], [timingVar], [timingValue], [timingLabel], [fieldsObject]);
   timing(timingData) {
-    // console.log("[TIMING]", timingData);
+    this.consoleLoggging && console.log("[TIMING]", timingData);
+    this.ga("send", "timing", timingData);
+  }
+
+  session(state) {
+    this.consoleLoggging && console.log("[SESSION]", state);
+    this.ga("send", "pageview", { sessionControl: state });
   }
 
   // ga('send', 'screenview', [fieldsObject]);

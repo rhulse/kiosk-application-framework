@@ -1,4 +1,11 @@
-import { SET_LANGUAGE, PAGE_VIEW, EVENT } from "./types";
+import {
+  SET_LANGUAGE,
+  PAGE_VIEW,
+  EVENT,
+  TIMING,
+  SESSION,
+  SET_PAGE
+} from "./types";
 import config from "../configuration";
 
 import GoogleAnalyticsProvider from "./googleGA";
@@ -31,6 +38,13 @@ export class Analytics {
     });
   }
 
+  setPage(url) {
+    this.dispatch({
+      type: SET_PAGE,
+      payload: { url: url }
+    });
+  }
+
   pageView(url) {
     this.dispatch({
       type: PAGE_VIEW,
@@ -38,7 +52,34 @@ export class Analytics {
     });
   }
 
-  trackRaw(args) {
+  timing(timingData) {
+    this.dispatch({
+      type: TIMING,
+      payload: { timingData: timingData }
+    });
+  }
+
+  startSession() {
+    this.dispatch({
+      type: SESSION,
+      payload: { state: "start" }
+    });
+  }
+
+  endSession(durationOfSession) {
+    this.dispatch({
+      type: SESSION,
+      payload: { state: "end" }
+    });
+    // send a timing event with the duration
+    this.timing({
+      timingCategory: "Session",
+      timingVar: "Duration",
+      timingValue: durationOfSession
+    });
+  }
+
+  raw(args) {
     return this.dispatch(args);
   }
 }
