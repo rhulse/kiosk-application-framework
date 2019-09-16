@@ -112,7 +112,7 @@ export default class GoogleGA {
   }
 
   setLanguage(lang, withEvent = true) {
-    this.consoleLoggging && console.log("[LANGUAGE]", "lang");
+    this.consoleLoggging && console.log("[LANGUAGE]", lang);
     this.ga("set", "language", lang);
     withEvent &&
       this.event({
