@@ -1,9 +1,7 @@
 import React, { createContext } from "react";
-import { Analytics } from "../analytics/Analytics";
+import { analytics } from "../analytics/Analytics";
 
 export const TrackerContext = createContext();
-
-const analytics = new Analytics();
 
 const EventTracker = props => {
   return (

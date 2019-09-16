@@ -1,7 +1,7 @@
 import React, { useRef, useContext, useEffect, useCallback } from "react";
 import { withRouter } from "react-router-dom";
 
-import { useAnalytics } from "../analytics/Analytics";
+import { analytics } from "../analytics/Analytics";
 
 import { PrefsContext, SET_GLOSS, SET_LANGUAGE } from "../contexts/GlobalState";
 
@@ -48,7 +48,6 @@ function Kiosk(props) {
   const idleTimer = useRef(null);
   const screenSaver = useRef(null);
   const { dispatch } = useContext(PrefsContext);
-  const analytics = useAnalytics();
 
   const browserHistory = props.history;
 
@@ -61,7 +60,7 @@ function Kiosk(props) {
     analytics.startSession();
     // restore orignal page state after fake session page
     analytics.setPage(browserHistory.location.pathname);
-  }, [analytics, browserHistory]);
+  }, [browserHistory]);
 
   // Cleanup when the session is over
   const appIsIdle = useCallback(() => {
@@ -82,7 +81,7 @@ function Kiosk(props) {
 
     // return the application to the home page (with no analytics)
     browserHistory.push("/", "reset");
-  }, [browserHistory, dispatch, analytics]);
+  }, [browserHistory, dispatch]);
 
   useEffect(() => {
     /* 

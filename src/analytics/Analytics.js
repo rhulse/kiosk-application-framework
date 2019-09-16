@@ -19,12 +19,8 @@ const provider = new GoogleAnalyticsProvider({
   consoleLogging: true
 });
 
-export function useAnalytics(props) {
-  return new Analytics();
-}
-
-export class Analytics {
-  constructor() {
+class Analytics {
+  constructor(provider) {
     this.dispatch = (...args) => provider.dispatch(...args);
   }
 
@@ -86,4 +82,10 @@ export class Analytics {
   raw(args) {
     return this.dispatch(args);
   }
+}
+
+export const analytics = new Analytics(provider);
+
+export function useAnalytics(props) {
+  return analytics;
 }
