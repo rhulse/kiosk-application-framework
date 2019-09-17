@@ -7,27 +7,37 @@ import { SET_LANGUAGE, PAGE_VIEW } from "./types";
 */
 
 export default class GoogleGtag {
-  constructor(providerId = null, defaultLanguage) {
-    // this.ga = null;
+  constructor({
+    providerId,
+    defaultLanguage,
+    applicationName,
+    applicationVersion,
+    debug,
+    consoleLogging
+  }) {
+    console.log("Initialsing GA Analytics.");
 
-    if (providerId === null) {
-      console.log(
-        "Initialsing GA Analytics: No provider ID - logging to console instead."
+    this.debug = debug;
+    this.consoleLoggging = consoleLogging;
+
+    if (providerId) {
+      this.initialise(
+        providerId,
+        defaultLanguage,
+        applicationName,
+        applicationVersion
       );
-      this.initialised = false;
-      return null;
     } else {
-      console.log("Initialsing GTAG Analytics.");
-      this.initialise(providerId, defaultLanguage);
-      this.initialised = true;
-      this.providerID = providerId;
+      console.log("No provider ID - logging to console instead.");
+      return;
     }
   }
 
-  initialise(providerID, defaultLanguage) {
+  initialise(providerID, defaultLanguage, applicationName, applicationVersion) {
     /*
       NB: The global snippet MUST be on the page, or event data will not be sent
     */
+    if (!providerID) return;
 
     const script = document.createElement("script");
     script.async = 1;
@@ -63,6 +73,7 @@ export default class GoogleGtag {
   }
 
   pageView(url) {
+    this.consoleLoggging && console.log("[PAGEVIEW]", url);
     this.gtag("config", this.providerID, { page_path: "url" });
   }
 
