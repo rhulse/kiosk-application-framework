@@ -29,7 +29,7 @@ class Analytics {
   }
 
   setLanguage(language) {
-    this.checkSession();
+    this.startSession();
     this.dispatch({
       type: SET_LANGUAGE,
       payload: { language: language }
@@ -37,7 +37,7 @@ class Analytics {
   }
 
   event(eventData) {
-    this.checkSession();
+    this.startSession();
     this.dispatch({
       type: EVENT,
       payload: { eventData: eventData }
@@ -52,7 +52,8 @@ class Analytics {
   }
 
   pageView(url) {
-    this.checkSession();
+    this.startSession();
+
     this.dispatch({
       type: PAGE_VIEW,
       payload: { url: url }
@@ -66,14 +67,13 @@ class Analytics {
     });
   }
 
-  checkSession() {
-    if (this.session.running === false) {
-      this.session.start();
-    }
-  }
-
   startSession() {
+    if (this.session.running) {
+      return;
+    }
+
     this.session.start();
+
     this.dispatch({
       type: SESSION,
       payload: { state: "start" }
