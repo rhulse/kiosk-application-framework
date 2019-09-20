@@ -26,6 +26,8 @@ class Analytics {
   constructor(provider) {
     this.dispatch = (...args) => provider.dispatch(...args);
     this.session = new SessionTracker(timeTracker);
+    this.timeOnPage = null;
+    this.previousPageURL = null;
   }
 
   setLanguage(language) {
@@ -54,10 +56,30 @@ class Analytics {
   pageView(url) {
     this.startSession();
 
+    // This is always logging the duration of the PREVIOUS page view, not the one just set
+    if (
+      (this.timeOnPage = timeTracker.restartTimer("pageView")) &&
+      this.previousPageURL
+    ) {
+      this.pageTime(this.timeOnPage, this.previousPageURL);
+    }
+
+    this.previousPageURL = url;
+
     this.dispatch({
       type: PAGE_VIEW,
       payload: { url: url }
     });
+  }
+
+  pageTime(time, previousPageURL) {
+    this.timing({
+      timingCategory: "Page View",
+      timingVar: "Length",
+      timingValue: this.timeOnPage,
+      timingLabel: previousPageURL
+    });
+    this.timing(time);
   }
 
   timing(timingData) {

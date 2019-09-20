@@ -12,10 +12,8 @@ import config from "../configuration";
 import Header from "./Header";
 import Main from "./Main";
 import Gloss from "./Gloss";
-import timeTracker from "../analytics/TimeTracker";
 
 const listenForRouteChanges = (analytics, history) => {
-  let timeOnPage = null;
   let previousPage = null;
 
   return history.listen((location, action) => {
@@ -32,14 +30,6 @@ const listenForRouteChanges = (analytics, history) => {
     }
 
     analytics.pageView(location.pathname);
-
-    if ((timeOnPage = timeTracker.restartTimer("pageView"))) {
-      analytics.timing({
-        timingCategory: "Page",
-        timingVar: "View Length",
-        timingValue: timeOnPage
-      });
-    }
   });
 };
 
