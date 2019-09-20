@@ -8,7 +8,10 @@ import {
 } from "./types";
 import config from "../configuration";
 
+import timeTracker from "../analytics/TimeTracker";
+
 import GoogleAnalyticsProvider from "./googleGA";
+import SessionTracker from "./SessionTracker";
 
 const provider = new GoogleAnalyticsProvider({
   providerId: config.analytics.googleGA,
@@ -22,9 +25,11 @@ const provider = new GoogleAnalyticsProvider({
 class Analytics {
   constructor(provider) {
     this.dispatch = (...args) => provider.dispatch(...args);
+    this.session = new SessionTracker(timeTracker);
   }
 
   setLanguage(language) {
+    this.checkSession();
     this.dispatch({
       type: SET_LANGUAGE,
       payload: { language: language }
@@ -32,6 +37,7 @@ class Analytics {
   }
 
   event(eventData) {
+    this.checkSession();
     this.dispatch({
       type: EVENT,
       payload: { eventData: eventData }
@@ -46,6 +52,7 @@ class Analytics {
   }
 
   pageView(url) {
+    this.checkSession();
     this.dispatch({
       type: PAGE_VIEW,
       payload: { url: url }
@@ -59,24 +66,42 @@ class Analytics {
     });
   }
 
+  checkSession() {
+    if (this.session.running === false) {
+      this.session.start();
+    }
+  }
+
   startSession() {
+    this.session.start();
     this.dispatch({
       type: SESSION,
       payload: { state: "start" }
     });
   }
 
-  endSession(durationOfSession) {
+  endSession(finalPage) {
+    const durationOfSession = this.session.end();
+    if (!durationOfSession) {
+      return;
+    }
+
+    // fake page so as not to skew real page views
+    this.setPage("session-end");
     this.dispatch({
       type: SESSION,
       payload: { state: "end" }
     });
+
     // send a timing event with the duration
     this.timing({
       timingCategory: "Session",
-      timingVar: "Duration",
+      timingVar: "Length",
       timingValue: durationOfSession
     });
+
+    // restore orignal page state after fake session page
+    this.setPage(finalPage);
   }
 
   raw(args) {

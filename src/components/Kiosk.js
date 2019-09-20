@@ -52,35 +52,27 @@ function Kiosk(props) {
   const browserHistory = props.history;
 
   const appIsActive = useCallback(() => {
-    screenSaver.current.stop();
-    timeTracker.startTimer("session");
+    console.log("[APPLICATION] Active");
 
-    // manually start the session in case the first action is not tracker
-    analytics.setPage("session"); // fake page so as not to skew real page views
-    analytics.startSession();
-    // restore orignal page state after fake session page
-    analytics.setPage(browserHistory.location.pathname);
-  }, [browserHistory]);
+    screenSaver.current.stop();
+  }, []);
 
   // Cleanup when the session is over
   const appIsIdle = useCallback(() => {
+    console.log("[APPLICATION] Idle");
+
     // Hide any glosses left open
     glossRef.current.hide();
 
     // set language to the default
     dispatch({ type: SET_LANGUAGE, language: config.i18n.defaultLocale });
 
-    screenSaver.current.start();
-
-    // stop session manually and send a seperate timing event
-    let elapsedTime = timeTracker.stopTimer("session");
-    analytics.setPage("session"); // fake page so as not to skew real page views
-    analytics.endSession(elapsedTime);
-    // restore orignal page state after fake session page
-    analytics.setPage(browserHistory.location.pathname);
+    analytics.endSession(browserHistory.location.pathname);
 
     // return the application to the home page (with no analytics)
     browserHistory.push("/", "reset");
+
+    screenSaver.current.start();
   }, [browserHistory, dispatch]);
 
   useEffect(() => {
