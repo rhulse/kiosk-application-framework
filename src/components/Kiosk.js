@@ -45,6 +45,15 @@ function Kiosk(props) {
     console.log("[APPLICATION] Active");
 
     screenSaver.current.stop();
+    /* 
+      If the screen saver is an 'attractor loop' that comes and goes, and does not stop 
+      the user clicking on something you don't need to start a session here.
+
+      If they MUST click on the screensaver to begin, then DO start the session here because
+      they've started doing something!
+
+      analytics.startSession()
+    */
   }, []);
 
   // Cleanup when the session is over
