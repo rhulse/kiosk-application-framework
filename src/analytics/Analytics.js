@@ -114,7 +114,8 @@ class Analytics {
 
   endSession(finalPage) {
     const durationOfSession = this.session.end();
-    if (!durationOfSession) {
+
+    if (!this.session.running || !durationOfSession) {
       return;
     }
 
