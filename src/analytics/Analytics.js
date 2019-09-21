@@ -23,9 +23,10 @@ const provider = new GoogleAnalyticsProvider({
 });
 
 class Analytics {
-  constructor(provider) {
+  constructor(provider, timeTracker) {
     this.dispatch = (...args) => provider.dispatch(...args);
     this.session = new SessionTracker(timeTracker);
+    this.timeTracker = timeTracker;
     this.timeOnPage = null;
     this.previousPageURL = null;
   }
@@ -58,7 +59,7 @@ class Analytics {
 
     // This is always logging the duration of the PREVIOUS page view, not the one just set
     if (
-      (this.timeOnPage = timeTracker.restartTimer("pageView")) &&
+      (this.timeOnPage = this.timeTracker.restartTimer("pageView")) &&
       this.previousPageURL
     ) {
       this.pageTime(this.timeOnPage, this.previousPageURL);
@@ -131,7 +132,7 @@ class Analytics {
   }
 }
 
-export const analytics = new Analytics(provider);
+export const analytics = new Analytics(provider, timeTracker);
 
 export function useAnalytics(props) {
   return analytics;
