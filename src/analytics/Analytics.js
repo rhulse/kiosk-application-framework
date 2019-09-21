@@ -35,7 +35,7 @@ class Analytics {
   }
 
   setLanguage(language) {
-    this.startSession(true);
+    this.startSession({ withEvent: true });
     this.dispatch({
       type: SET_LANGUAGE,
       payload: { language: language }
@@ -43,7 +43,7 @@ class Analytics {
   }
 
   event(eventData) {
-    this.startSession(true);
+    this.startSession({ withEvent: true });
     this.dispatch({
       type: EVENT,
       payload: { eventData: eventData }
@@ -92,7 +92,9 @@ class Analytics {
     });
   }
 
-  startSession(byEvent = false) {
+  startSession(args) {
+    const { withEvent } = args || false;
+
     if (this.session.running) {
       return;
     }
@@ -100,7 +102,7 @@ class Analytics {
     this.session.start();
 
     // start page timer if an event started the session
-    if (byEvent) {
+    if (withEvent) {
       this.timeTracker.startTimer("pageView");
     }
 
