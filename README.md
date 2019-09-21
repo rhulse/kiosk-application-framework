@@ -4,7 +4,7 @@ NB: This framework is currently ALPHA grade software. It is an ongoing work in p
 
 ## What is this?
 
-The Kiosk Application Framework has been built to facilitte creation of touchscreen experiences (interactives) in a range of scenarios:
+The Kiosk Application Framework has been built to facilitate creation of touchscreen experiences (interactives) in a range of scenarios:
 
 - Museums
 - Libraries
