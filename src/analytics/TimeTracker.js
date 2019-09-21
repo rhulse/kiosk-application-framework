@@ -3,8 +3,14 @@ class TimeTracker {
     this.timers = {};
   }
 
+  reset() {
+    this.timers = {};
+  }
+
   startTimer(key, time = new Date()) {
-    this.timers[key] = time;
+    if (!(key in this.timers)) {
+      this.timers[key] = time;
+    }
   }
 
   restartTimer(key, time = new Date()) {

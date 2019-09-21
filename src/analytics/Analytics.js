@@ -28,11 +28,14 @@ class Analytics {
     this.session = new SessionTracker(timeTracker);
     this.timeTracker = timeTracker;
     this.timeOnPage = null;
-    this.previousPageURL = null;
+    this.currentPageURL = null;
+
+    // Most apps will start at root. Change this is URL if not.
+    this.setPage("/");
   }
 
   setLanguage(language) {
-    this.startSession();
+    this.startSession(true);
     this.dispatch({
       type: SET_LANGUAGE,
       payload: { language: language }
@@ -40,7 +43,7 @@ class Analytics {
   }
 
   event(eventData) {
-    this.startSession();
+    this.startSession(true);
     this.dispatch({
       type: EVENT,
       payload: { eventData: eventData }
@@ -48,6 +51,8 @@ class Analytics {
   }
 
   setPage(url) {
+    this.currentPageURL = url;
+
     this.dispatch({
       type: SET_PAGE,
       payload: { url: url }
@@ -57,15 +62,12 @@ class Analytics {
   pageView(url) {
     this.startSession();
 
-    // This is always logging the duration of the PREVIOUS page view, not the one just set
-    if (
-      (this.timeOnPage = this.timeTracker.restartTimer("pageView")) &&
-      this.previousPageURL
-    ) {
-      this.pageTime(this.timeOnPage, this.previousPageURL);
+    // This is always logging the duration of the PREVIOUS page view, not the one just set.
+    if ((this.timeOnPage = this.timeTracker.restartTimer("pageView"))) {
+      this.pageTime(this.timeOnPage, this.currentPageURL);
     }
 
-    this.previousPageURL = url;
+    this.currentPageURL = url;
 
     this.dispatch({
       type: PAGE_VIEW,
@@ -90,12 +92,17 @@ class Analytics {
     });
   }
 
-  startSession() {
+  startSession(byEvent = false) {
     if (this.session.running) {
       return;
     }
 
     this.session.start();
+
+    // start page timer if an event started the session
+    if (byEvent) {
+      this.timeTracker.startTimer("pageView");
+    }
 
     this.dispatch({
       type: SESSION,
@@ -122,6 +129,9 @@ class Analytics {
       timingVar: "Length",
       timingValue: durationOfSession
     });
+
+    // stop all tracking
+    this.timeTracker.reset();
 
     // restore orignal page state after fake session page
     this.setPage(finalPage);
