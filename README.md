@@ -28,7 +28,7 @@ We wanted to share this work with others museums, but it was not possible to rel
 
 This project is an attempt to recreate the functionality of that project from scratch, using the latest version of React, and leveraging off well-maintained packages where possible, and using Te Papa's DLS as a guide.
 
-Some assembly will be required to get this working - you will need a developer with experience in ReactJS, although most intermidate to seniors developers should be able to work it out.
+Some assembly will be required to get this working - you will need a developer with experience in ReactJS, although most intermidate to seniors developer should be able to work it out.
 
 This project is released under an open MIT license for anyone to use, or to build upon.
 
@@ -70,7 +70,7 @@ At Te Papa all interactives were created with Māori and English versions. If yo
 
 Kiosk Application uses the mature react-i18next library to provide this functionality.
 
-Analytics: When the language is changed, and event is sent with the code of the language..
+Analytics: When the language is changed, an event is sent with the code of the language..
 
 ### Gloss
 
@@ -80,7 +80,7 @@ At Te Papa this was used to provide translations for te reo Māori. It could als
 
 The Te Papa DLS has [more information](https://dls.tepapa.govt.nz/_pages/patterns/gloss/).
 
-Analytics: When a gloss is opened it sends an Open event, with the word that triggered the event. It does not send a close event, as this really does not provide any useful information. The user has to close the gloss at some stage, and duration open doesn't seem like a hepful measure, altough number of audio plays _may_ be useful.
+Analytics: When a gloss is opened it sends an Open event, with the word that triggered the event. It does not send a close event, as this really does not provide any useful information. The user has to close the gloss at some stage, and duration open doesn't seem like a hepful measure, although number of audio plays _may_ be useful.
 
 ### Screensaver/Attractor Loop
 
@@ -108,7 +108,7 @@ Analytics is built in to every component, including time on page, and session du
 
 I designed the Analytics regime for DEDS, and in this project I want to take it to the next level of usefulness.
 
-We use a simple cotext to pass down the Analytics object to functions and classes. There is a provider model, so you can use any analytics provider you want, or two at the same time. This could be useful for getting high level stats via Google Analytics, and more detailed analysis for an interactive, or a group of interactive, with the [ELK Stack](https://www.elastic.co/what-is/elk-stack).
+We use a simple React context to pass down the Analytics object to functions and classes. There is a provider model, so you can use any analytics provider you want, or two at the same time. This could be useful for getting high level stats via Google Analytics, and more detailed analysis for an interactive, or a group of interactive, with the [ELK Stack](https://www.elastic.co/what-is/elk-stack).
 
 This project uses analytics.js rather than gtag.js as the latter does not have support for session termination.
 
@@ -119,6 +119,10 @@ Page view duration and session time is also tracked via the Google timing API, u
 The session start and end events use a fake URL (/session) so as not to pollute real page view stats.
 
 ## Roadmap (Features to be done)
+
+### Touch events
+
+Support for swipe, pinch, etc.
 
 ### Styling
 
@@ -144,7 +148,7 @@ The Video player will support mulitple language subtitles, and dual video tracki
 
 The plan for deployment of completed interactives - so you don't have to build, and thumbdrive it to your kiosk - is to provide a script similar to github-pages that allows commandline deployment direct to the Kiosk over SSH. (If you know Rails, think "cap production deploy").
 
-Keep it simple will be the mantra here. If someone want a more 'enterprise' solution, the script could be used to push to master and trigger a remote build.
+Keep it simple will be the mantra here. If someone wants a more 'enterprise' solution, the script could be used to push to master and trigger a remote build.
 
 At this stage the Kiosk Application Framework expects to be served via a web server. It is fairly simple to setup Ubuntu (for example) on a PC as a Kiosk appliance. Don't bother with Windows - it requires a lot of changes to make it into a suitable Kiosk service, plus (of course) Ubuntu is Libre/Free.
 
@@ -154,9 +158,9 @@ Contributions and suggestions are welcome.
 
 By contriuting to this project you assert that the work is your own, that it is not based on any commerical or copyright code, and that it was done on your own time, or on work time with the full knowledge of your employer.
 
-All you contributions will be licensed under the terms of this project's MIT license.
+All your contributions will be licensed under the terms of this project's MIT license.
 
-We a [Code of Conduct](./code_of_conduct.md). Don't be a dick, OK!
+We have a [Code of Conduct](./code_of_conduct.md). Don't be a dick, OK!
 
 ## Running, Building and Testing
 
