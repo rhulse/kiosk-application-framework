@@ -5,6 +5,7 @@
  */
 
 import React, { Component } from "react";
+import { Transition } from "react-spring/renderprops";
 
 const styles = {
   position: "fixed",
@@ -27,7 +28,7 @@ export default class ScreenSaver extends Component {
    * @private
    */
   static defaultProps = {
-    fadeDuration: 20
+    fadeDuration: 620
   };
 
   /**
@@ -36,77 +37,33 @@ export default class ScreenSaver extends Component {
    * @private
    */
   state = {
-    running: false,
-    opacity: 0,
-    width: 0,
-    height: 0
+    show: false
   };
 
   render() {
-    const { children } = this.props;
-    const { opacity, width, height } = this.state;
+    const { children, fadeDuration } = this.props;
+    const { show } = this.state;
 
-    if (children !== undefined) {
-      return React.cloneElement(children, {
-        style: { opacity, width, height }
-      });
-    } else {
-      return (
-        <div style={{ ...styles, opacity, width, height }}>Screen Saver</div>
-      );
-    }
+    const content = children ? React.cloneElement(children) : "Screen Saver";
+
+    return (
+      <Transition
+        config={{ duration: fadeDuration }}
+        items={show}
+        from={{ ...styles, opacity: 0 }}
+        enter={{ opacity: 1 }}
+        leave={{ opacity: 0 }}
+      >
+        {show => show && (props => <div style={props}>{content}</div>)}
+      </Transition>
+    );
   }
 
   start = () => {
-    this.setState({ running: true });
-    this._fadeIn();
+    this.setState({ show: true });
   };
 
   stop = () => {
-    this._fadeOut();
-    this.setState({ running: false });
-  };
-
-  _zoomUp = () => {
-    this.setState({ width: "100%", height: "100%" });
-  };
-
-  _zoomDown = () => {
-    this.setState({ width: 0, height: 0 });
-  };
-
-  _fadeOut = () => {
-    const { fadeDuration } = this.props;
-    let { opacity } = this.state;
-
-    var timer = setInterval(() => {
-      if (opacity <= 0.1) {
-        this.setState({ opacity: 0 });
-        this._zoomDown(); // done
-        clearInterval(timer);
-      } else {
-        opacity -= opacity * 0.1;
-        this.setState({ opacity });
-      }
-    }, fadeDuration);
-  };
-
-  _fadeIn = () => {
-    const { fadeDuration } = this.props;
-    let { opacity } = this.state;
-
-    this._zoomUp(); // start
-    var timer = setInterval(() => {
-      if (opacity >= 1) {
-        this.setState({ opacity: 1 });
-        clearInterval(timer);
-      } else {
-        if (opacity === 0) {
-          opacity = 0.1;
-        }
-        opacity += opacity * 0.1;
-        this.setState({ opacity });
-      }
-    }, fadeDuration);
+    this.setState({ show: false });
   };
 }
