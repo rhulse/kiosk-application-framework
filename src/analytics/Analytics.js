@@ -19,7 +19,7 @@ const provider = new GoogleAnalyticsProvider({
   applicationName: config.application.name,
   applicationVersion: config.application.version,
   debug: false,
-  consoleLogging: true
+  logging: config.logging.analytics
 });
 
 class Analytics {

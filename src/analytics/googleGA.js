@@ -14,12 +14,12 @@ export default class GoogleGA {
     applicationName,
     applicationVersion,
     debug,
-    consoleLogging
+    logging
   }) {
-    console.log("Initialsing GA Analytics.");
-
     this.debug = debug;
-    this.consoleLoggging = consoleLogging;
+    this.logging = logging;
+
+    logging > 0 && console.log("Initialsing GA Analytics.");
 
     if (providerId) {
       this.initialise(
@@ -29,7 +29,8 @@ export default class GoogleGA {
         applicationVersion
       );
     } else {
-      console.log("No provider ID - logging to console instead.");
+      logging > 0 &&
+        console.log("No provider ID - logging to console instead.");
       return;
     }
   }
@@ -112,7 +113,7 @@ export default class GoogleGA {
 
   // ga('send', 'pageview', [page], [fieldsObject]);
   pageView(url) {
-    this.consoleLoggging && console.log("[PAGEVIEW]", url);
+    this.logging > 1 && console.log("[PAGEVIEW]", url);
     this.setPage(url);
     this.ga("send", "pageview");
   }
@@ -122,7 +123,7 @@ export default class GoogleGA {
   }
 
   setLanguage(lang, withEvent = true) {
-    this.consoleLoggging && console.log("[LANGUAGE]", lang);
+    this.logging > 1 && console.log("[LANGUAGE]", lang);
     this.ga("set", "language", lang);
     withEvent &&
       this.event({
@@ -134,18 +135,18 @@ export default class GoogleGA {
 
   // ga('send', 'event', [eventCategory]*, [eventAction]*, [eventLabel], [eventValue], [fieldsObject]);
   event(eventData) {
-    this.consoleLoggging && console.log("[EVENT]", eventData);
+    this.logging > 1 && console.log("[EVENT]", eventData);
     this.ga("send", "event", eventData);
   }
 
   // ga('send', 'timing', [timingCategory], [timingVar], [timingValue], [timingLabel], [fieldsObject]);
   timing(timingData) {
-    this.consoleLoggging && console.log("[TIMING]", timingData);
+    this.logging > 1 && console.log("[TIMING]", timingData);
     this.ga("send", "timing", timingData);
   }
 
   session(state) {
-    this.consoleLoggging && console.log("[SESSION]", state);
+    this.logging > 1 && console.log("[SESSION]", state);
     this.ga("send", "pageview", { sessionControl: state });
   }
 
