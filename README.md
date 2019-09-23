@@ -84,7 +84,23 @@ Analytics: When a gloss is opened it sends an Open event, with the word that tri
 
 ### Screensaver/Attractor Loop
 
-This app has a basic screen saver. This will be enhanced to bring it into line with the [functionlity in the Te Papa DLS](https://dls.tepapa.govt.nz/_pages/principles/screensaver/).
+The screen saver can run in two modes:
+
+#### 1. Full screen saver
+
+In this mode the screen saver content fade in as soon as the application goes into the idle state. The time to idle is configurable, but I recommend something short (90-120 seconds depending on how much content is on each page) to avoid getting elongated session times in the analytics.
+
+If the hide time is set to 0, the screensaver operates in this mode.
+
+#### 2. Cycle mode
+
+In this mode there is a delay when the application goes into idle (the 'hide' duration), before the screensaver/attractor is shown (the show duration).
+
+The screensaver uses react-spring for the simple fade, and you could use this package to animate text or images within the screensaver show cycle.
+
+If the hide time is set to 1 or more, the screensaver operates in this mode. Durations greater than 60 seconds are more realistic in practice.
+
+Screensaver props are set in seconds.
 
 ### Analytics
 
@@ -98,7 +114,7 @@ This project uses analytics.js rather than gtag.js as the latter does not have s
 
 Pages views are tracked, but not the first page view at startup, or the final page view of a session when the application returns to the home page automatically.
 
-Page view duration and session time is also tracked via the Google timing API. Google samples this data, so we try not to pollute it with data that is wrong, or that serves no point.
+Page view duration and session time is also tracked via the Google timing API, using the actual page as the data label. Google samples this data, so we try not to pollute it with data that is wrong, or that serves no useful purpose.
 
 The session start and end events use a fake URL (/session) so as not to pollute real page view stats.
 

@@ -28,7 +28,9 @@ export default class ScreenSaver extends Component {
    * @private
    */
   static defaultProps = {
-    fadeDuration: 620
+    attractorFadeDuration: 0.675,
+    attractorShowDuration: 5,
+    attractorHideDuration: 0
   };
 
   /**
@@ -37,33 +39,59 @@ export default class ScreenSaver extends Component {
    * @private
    */
   state = {
-    show: false
+    showAttractor: false,
+    saverRunning: false
   };
 
   render() {
-    const { children, fadeDuration } = this.props;
-    const { show } = this.state;
+    const { children, attractorFadeDuration } = this.props;
+    const { showAttractor } = this.state;
 
     const content = children ? React.cloneElement(children) : "Screen Saver";
 
     return (
       <Transition
-        config={{ duration: fadeDuration }}
-        items={show}
+        config={{ duration: attractorFadeDuration * 1000 }}
+        items={showAttractor}
         from={{ ...styles, opacity: 0 }}
         enter={{ opacity: 1 }}
         leave={{ opacity: 0 }}
       >
-        {show => show && (props => <div style={props}>{content}</div>)}
+        {showAttractor =>
+          showAttractor && (props => <div style={props}>{content}</div>)
+        }
       </Transition>
     );
   }
 
   start = () => {
-    this.setState({ show: true });
+    this.setState({ saverRunning: true });
+    if (this.props.attractorHideDuration > 0) {
+      this.hideTimer();
+    } else {
+      this.setState({ showAttractor: true });
+    }
   };
 
   stop = () => {
-    this.setState({ show: false });
+    clearInterval(this.hideTimer);
+    clearInterval(this.showTimer);
+    this.setState({ saverRunning: false, showAttractor: false });
+  };
+
+  hideTimer = () => {
+    console.log("ONE");
+    this.hideTimer = setTimeout(() => {
+      this.setState({ showAttractor: true });
+      this.showTimer();
+    }, this.props.attractorHideDuration * 1000);
+  };
+
+  showTimer = () => {
+    console.log("TWO");
+    this.showTimer = setTimeout(() => {
+      this.setState({ showAttractor: false });
+      this.hideTimer();
+    }, this.props.attractorShowDuration * 1000);
   };
 }
