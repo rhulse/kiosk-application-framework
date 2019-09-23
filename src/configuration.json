@@ -20,8 +20,11 @@
     ],
     "defaultLocale": "en"
   },
-  "screensaver": {
-    "seconds_timeout_to_start": 300000
+  "screenSaver": {
+    "idleTimeout": 120,
+    "attractorFadeDuration": 0.675,
+    "attractorHideDuration": 0,
+    "attractorShowDuration": 5
   },
   "analytics": {
     "googleGA": "",

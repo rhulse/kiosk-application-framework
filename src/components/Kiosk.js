@@ -95,13 +95,18 @@ function Kiosk(props) {
 
   return (
     <>
-      <ScreenSaver ref={screenSaver} />
+      <ScreenSaver
+        attractorFadeDuration={config.screenSaver.attractorFadeDuration}
+        attractorHideDuration={config.screenSaver.attractorHideDuration}
+        attractorShowDuration={config.screenSaver.attractorShowDuration}
+        ref={screenSaver}
+      />
       <IdleTimer
         ref={idleTimer}
         onActive={appIsActive}
         onIdle={appIsIdle}
         debounce={250}
-        timeout={config.screensaver.seconds_timeout_to_start}
+        timeout={config.screenSaver.idleTimeout * 1000}
         startOnLoad
       />
       <div className="container">
