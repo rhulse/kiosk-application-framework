@@ -1,5 +1,5 @@
 import React, { useRef, useContext, useEffect, useCallback } from "react";
-import { withRouter } from "react-router-dom";
+import useRouter from "../hooks/useRouter";
 
 import { analytics } from "../analytics/Analytics";
 
@@ -39,7 +39,7 @@ function Kiosk(props) {
   const screenSaver = useRef(null);
   const { dispatch } = useContext(PrefsContext);
 
-  const browserHistory = props.history;
+  const { history: browserHistory } = useRouter();
 
   const appIsActive = useCallback(() => {
     config.logging.idleState && console.log("[APPLICATION] Active");
@@ -118,4 +118,4 @@ function Kiosk(props) {
   );
 }
 
-export default withRouter(Kiosk);
+export default Kiosk;
