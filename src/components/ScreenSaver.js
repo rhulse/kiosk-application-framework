@@ -74,22 +74,20 @@ export default class ScreenSaver extends Component {
   };
 
   stop = () => {
-    clearInterval(this.hideTimer);
-    clearInterval(this.showTimer);
+    clearInterval(this.hideTimerID);
+    clearInterval(this.showTimerID);
     this.setState({ saverRunning: false, showAttractor: false });
   };
 
   hideTimer = () => {
-    console.log("ONE");
-    this.hideTimer = setTimeout(() => {
+    this.hideTimerID = setTimeout(() => {
       this.setState({ showAttractor: true });
       this.showTimer();
     }, this.props.attractorHideDuration * 1000);
   };
 
   showTimer = () => {
-    console.log("TWO");
-    this.showTimer = setTimeout(() => {
+    this.showTimerID = setTimeout(() => {
       this.setState({ showAttractor: false });
       this.hideTimer();
     }, this.props.attractorShowDuration * 1000);
