@@ -112,7 +112,7 @@ class Analytics {
     });
   }
 
-  endSession(finalPage) {
+  endSession() {
     if (!this.session.running) {
       return;
     }
@@ -122,6 +122,8 @@ class Analytics {
     if (!durationOfSession) {
       return;
     }
+
+    const finalPage = this.currentPageURL;
 
     // fake page so as not to skew real page views
     this.setPage("session-end");

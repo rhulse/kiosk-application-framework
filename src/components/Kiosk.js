@@ -70,7 +70,7 @@ function Kiosk(props) {
     // set language to the default
     setLanguage(config.i18n.defaultLocale);
 
-    analytics.endSession(browserHistory.location.pathname);
+    analytics.endSession();
 
     // return the application to the home page (with no analytics)
     browserHistory.push("/", "reset");
