@@ -1,9 +1,8 @@
-import { createElement, useRef, useEffect, useContext } from "react";
+import { createElement, useRef, useEffect } from "react";
 import parse from "react-html-parser";
 
-import { PrefsContext } from "../contexts/GlobalState";
+import { useGloss } from "../contexts/GlossContext";
 
-import "../i18n";
 import { useTranslation } from "react-i18next";
 
 /*
@@ -15,8 +14,7 @@ import { useTranslation } from "react-i18next";
 export default function TranslateRichText(props) {
   const { t } = useTranslation();
   const contentArea = useRef(null);
-  const { state } = useContext(PrefsContext);
-  const { gloss } = state;
+  const [gloss] = useGloss();
 
   useEffect(() => {
     /*
@@ -26,6 +24,7 @@ export default function TranslateRichText(props) {
         improving maintainability.
         - RH  
     */
+
     if (gloss !== null) {
       // any time there is a render (i.e for a change of language), we check for gloss elements and attach the handler
       const containerElement = contentArea.current;

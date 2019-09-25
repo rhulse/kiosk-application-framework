@@ -1,9 +1,10 @@
-import React, { useRef, useContext, useEffect, useCallback } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import useRouter from "../hooks/useRouter";
 
 import { analytics } from "../analytics/Analytics";
 
-import { PrefsContext, SET_GLOSS, SET_LANGUAGE } from "../contexts/GlobalState";
+import { useGloss } from "../contexts/GlossContext";
+import { useLanguage } from "../contexts/LanguageContext";
 
 import IdleTimer from "react-idle-timer";
 import ScreenSaver from "./ScreenSaver";
@@ -37,7 +38,10 @@ function Kiosk(props) {
   const glossRef = useRef(null);
   const idleTimer = useRef(null);
   const screenSaver = useRef(null);
-  const { dispatch } = useContext(PrefsContext);
+
+  const [, setLanguage] = useLanguage();
+
+  const [, setGloss] = useGloss();
 
   const { history: browserHistory } = useRouter();
 
@@ -64,7 +68,7 @@ function Kiosk(props) {
     glossRef.current.hide();
 
     // set language to the default
-    dispatch({ type: SET_LANGUAGE, language: config.i18n.defaultLocale });
+    setLanguage(config.i18n.defaultLocale);
 
     analytics.endSession(browserHistory.location.pathname);
 
@@ -72,15 +76,15 @@ function Kiosk(props) {
     browserHistory.push("/", "reset");
 
     screenSaver.current.start();
-  }, [browserHistory, dispatch]);
+  }, [browserHistory, setLanguage]);
 
   useEffect(() => {
     /* 
       NB: This causes a second render at startup when the gloss reference is set.
       See gloss module for more information on why this is needed
     */
-    dispatch({ type: SET_GLOSS, gloss: glossRef.current });
-  }, [dispatch]);
+    setGloss(glossRef.current);
+  }, [setGloss]);
 
   useEffect(() => {
     // start watching for route changes AFTER the above startup regime
