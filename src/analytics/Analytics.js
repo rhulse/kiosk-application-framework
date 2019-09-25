@@ -113,9 +113,13 @@ class Analytics {
   }
 
   endSession(finalPage) {
+    if (!this.session.running) {
+      return;
+    }
+
     const durationOfSession = this.session.end();
 
-    if (!this.session.running || !durationOfSession) {
+    if (!durationOfSession) {
       return;
     }
 
