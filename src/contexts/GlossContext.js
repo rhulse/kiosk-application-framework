@@ -3,7 +3,7 @@ import Gloss from "../components/Gloss";
 
 const initialState = null;
 
-export const GlossContext = createContext();
+const GlossContext = createContext();
 
 function useGloss() {
   const context = useContext(GlossContext);
