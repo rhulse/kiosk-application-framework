@@ -46,7 +46,7 @@ function Kiosk(props) {
   const { history: browserHistory } = useRouter();
 
   const appIsActive = useCallback(() => {
-    config.logging.idleState && console.log("[APPLICATION] Active");
+    config.screenSaver.logging > 0 && console.log("[APPLICATION] Active");
 
     screenSaver.current.stop();
     /* 
@@ -62,7 +62,7 @@ function Kiosk(props) {
 
   // Cleanup when the session is over
   const appIsIdle = useCallback(() => {
-    config.logging.idleState && console.log("[APPLICATION] Idle");
+    config.screenSaver.logging > 0 && console.log("[APPLICATION] Idle");
 
     // Hide any glosses left open
     glossRef.current.hide();

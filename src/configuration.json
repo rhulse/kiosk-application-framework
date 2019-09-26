@@ -3,10 +3,6 @@
     "name": "KAF: Example App",
     "version": "0.1.2"
   },
-  "logging": {
-    "analytics": 1,
-    "idleState": false
-  },
   "i18n": {
     "locales": [
       {
@@ -25,6 +21,7 @@
     "attractorFadeDuration": 0.675,
     "attractorHideDuration": 0,
     "attractorShowDuration": 5
+    "logging": 0
   },
   "analytics": {
     "providers": {
