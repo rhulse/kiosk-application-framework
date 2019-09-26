@@ -6,6 +6,7 @@ import {
   SESSION,
   SET_PAGE
 } from "./types";
+
 import config from "../configuration";
 
 import timeTracker from "../analytics/TimeTracker";
@@ -23,9 +24,20 @@ const provider = new GoogleAnalyticsProvider({
 });
 
 class Analytics {
-  constructor(provider, timeTracker) {
+  constructor({
+    provider,
+    timeTracker,
+    idleTimeout,
+    useEstimatedSessionTiming,
+    logging
+  }) {
     this.dispatch = (...args) => provider.dispatch(...args);
-    this.session = new SessionTracker(timeTracker);
+    this.session = new SessionTracker(
+      timeTracker,
+      idleTimeout,
+      useEstimatedSessionTiming,
+      logging
+    );
     this.timeTracker = timeTracker;
     this.timeOnPage = null;
     this.currentPageURL = null;
@@ -76,13 +88,13 @@ class Analytics {
   }
 
   pageTime(time, previousPageURL) {
+    this.session.addPageTime(time);
     this.timing({
       timingCategory: "Page View",
       timingVar: "Length",
-      timingValue: this.timeOnPage,
+      timingValue: time,
       timingLabel: previousPageURL
     });
-    this.timing(time);
   }
 
   timing(timingData) {
@@ -151,7 +163,13 @@ class Analytics {
   }
 }
 
-export const analytics = new Analytics(provider, timeTracker);
+export const analytics = new Analytics({
+  provider: provider,
+  timeTracker: timeTracker,
+  idleTimeout: config.screenSaver.idleTimeout * 1000,
+  useEstimatedSessionTiming: config.analytics.useEstimatedSessionTiming,
+  logging: config.analytics.logging
+});
 
 export function useAnalytics(props) {
   return analytics;

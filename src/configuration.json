@@ -28,6 +28,7 @@
       "googleGA": "",
       "googleGTAG": ""
     },
+    "useEstimatedSessionTiming": true,
     "logging": 2,
     "debug": false
   }

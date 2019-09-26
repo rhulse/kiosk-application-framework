@@ -118,6 +118,20 @@ Page view duration and session time is also tracked via the Google timing API, u
 
 The session start and end events use a fake URL (/session) so as not to pollute real page view stats.
 
+The session duration time is usually the time from the first page view until the session ends (times out). The problem with using this is that someone will read the last page of their session and walk away. The session time will incude the time between when they walked away and the time out. If they did not spend long reading, perhaps just a minute, the session time will be inflated. Looking at session times as a group, the lower limit of session times (short ones) will be higher than it should be.
+
+This application adjusts this time, based on a statistical guess. We do the following:
+
+```
+adjustedSessionTime = sessionTime - idleTimeout + (averagePageViewDuration + one standard deviation)
+```
+
+THIS IS A GUESS based on experience and observation. You'll need to confirm it youself, but at the very least you won't, on average, have session times inflated by the timeout between the user walking away and the screensaver starting. The duration of this extra page time is not sent to the analytics provider.
+
+You can set the analytics logging level to `2` to see the results of this printed in the console.
+
+If you DO NOT want to do this, set the analytics param `useEstimatedSessionTiming` to `false`. This will revert to including the whole timeout value in the duration.
+
 ## Roadmap (Features to be done)
 
 ### Touch events
