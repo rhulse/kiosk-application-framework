@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useLanguage } from "../contexts/LanguageContext";
-import { useAnalytics } from "../analytics/Analytics";
 
 import config from "../configuration";
+import { useLanguage } from "../contexts/LanguageContext";
+import { useAnalytics } from "../analytics/Analytics";
 
 import LanguageControls from "./LanguageControls";
 

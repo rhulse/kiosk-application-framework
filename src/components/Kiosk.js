@@ -1,15 +1,13 @@
 import React, { useRef, useEffect, useCallback } from "react";
-import useRouter from "../hooks/useRouter";
+import IdleTimer from "react-idle-timer";
 
+import config from "../configuration";
 import { analytics } from "../analytics/Analytics";
-
+import useRouter from "../hooks/useRouter";
 import { useGloss } from "../contexts/GlossContext";
 import { useLanguage } from "../contexts/LanguageContext";
 
-import IdleTimer from "react-idle-timer";
 import ScreenSaver from "./ScreenSaver";
-import config from "../configuration";
-
 import Header from "./Header";
 import Main from "./Main";
 import Gloss from "./Gloss";
@@ -38,11 +36,8 @@ function Kiosk(props) {
   const glossRef = useRef(null);
   const idleTimer = useRef(null);
   const screenSaver = useRef(null);
-
   const [, setLanguage] = useLanguage();
-
   const [, setGloss] = useGloss();
-
   const { history: browserHistory } = useRouter();
 
   const appIsActive = useCallback(() => {
