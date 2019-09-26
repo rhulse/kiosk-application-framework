@@ -14,12 +14,12 @@ import GoogleAnalyticsProvider from "./googleGA";
 import SessionTracker from "./SessionTracker";
 
 const provider = new GoogleAnalyticsProvider({
-  providerId: config.analytics.googleGA,
+  providerId: config.analytics.providers.googleGA,
   defaultLanguage: config.i18n.defaultLocale,
   applicationName: config.application.name,
   applicationVersion: config.application.version,
-  debug: false,
-  logging: config.logging.analytics
+  logging: config.analytics.logging,
+  debug: config.analytics.debug
 });
 
 class Analytics {

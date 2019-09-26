@@ -27,7 +27,11 @@
     "attractorShowDuration": 5
   },
   "analytics": {
-    "googleGA": "",
-    "googleGTAG": ""
+    "providers": {
+      "googleGA": "",
+      "googleGTAG": ""
+    },
+    "logging": 2,
+    "debug": false
   }
 }
