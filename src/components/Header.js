@@ -17,12 +17,18 @@ export default function Header() {
   };
 
   return (
-    <header className="m-4">
+    <header>
       <Link className="btn btn-secondary mr-2" to="/">
         Home
       </Link>
-      <Link className="btn btn-secondary" to="/page-two">
+      <Link className="btn btn-secondary mr-2" to="/page-two">
         Page Two
+      </Link>
+      <Link className="btn btn-secondary mr-2" to="/page-three">
+        Page Three
+      </Link>
+      <Link className="btn btn-secondary" to="/page-four">
+        Page Four
       </Link>
       <LanguageControls
         locales={config.i18n.locales}

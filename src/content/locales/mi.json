@@ -10,6 +10,16 @@
     "page-two": {
       "heading": "MI: Page Two",
       "content": "MI: This is the content of page two."
+    },
+
+    "page-three": {
+      "heading": "MI: Page Three",
+      "content": "MI: This is the content of page three."
+    },
+
+    "page-four": {
+      "heading": "MI: Page Four",
+      "content": "MI: This is the content of page four."
     }
   }
 }

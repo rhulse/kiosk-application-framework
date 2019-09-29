@@ -10,6 +10,16 @@
     "page-two": {
       "heading": "Page Two",
       "content": "This is the content of page two."
+    },
+
+    "page-three": {
+      "heading": "Page Three",
+      "content": "This is the content of page three."
+    },
+
+    "page-four": {
+      "heading": "Page Four",
+      "content": "This is the content of page four."
     }
   }
 }
