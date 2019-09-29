@@ -1,14 +1,13 @@
 import React, { createElement, useRef, useCallback, useEffect } from "react";
-// import { Switch, Route } from "react-router-dom";
+import clamp from "lodash-es/clamp";
+import { useSprings, animated } from "react-spring";
+import { useGesture } from "react-use-gesture";
+
 import Home from "../pages/Home";
 import PageTwo from "../pages/PageTwo";
 import PageThree from "../pages/PageThree";
 import PageFour from "../pages/PageFour";
 import useRouter from "../hooks/useRouter";
-import clamp from "lodash-es/clamp";
-
-import { useGesture } from "react-use-gesture";
-import { useSprings, animated } from "react-spring";
 
 const routes = [
   {
