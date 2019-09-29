@@ -34,12 +34,7 @@ main {
 .page {
   position: absolute;
   width: 100%;
-}
-
-[data-gloss] {
-  // @extend .btn;
-  // @extend .btn-light;
-  padding: 0 3px 0 3px;
+  z-index: 1;
 }
 
 // overide bootstrap glow around button
