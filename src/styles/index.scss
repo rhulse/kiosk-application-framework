@@ -1,4 +1,12 @@
-@import "./00-vendor/bootstrap/bootstrap.scss";
+@import "00-vendor/bootstrap/bootstrap.scss";
+@import "01-settings/_index";
+@import "02-tools/_index";
+@import "03-generic/_index";
+@import "04-elements/_index";
+@import "05-objects/_index";
+@import "06-components/_index";
+@import "07-utilities/_index";
+
 
 .container {
   width: 1200px;
@@ -16,46 +24,15 @@
   }
 }
 
-[data-gloss] {
-  @extend .btn;
-  @extend .btn-light;
-  padding: 0 3px 0 3px;
+.page {
+  position: absolute;
+  width: 100%;
 }
 
-$gloss-background-color: #333;
-
-.gloss {
-  position: absolute;
-  background-color: #333;
-  color: white;
-  padding: 10px;
-  cursor: pointer;
-
-  p:last-child {
-    margin-bottom: 0;
-  }
-
-  &-close {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    color: white;
-  }
-
-  &:after {
-    content: " ";
-    top: 100%;
-    left: 50%;
-    border: solid transparent;
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    border-color: rgba(#333, 0);
-    border-top-color: #333;
-    border-width: 12px;
-    margin-left: -12px;
-  }
+[data-gloss] {
+  // @extend .btn;
+  // @extend .btn-light;
+  padding: 0 3px 0 3px;
 }
 
 // overide bootstrap glow around button

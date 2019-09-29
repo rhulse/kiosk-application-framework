@@ -1,0 +1,35 @@
+$gloss-background-color: #333;
+
+.gloss {
+  position: absolute;
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  &-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: white;
+  }
+
+  &:after {
+    content: " ";
+    top: 100%;
+    left: 50%;
+    border: solid transparent;
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(#333, 0);
+    border-top-color: #333;
+    border-width: 12px;
+    margin-left: -12px;
+  }
+}
