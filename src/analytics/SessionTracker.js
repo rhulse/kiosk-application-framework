@@ -36,7 +36,7 @@ export default class SessionTracker {
 
       if (this.logging > 1) {
         console.log(
-          `[SESSION] applying length correction of ${correction / 1000} S`
+          `[SESSION] applying length correction of -${correction / 1000} S`
         );
         console.log(
           `[SESSION] was ${sessionDuration / 1000} S, now ${newSessionDuration /
