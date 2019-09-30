@@ -34,7 +34,6 @@ const listenForRouteChanges = (analytics, history) => {
 
 function Kiosk(props) {
   const glossRef = useRef(null);
-  const idleTimer = useRef(null);
   const screenSaver = useRef(null);
   const [, setLanguage] = useLanguage();
   const [, setGloss] = useGloss();
@@ -100,7 +99,6 @@ function Kiosk(props) {
       </div>
       <Gloss ref={glossRef} />
       <IdleTimer
-        ref={idleTimer}
         onActive={appIsActive}
         onIdle={appIsIdle}
         debounce={250}
