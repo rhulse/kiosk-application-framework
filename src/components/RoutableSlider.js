@@ -5,8 +5,36 @@ import clamp from "lodash-es/clamp";
 
 import useRouter from "../hooks/useRouter";
 
+class Routes {
+  constructor(routes) {
+    this.routes = routes;
+  }
+
+  length = () => {
+    return this.routes.length;
+  };
+
+  getIndexOfRoute = pathname => {
+    return this.routes.findIndex(x => {
+      return x.path === pathname;
+    });
+  };
+
+  getPathByIndex = index => {
+    return this.routes[index].path;
+  };
+
+  getComponentByIndex = index => {
+    return this.routes[index].component;
+  };
+
+  getNextRouteForIndex = () => {};
+
+  getPreviousRouteForIndex = () => {};
+}
+
 const compileRoutes = children => {
-  return children.map(child => {
+  const routes = children.map(child => {
     if (child.props.path === undefined) {
       throw new Error("Children of RoutingSlider must have a 'path' prop");
     }
@@ -15,6 +43,7 @@ const compileRoutes = children => {
       component: child
     };
   });
+  return new Routes(routes);
 };
 
 export default function RoutingSlider({ children }) {
@@ -23,8 +52,7 @@ export default function RoutingSlider({ children }) {
   const { history } = useRouter();
   // using ref as changes to the index value don't re-render (spring does the rendering)
   const index = useRef(0);
-  const main = useRef(null);
-  const [springs, setSprings] = useSprings(routes.length, i => ({
+  const [springs, setSprings] = useSprings(routes.length(), i => ({
     x: i * window.innerWidth,
     display: "block"
   }));
@@ -54,9 +82,7 @@ export default function RoutingSlider({ children }) {
         return;
       }
 
-      const indexOfRequestedRoute = routes.findIndex(x => {
-        return x.path === location.pathname;
-      });
+      const indexOfRequestedRoute = routes.getIndexOfRoute(location.pathname);
 
       if (indexOfRequestedRoute === index.current) {
         return;
@@ -80,12 +106,12 @@ export default function RoutingSlider({ children }) {
         const newIndex = clamp(
           index.current + (xDir > 0 ? -1 : 1),
           0,
-          routes.length - 1
+          routes.length() - 1
         );
         // stops drag going off the edge
         cancel((index.current = newIndex));
 
-        history.push(routes[newIndex].path, "viaDrag");
+        history.push(routes.getPathByIndex(newIndex), "viaDrag");
       }
       // we pass xMovement on as this allows to element to move as it is dragged.
       updateSprings(down ? xMovement : 0);
@@ -93,7 +119,7 @@ export default function RoutingSlider({ children }) {
   });
 
   return (
-    <main ref={main}>
+    <div className={"c-routable-slider"}>
       {springs.map(({ x, display }, i) => (
         <animated.div
           {...bind()}
@@ -103,9 +129,9 @@ export default function RoutingSlider({ children }) {
             transform: x.interpolate(x => `translate3d(${x}px,0,0)`)
           }}
         >
-          {routes[i].component}
+          {routes.getComponentByIndex(i)}
         </animated.div>
       ))}
-    </main>
+    </div>
   );
 }

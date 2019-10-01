@@ -1,0 +1,8 @@
+.c-routable-slider {
+  position: fixed;
+  overflow: hidden;
+  max-width: 1200px;
+  width: 100%;
+  height: 100%;
+  user-select: none; // makes it easy to use a mouse to drag
+}
