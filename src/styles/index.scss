@@ -22,21 +22,6 @@ header {
   margin-bottom: 20px;
 }
 
-main {
-  position: fixed;
-  overflow: hidden;
-  max-width: 1200px;
-  width: 100%;
-  height: 100%;
-  user-select: none; // makes it easy to use a mouse to drag
-}
-
-.page {
-  position: absolute;
-  width: 100%;
-  z-index: 1;
-}
-
 // overide bootstrap glow around button
 .btn:focus {
   box-shadow: none !important;

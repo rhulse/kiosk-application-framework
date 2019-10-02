@@ -1,7 +1,13 @@
 import React, { useRef, useMemo, useCallback, useEffect } from "react";
 import { useSprings, animated } from "react-spring";
 import { useGesture } from "react-use-gesture";
+import { Link } from "react-router-dom";
 import clamp from "lodash-es/clamp";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronLeft,
+  faChevronRight
+} from "@fortawesome/free-solid-svg-icons";
 
 import useRouter from "../hooks/useRouter";
 
@@ -28,9 +34,25 @@ class Routes {
     return this.routes[index].component;
   };
 
-  getNextRouteForIndex = () => {};
+  getPreviousRouteForIndex = i => {
+    const index = i.current;
 
-  getPreviousRouteForIndex = () => {};
+    if (index > 0) {
+      return this.getPathByIndex(index - 1);
+    } else {
+      return this.getPathByIndex(this.length() - 1);
+    }
+  };
+
+  getNextRouteForIndex = i => {
+    const index = i.current;
+
+    if (index < this.length() - 1) {
+      return this.getPathByIndex(index + 1);
+    } else {
+      return this.getPathByIndex(0);
+    }
+  };
 }
 
 const compileRoutes = children => {
@@ -120,18 +142,32 @@ export default function RoutingSlider({ children }) {
 
   return (
     <div className={"c-routable-slider"}>
-      {springs.map(({ x, display }, i) => (
-        <animated.div
-          {...bind()}
-          key={i}
-          style={{
-            display,
-            transform: x.interpolate(x => `translate3d(${x}px,0,0)`)
-          }}
-        >
-          {routes.getComponentByIndex(i)}
-        </animated.div>
-      ))}
+      <Link
+        to={routes.getPreviousRouteForIndex(index)}
+        className="slider-arrow sliderArrow__left"
+      >
+        <FontAwesomeIcon icon={faChevronLeft} size="2x" />
+      </Link>
+      <div className="slides">
+        {springs.map(({ x, display }, i) => (
+          <animated.div
+            {...bind()}
+            key={i}
+            style={{
+              display,
+              transform: x.interpolate(x => `translate3d(${x}px,0,0)`)
+            }}
+          >
+            <div className="slide">{routes.getComponentByIndex(i)}</div>
+          </animated.div>
+        ))}
+      </div>
+      <Link
+        to={routes.getNextRouteForIndex(index)}
+        className="slider-arrow sliderArrow__right"
+      >
+        <FontAwesomeIcon icon={faChevronRight} size="2x" />
+      </Link>
     </div>
   );
 }
