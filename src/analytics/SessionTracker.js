@@ -54,7 +54,7 @@ export default class SessionTracker {
 
   calcuatePageCorrection() {
     if (this.pageTimes.length === 0) {
-      return;
+      return 0;
     }
 
     /*
