@@ -20,6 +20,13 @@
     "page-four": {
       "heading": "Page Four",
       "content": "This is the content of page four."
+    },
+
+    "labels": {
+      "home": "Home",
+      "pageOne": "Page One",
+      "pageTwo": "Page Two",
+      "pageThree": "Page Three"
     }
   }
 }

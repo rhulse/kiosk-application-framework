@@ -20,6 +20,13 @@
     "page-four": {
       "heading": "MI: Page Four",
       "content": "MI: This is the content of page four."
+    },
+
+    "labels": {
+      "home": "Kāinga",
+      "pageOne": "MI: Page One",
+      "pageTwo": "MI: Page Two",
+      "pageThree": "MI: Page Three"
     }
   }
 }

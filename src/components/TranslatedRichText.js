@@ -4,6 +4,7 @@ import parse from "react-html-parser";
 import { useGloss } from "../contexts/GlossContext";
 
 import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 /*
  * NOTE: We are attaching the (imported) gloss handlers here, rather than globally,
@@ -49,4 +50,8 @@ export default function TranslateRichText(props) {
   const element = createElement(tag, elementProps, parsedContent);
 
   return element;
+}
+
+export function translateText(contentKey) {
+  return parse(i18n.t(contentKey));
 }
