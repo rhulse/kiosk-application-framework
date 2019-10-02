@@ -1,14 +1,14 @@
 import React from "react";
 import TranslatedRichText from "../components/TranslatedRichText";
 
-export default function PageThree() {
+export default function PageFour() {
   return (
     <>
       <TranslatedRichText wrappingTag="h1">
-        page-three.heading
+        page-four.heading
       </TranslatedRichText>
       <TranslatedRichText wrappingTag="div">
-        page-three.content
+        page-four.content
       </TranslatedRichText>
     </>
   );

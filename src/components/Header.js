@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
+
 import config from "../configuration";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useAnalytics } from "../analytics/Analytics";
@@ -18,17 +21,17 @@ export default function Header() {
 
   return (
     <header>
-      <Link className="btn btn-secondary mr-2" to="/">
-        Home
+      <Link className="btn btn-secondary mr-4" to="/">
+        <FontAwesomeIcon icon={faHome} size="1x" /> Home
       </Link>
-      <Link className="btn btn-secondary mr-2" to="/page-two">
+      <Link className="btn mr-2" to="/page-one">
+        Page One
+      </Link>
+      <Link className="btn mr-2" to="/page-two">
         Page Two
       </Link>
-      <Link className="btn btn-secondary mr-2" to="/page-three">
+      <Link className="btn" to="/page-three">
         Page Three
-      </Link>
-      <Link className="btn btn-secondary" to="/page-four">
-        Page Four
       </Link>
       <LanguageControls
         locales={config.i18n.locales}
