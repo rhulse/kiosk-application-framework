@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useCallback } from "react";
-import IdleTimer from "react-idle-timer";
 
 import config from "../configuration";
 import { analytics } from "../analytics/Analytics";
@@ -8,6 +7,7 @@ import { useGloss } from "../contexts/GlossContext";
 import { useLanguage } from "../contexts/LanguageContext";
 
 import ScreenSaver from "./ScreenSaver";
+import IdleTimer, { ACTIVE_EVENTS } from "./IdleTimer";
 import Header from "./Header";
 import Main from "./Main";
 import Gloss from "./Gloss";
@@ -100,6 +100,7 @@ function Kiosk(props) {
       <Gloss ref={glossRef} />
       <IdleTimer
         onActive={appIsActive}
+        events={ACTIVE_EVENTS}
         onIdle={appIsIdle}
         debounce={250}
         timeout={config.screenSaver.idleTimeout * 1000}
