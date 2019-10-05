@@ -5,6 +5,7 @@ import { analytics } from "../analytics/Analytics";
 import useRouter from "../hooks/useRouter";
 import { useGloss } from "../contexts/GlossContext";
 import { useLanguage } from "../contexts/LanguageContext";
+import { dispatchStopMediaEvent } from "../utils/dom-events";
 
 import ScreenSaver from "./ScreenSaver";
 import IdleTimer, { ACTIVE_EVENTS } from "./IdleTimer";
@@ -16,6 +17,8 @@ const listenForRouteChanges = (analytics, history) => {
   let previousPage = null;
 
   return history.listen((location, action) => {
+    dispatchStopMediaEvent();
+
     // if someone clicks on the same link again, we do nothing.
     if (previousPage === location.pathname) {
       return;

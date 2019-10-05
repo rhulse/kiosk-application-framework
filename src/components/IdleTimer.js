@@ -1,14 +1,6 @@
 import IdleTimer from "react-idle-timer";
 
-export default IdleTimer;
-
-const MEDIA_IS_PLAYING = "mediaIsPlaying";
-
-const mediaIsPlayingEvent = new Event(MEDIA_IS_PLAYING);
-
-export const emitPlayingEvent = () => {
-  document.dispatchEvent(mediaIsPlayingEvent);
-};
+import { MEDIA_IS_PLAYING } from "../utils/dom-events";
 
 export const ACTIVE_EVENTS = [
   "mousemove",
@@ -23,3 +15,5 @@ export const ACTIVE_EVENTS = [
   "MSPointerMove",
   MEDIA_IS_PLAYING
 ];
+
+export default IdleTimer;
