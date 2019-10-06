@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faVolumeUp as speaker } from "@fortawesome/free-solid-svg-icons";
+import {
+  faVolumeUp as speaker,
+  faTimes
+} from "@fortawesome/free-solid-svg-icons";
 
 import glossData from "../content/glossData";
 import { TrackerContext } from "../contexts/EventTracker";
@@ -161,9 +164,12 @@ export default class Gloss extends Component {
         style={this.styles()}
         className="gloss"
       >
-        <span onClick={this.hide} className="gloss-close">
-          X
-        </span>
+        <FontAwesomeIcon
+          icon={faTimes}
+          size="1x"
+          onClick={this.hide}
+          className="gloss-close"
+        />
         <h6>
           {audioFile && (
             <>
