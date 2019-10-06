@@ -5,10 +5,10 @@ export default function PageFour() {
   return (
     <>
       <TranslatedRichText wrappingTag="h1">
-        page-four.heading
+        page-three.heading
       </TranslatedRichText>
       <TranslatedRichText wrappingTag="div">
-        page-four.content
+        page-three.content
       </TranslatedRichText>
     </>
   );

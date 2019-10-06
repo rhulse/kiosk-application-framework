@@ -5,6 +5,7 @@ import Home from "../pages/Home";
 import PageOne from "../pages/PageOne";
 import PageTwo from "../pages/PageTwo";
 import PageThree from "../pages/PageThree";
+import VideoPage from "../pages/VideoPage";
 
 export default function Main() {
   return (
@@ -14,6 +15,7 @@ export default function Main() {
         <PageOne path={"/page-one"} />
         <PageTwo path={"/page-two"} />
         <PageThree path={"/page-three"} />
+        <VideoPage path={"/video-page"} />
       </RoutableCarousel>
     </main>
   );

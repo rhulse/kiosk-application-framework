@@ -35,6 +35,9 @@ export default function Header() {
       <Link className="btn" to="/page-three">
         {translateText("labels.pageThree")}
       </Link>
+      <Link className="btn" to="/video-page">
+        {translateText("labels.videoPage")}
+      </Link>
       <LanguageControls
         locales={config.i18n.locales}
         currentLocale={language}

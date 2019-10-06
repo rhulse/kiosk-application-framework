@@ -7,6 +7,8 @@
 @import "06-components/_index";
 @import "07-utilities/_index";
 
+@import "~video-react/styles/scss/video-react";
+
 body {
   // stops chaining to neighbouring scrolling areas, and default scroll overflow behavior is prevented.
   // required for mobile, but not really for a kiosk browser.

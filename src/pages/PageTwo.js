@@ -4,11 +4,9 @@ import TranslatedRichText from "../components/TranslatedRichText";
 export default function PageThree() {
   return (
     <>
-      <TranslatedRichText wrappingTag="h1">
-        page-three.heading
-      </TranslatedRichText>
+      <TranslatedRichText wrappingTag="h1">page-two.heading</TranslatedRichText>
       <TranslatedRichText wrappingTag="div">
-        page-three.content
+        page-two.content
       </TranslatedRichText>
     </>
   );

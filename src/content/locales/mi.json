@@ -7,6 +7,11 @@
       "content": "MI: This is the content of the home page."
     },
 
+    "page-one": {
+      "heading": "MI: Page One",
+      "content": "MI: This is the content of page one."
+    },
+
     "page-two": {
       "heading": "MI: Page Two",
       "content": "MI: This is the content of page two."
@@ -17,16 +22,12 @@
       "content": "MI: This is the content of page three."
     },
 
-    "page-four": {
-      "heading": "MI: Page Four",
-      "content": "MI: This is the content of page four."
-    },
-
     "labels": {
       "home": "Kāinga",
       "pageOne": "MI: Page One",
       "pageTwo": "MI: Page Two",
-      "pageThree": "MI: Page Three"
+      "pageThree": "MI: Page Three",
+      "videoPage": "MI: Video"
     }
   }
 }
