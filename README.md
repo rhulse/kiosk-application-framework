@@ -132,11 +132,19 @@ You can set the analytics logging level to `2` to see the results of this printe
 
 If you DO NOT want to do this, set the analytics param `useEstimatedSessionTiming` to `false`. This will revert to including the whole timeout value in the duration.
 
+### Audio Player
+
+This is primarily to support the Gloss feature mentioned above, but could be used anywhere or in tandem with a slideshow, triggered by a timeline.
+
+The basic `<ReactAudioPlayer />` wraps the HTM5 `<audio>` tag and provides access to event callbacks and props.
+
+### Routable Slider
+
+This component supports dragable children with next and previous arrows. It is currently used to wrap in the 4 demo pages.
+
+Child components should have a `path` props which is used by the component to integrate seamlessly with React Router, so that `<Link to={path} />` slides to the required page in the correct sequence.
+
 ## Roadmap (Features to be done)
-
-### Touch events
-
-Support for swipe, pinch, etc.
 
 ### Styling
 
@@ -149,10 +157,6 @@ This will display a set of images, with thumbnail navigation.
 ### Image Viewer
 
 This component will allow high resolution viewing of an image.
-
-### Audio Player
-
-This is primarily to support the Gloss feature mentioned above, but could be used anywhere, or in tandem with a slideshow, triggered by a timeline.
 
 ### Video Player
 
