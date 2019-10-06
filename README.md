@@ -138,7 +138,7 @@ This is primarily to support the Gloss feature mentioned above, but could be use
 
 The basic `<ReactAudioPlayer />` wraps the HTM5 `<audio>` tag and provides access to event callbacks and props.
 
-### Routable Slider
+### Routable Carousel
 
 This component supports dragable children with next and previous arrows. It is currently used to wrap in the 4 demo pages.
 
