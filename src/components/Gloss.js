@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import glossData from "../content/glossData";
 import { TrackerContext } from "../contexts/EventTracker";
+import { dispatchStopMediaEvent } from "../utils/dom-events";
+import AudioPlayer from "./Audio/AudioPlayer";
 
 /* 
   Design Note
@@ -30,7 +32,8 @@ const defaultGlossInformation = {
   word: "Unknown Word",
   description: "No desciption",
   language: "No Lang",
-  partOfSpeech: "No Part"
+  partOfSpeech: "No Part",
+  audioFile: ""
 };
 
 const downEventTypes = ["mousedown", "touchdown"];
@@ -46,6 +49,7 @@ export default class Gloss extends Component {
 
   show = event => {
     event.preventDefault();
+    dispatchStopMediaEvent();
 
     const glossedElement = event.target;
 
@@ -75,6 +79,8 @@ export default class Gloss extends Component {
   hide = event => {
     // called by screen saver, so no event...
     event && event.preventDefault();
+    dispatchStopMediaEvent();
+
     this._removeCheckForExternalClicks();
 
     this.setState({ ...defaultPosition, ...defaultGlossInformation });
@@ -112,6 +118,8 @@ export default class Gloss extends Component {
   };
 
   render() {
+    const { word, description, language, partOfSpeech, audioFile } = this.state;
+
     return (
       <div
         // store on 'this' rather than state to avoid a rerender
@@ -122,10 +130,13 @@ export default class Gloss extends Component {
         <span onClick={this.hide} className="gloss-close">
           X
         </span>
-        <h6>{this.state.word}</h6>
-        <p>{this.state.description}</p>
+        <h6>
+          {audioFile && <AudioPlayer src={audioFile} />}
+          {word}
+        </h6>
+        <p>{description}</p>
         <p>
-          {this.state.language} | {this.state.partOfSpeech}
+          {language} | {partOfSpeech}
         </p>
       </div>
     );
@@ -140,7 +151,8 @@ export default class Gloss extends Component {
       word: info.word,
       description: info.description,
       language: info.language,
-      partOfSpeech: info.partOfSpeech
+      partOfSpeech: info.partOfSpeech,
+      audioFile: info.audioFile
     };
   };
 

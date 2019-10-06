@@ -4,7 +4,7 @@
     "description": "Translation of the word",
     "language": "Language",
     "partOfSpeech": "Noun",
-    "audio": "Optional audio file"
+    "audioFile": "Optional audio file"
   },
 
   "gloss": {
@@ -12,6 +12,6 @@
     "description": "Translation of the word Gloss",
     "language": "A Language",
     "partOfSpeech": "noun",
-    "audio": null
+    "audioFile": ""
   }
 }
