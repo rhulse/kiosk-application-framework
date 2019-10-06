@@ -10,8 +10,11 @@ import glossData from "../content/glossData";
 import { TrackerContext } from "../contexts/EventTracker";
 import {
   dispatchPlayingEvent,
-  dispatchStopMediaEvent
+  dispatchStopMediaEvent,
+  addStopMediaEventListener,
+  removeStopMediaEventListener
 } from "../utils/dom-events";
+
 import AudioPlayer from "./Audio/ReactAudioPlayer";
 
 /* 
@@ -55,6 +58,14 @@ export default class Gloss extends Component {
 
   state = { ...defaultPosition, ...defaultGlossInformation };
 
+  componentDidMount = () => {
+    addStopMediaEventListener(this._pause);
+  };
+
+  componentWillUnmount = () => {
+    removeStopMediaEventListener(this._pause);
+  };
+
   analyticsEvent = event => {
     this.context.analytics.event(event);
   };
@@ -96,6 +107,8 @@ export default class Gloss extends Component {
 
     this._removeCheckForExternalClicks();
 
+    // this state change stop the gloss playing although we
+    // also dispatch a stop event above (which the AudioPlayer responds to)
     this.setState({ ...defaultPosition, ...defaultGlossInformation });
     /*
       We don't track the close event on Gloss. Close events just clutter 
@@ -146,8 +159,22 @@ export default class Gloss extends Component {
     });
   };
 
+  _pause = e => {
+    e.preventDefault();
+
+    if (!this.audioPlayer || !this.playing) {
+      return;
+    }
+
+    this.audioPlayer.pause();
+  };
+
   _onPlay = () => {
     this.playing = true;
+  };
+
+  _onPause = () => {
+    this.playing = false;
   };
 
   _onEnded = () => {
@@ -180,6 +207,7 @@ export default class Gloss extends Component {
                 src={audioFile}
                 onTimeUpdate={dispatchPlayingEvent}
                 onPlay={this._onPlay}
+                onPause={this._onPause}
                 onEnded={this._onEnded}
                 ref={ref => {
                   this.audioPlayer = ref;

@@ -19,3 +19,10 @@ export const dispatchStopMediaEvent = () => {
 export function useStopMediaEventListener(callback) {
   useEventListener(STOP_MEDIA_EVENT, callback, document);
 }
+
+export function addStopMediaEventListener(callback) {
+  document.addEventListener(STOP_MEDIA_EVENT, callback);
+}
+export function removeStopMediaEventListener(callback) {
+  document.removeEventListener(STOP_MEDIA_EVENT, callback);
+}
