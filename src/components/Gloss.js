@@ -55,6 +55,7 @@ export default class Gloss extends Component {
   static contextType = TrackerContext;
 
   playing = false;
+  showing = false;
 
   state = { ...defaultPosition, ...defaultGlossInformation };
 
@@ -97,13 +98,22 @@ export default class Gloss extends Component {
       eventAction: "Open",
       eventLabel: this.state.clickedWord
     });
+
+    this.showing = true;
   };
 
   hide = event => {
-    // if called by screen saver no event...
+    if (!this.showing) {
+      return;
+    }
+
+    // if called by screen saver (i.e. with no event...)
     event && event.preventDefault();
-    dispatchStopMediaEvent();
-    this._onEnded();
+
+    if (this.playing) {
+      dispatchStopMediaEvent();
+    }
+    this._notPlaying();
 
     this._removeCheckForExternalClicks();
 
@@ -119,6 +129,7 @@ export default class Gloss extends Component {
       The length of the open *might* be useful, but I doubt it. In the case of
       audio (if available), the numbers of plays per open would be more useful.
     */
+    this.showing = false;
   };
 
   addGlossListeners = containerElement => {
@@ -169,15 +180,11 @@ export default class Gloss extends Component {
     this.audioPlayer.pause();
   };
 
-  _onPlay = () => {
+  _isPlaying = () => {
     this.playing = true;
   };
 
-  _onPause = () => {
-    this.playing = false;
-  };
-
-  _onEnded = () => {
+  _notPlaying = () => {
     this.playing = false;
   };
 
@@ -206,9 +213,9 @@ export default class Gloss extends Component {
               <AudioPlayer
                 src={audioFile}
                 onTimeUpdate={dispatchPlayingEvent}
-                onPlay={this._onPlay}
-                onPause={this._onPause}
-                onEnded={this._onEnded}
+                onPlay={this._isPlaying}
+                onPause={this._notPlaying}
+                onEnded={this._notPlaying}
                 ref={ref => {
                   this.audioPlayer = ref;
                 }}
