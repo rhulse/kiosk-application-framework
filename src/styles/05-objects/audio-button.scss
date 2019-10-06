@@ -1,0 +1,13 @@
+.audio-button {
+  border: none;
+  outline: none;
+  font: inherit;
+  color: inherit;
+  background: none;
+  box-shadow: none !important;
+}
+
+.audio-button:focus {
+  box-shadow: none !important;
+  outline: none;
+}
