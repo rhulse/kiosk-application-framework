@@ -1,8 +1,15 @@
 import React, { Component } from "react";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faVolumeUp as speaker } from "@fortawesome/free-solid-svg-icons";
+
 import glossData from "../content/glossData";
 import { TrackerContext } from "../contexts/EventTracker";
-import { dispatchStopMediaEvent } from "../utils/dom-events";
-import AudioPlayer from "./Audio/AudioPlayer";
+import {
+  dispatchPlayingEvent,
+  dispatchStopMediaEvent
+} from "../utils/dom-events";
+import AudioPlayer from "./Audio/ReactAudioPlayer";
 
 /* 
   Design Note
@@ -41,6 +48,8 @@ const downEventTypes = ["mousedown", "touchdown"];
 export default class Gloss extends Component {
   static contextType = TrackerContext;
 
+  playing = false;
+
   state = { ...defaultPosition, ...defaultGlossInformation };
 
   analyticsEvent = event => {
@@ -77,9 +86,10 @@ export default class Gloss extends Component {
   };
 
   hide = event => {
-    // called by screen saver, so no event...
+    // if called by screen saver no event...
     event && event.preventDefault();
     dispatchStopMediaEvent();
+    this._onEnded();
 
     this._removeCheckForExternalClicks();
 
@@ -117,6 +127,30 @@ export default class Gloss extends Component {
     return { ...defaultPosition, top: top, left: left };
   };
 
+  _play = e => {
+    e.preventDefault();
+
+    if (!this.audioPlayer || this.playing) {
+      return;
+    }
+
+    this.audioPlayer.play();
+
+    this.analyticsEvent({
+      eventCategory: "Gloss",
+      eventAction: "Play",
+      eventLabel: this.state.clickedWord
+    });
+  };
+
+  _onPlay = () => {
+    this.playing = true;
+  };
+
+  _onEnded = () => {
+    this.playing = false;
+  };
+
   render() {
     const { word, description, language, partOfSpeech, audioFile } = this.state;
 
@@ -131,7 +165,22 @@ export default class Gloss extends Component {
           X
         </span>
         <h6>
-          {audioFile && <AudioPlayer src={audioFile} />}
+          {audioFile && (
+            <>
+              <button className="audio-button" onClick={this._play}>
+                <FontAwesomeIcon icon={speaker} size="1x" />
+              </button>{" "}
+              <AudioPlayer
+                src={audioFile}
+                onTimeUpdate={dispatchPlayingEvent}
+                onPlay={this._onPlay}
+                onEnded={this._onEnded}
+                ref={ref => {
+                  this.audioPlayer = ref;
+                }}
+              />
+            </>
+          )}
           {word}
         </h6>
         <p>{description}</p>
