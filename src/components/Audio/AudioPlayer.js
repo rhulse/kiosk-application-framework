@@ -1,4 +1,5 @@
 import React, { useRef, useState, useCallback } from "react";
+import PropTypes from "prop-types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
@@ -10,7 +11,7 @@ import {
   useStopMediaEventListener
 } from "../../utils/dom-events";
 
-export default function AudioPlayer({ src }) {
+export default function AudioPlayer(props) {
   const audioRef = useRef(null);
   const [icon, setIcon] = useState(faPlay);
 
@@ -18,8 +19,9 @@ export default function AudioPlayer({ src }) {
     e => {
       e.preventDefault();
       audioRef.current.play();
+      props.onPlay && props.onPlay();
     },
-    [audioRef]
+    [audioRef, props]
   );
 
   const pause = useCallback(
@@ -47,8 +49,13 @@ export default function AudioPlayer({ src }) {
         onEnded={() => {
           setIcon(faPlay);
         }}
-        src={src}
+        src={props.src}
       />
     </>
   );
 }
+
+ReactAudioPlayer.propTypes = {
+  src: PropTypes.string,
+  onPlay: PropTypes.func
+};
