@@ -15,7 +15,7 @@ import {
   removeStopMediaEventListener
 } from "../utils/dom-events";
 
-import AudioPlayer from "./Audio/ReactAudioPlayer";
+import AudioPlayer from "./audio/ReactAudioPlayer";
 
 /* 
   Design Note
