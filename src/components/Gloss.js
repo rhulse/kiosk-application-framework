@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faVolumeUp as speaker,
-  faTimes
-} from "@fortawesome/free-solid-svg-icons";
+import Icon, { close, speaker } from "./Icon";
 
 import glossData from "../content/glossData";
 import { TrackerContext } from "../contexts/EventTracker";
@@ -198,8 +194,8 @@ export default class Gloss extends Component {
         style={this.styles()}
         className="gloss"
       >
-        <FontAwesomeIcon
-          icon={faTimes}
+        <Icon
+          icon={close}
           size="1x"
           onClick={this.hide}
           className="gloss-close"
@@ -208,7 +204,7 @@ export default class Gloss extends Component {
           {audioFile && (
             <>
               <button className="audio-button" onClick={this._play}>
-                <FontAwesomeIcon icon={speaker} size="1x" />
+                <Icon icon={speaker} size="1x" />
               </button>{" "}
               <AudioPlayer
                 src={audioFile}

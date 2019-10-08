@@ -3,11 +3,7 @@ import { useSprings, animated } from "react-spring";
 import { useGesture } from "react-use-gesture";
 import { Link } from "react-router-dom";
 import clamp from "lodash-es/clamp";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronLeft,
-  faChevronRight
-} from "@fortawesome/free-solid-svg-icons";
+import Icon, { chevronLeft, chevronRight } from "./Icon";
 
 import useRouter from "../hooks/useRouter";
 
@@ -146,7 +142,7 @@ export default function RoutingSlider({ children }) {
         to={routes.getPreviousRouteForIndex(index)}
         className="slider-arrow sliderArrow__left"
       >
-        <FontAwesomeIcon icon={faChevronLeft} size="2x" />
+        <Icon icon={chevronLeft} size="2x" />
       </Link>
       <div className="slides">
         {springs.map(({ x, display }, i) => (
@@ -166,7 +162,7 @@ export default function RoutingSlider({ children }) {
         to={routes.getNextRouteForIndex(index)}
         className="slider-arrow sliderArrow__right"
       >
-        <FontAwesomeIcon icon={faChevronRight} size="2x" />
+        <Icon icon={chevronRight} size="2x" />
       </Link>
     </div>
   );

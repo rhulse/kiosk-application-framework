@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
+import Icon, { home } from "./Icon";
 
 import config from "../configuration";
 import { useLanguage } from "../contexts/LanguageContext";
@@ -23,8 +22,7 @@ export default function Header() {
   return (
     <header>
       <Link className="btn btn-secondary mr-4" to="/">
-        <FontAwesomeIcon icon={faHome} size="1x" />{" "}
-        {translateText("labels.home")}
+        <Icon icon={home} size="1x" /> {translateText("labels.home")}
       </Link>
       <Link className="btn mr-2" to="/page-one">
         {translateText("labels.pageOne")}
