@@ -19,7 +19,7 @@ const styles = {
   backgroundColor: "rgba(100, 100, 150, 1)",
   fontSize: 32,
   color: "white",
-  "z-index": "3141592653"
+  zIndex: "3141592653"
 };
 
 export default class ScreenSaver extends Component {
