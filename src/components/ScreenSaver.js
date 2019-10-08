@@ -16,9 +16,10 @@ const styles = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  backgroundColor: "rgba(100, 100, 150, 1.92)",
+  backgroundColor: "rgba(100, 100, 150, 1)",
   fontSize: 32,
-  color: "white"
+  color: "white",
+  "z-index": "3141592653"
 };
 
 export default class ScreenSaver extends Component {
