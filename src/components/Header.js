@@ -22,19 +22,49 @@ export default function Header() {
 
   return (
     <header>
-      <Link className="btn btn-secondary mr-4" to="/">
+      <Link
+        className="btn btn-secondary mr-4"
+        to={{
+          pathname: "/",
+          state: "viaNav"
+        }}
+      >
         <Icon icon={home} size="1x" /> {translateText("labels.home")}
       </Link>
-      <Link className="btn mr-2" to="/page-one">
+      <Link
+        className="btn mr-2"
+        to={{
+          pathname: "/page-one",
+          state: "viaNav"
+        }}
+      >
         {translateText("labels.pageOne")}
       </Link>
-      <Link className="btn mr-2" to="/page-two">
+      <Link
+        className="btn mr-2"
+        to={{
+          pathname: "/page-two",
+          state: "viaNav"
+        }}
+      >
         {translateText("labels.pageTwo")}
       </Link>
-      <Link className="btn" to="/page-three">
+      <Link
+        className="btn"
+        to={{
+          pathname: "/page-three",
+          state: "viaNav"
+        }}
+      >
         {translateText("labels.pageThree")}
       </Link>
-      <Link className="btn" to="/video-page">
+      <Link
+        className="btn"
+        to={{
+          pathname: "/video-page",
+          state: "viaNav"
+        }}
+      >
         {translateText("labels.videoPage")}
       </Link>
       <LanguageControls

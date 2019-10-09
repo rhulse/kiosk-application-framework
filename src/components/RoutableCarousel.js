@@ -107,6 +107,7 @@ export default function RoutingSlider({ children }) {
       }
 
       index.current = indexOfRequestedRoute;
+      // the index has changed, so we update springs, which will then slide the content to the new index
       updateSprings();
     });
   }, [routes, updateSprings, history, index]);
@@ -139,7 +140,10 @@ export default function RoutingSlider({ children }) {
   return (
     <div className={"c-routable-slider"}>
       <Link
-        to={routes.getPreviousRouteForIndex(index)}
+        to={{
+          pathname: routes.getPreviousRouteForIndex(index),
+          state: "viaChevron"
+        }}
         className="slider-arrow sliderArrow__left"
       >
         <Icon icon={chevronLeft} size="2x" />
@@ -159,7 +163,10 @@ export default function RoutingSlider({ children }) {
         ))}
       </div>
       <Link
-        to={routes.getNextRouteForIndex(index)}
+        to={{
+          pathname: routes.getNextRouteForIndex(index),
+          state: "viaChevron"
+        }}
         className="slider-arrow sliderArrow__right"
       >
         <Icon icon={chevronRight} size="2x" />
