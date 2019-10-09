@@ -4,14 +4,15 @@ import { Link } from "react-router-dom";
 import Icon, { home } from "./Icon";
 
 import config from "../configuration";
-import { useLanguage } from "../contexts/LanguageContext";
+import { useLanguage, useLanguageSetter } from "../contexts/LanguageContext";
 import { useAnalytics } from "../analytics/Analytics";
 import { translateText } from "./TranslatedRichText";
 
 import LanguageControls from "./LanguageControls";
 
 export default function Header() {
-  const [language, setLanguage] = useLanguage();
+  const language = useLanguage();
+  const setLanguage = useLanguageSetter();
   const analytics = useAnalytics();
 
   const changeLanguage = language => {

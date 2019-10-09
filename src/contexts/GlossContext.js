@@ -1,18 +1,25 @@
-import React, { createContext, useReducer, useMemo, useContext } from "react";
+import React, { createContext, useReducer, useContext } from "react";
 import Gloss from "../components/Gloss";
 
 const initialState = null;
 
 const GlossContext = createContext();
+const GlossReducerContext = createContext();
 
 function useGloss() {
-  const context = useContext(GlossContext);
-
-  if (!context) {
+  const gloss = useContext(GlossContext);
+  if (typeof gloss === undefined) {
     throw new Error(`useGloss must be used within a GlossProvider`);
   }
+  return gloss;
+}
 
-  return context;
+function useGlossSetter() {
+  const glossSetter = useContext(GlossReducerContext);
+  if (typeof glossSetter === undefined) {
+    throw new Error(`useGlossSetter must be used within a GlossProvider`);
+  }
+  return glossSetter;
 }
 
 const glossReducer = (state, gloss) => {
@@ -25,13 +32,14 @@ const glossReducer = (state, gloss) => {
 
 const GlossProvider = props => {
   const [gloss, setGloss] = useReducer(glossReducer, initialState);
-  const value = useMemo(() => [gloss, setGloss], [gloss]);
 
   return (
-    <GlossContext.Provider value={value}>
-      {props.children}
+    <GlossContext.Provider value={gloss}>
+      <GlossReducerContext.Provider value={setGloss}>
+        {props.children}
+      </GlossReducerContext.Provider>
     </GlossContext.Provider>
   );
 };
 
-export { GlossProvider, useGloss };
+export { GlossProvider, useGloss, useGlossSetter };

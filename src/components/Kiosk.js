@@ -3,8 +3,8 @@ import React, { useRef, useEffect, useCallback } from "react";
 import config from "../configuration";
 import { analytics } from "../analytics/Analytics";
 import useRouter from "../hooks/useRouter";
-import { useGloss } from "../contexts/GlossContext";
-import { useLanguage } from "../contexts/LanguageContext";
+import { useGlossSetter } from "../contexts/GlossContext";
+import { useLanguageSetter } from "../contexts/LanguageContext";
 import { dispatchStopMediaEvent } from "../utils/dom-events";
 
 import ScreenSaver from "./ScreenSaver";
@@ -38,8 +38,8 @@ const listenForRouteChanges = (analytics, history) => {
 function Kiosk(props) {
   const glossRef = useRef(null);
   const screenSaver = useRef(null);
-  const [, setLanguage] = useLanguage();
-  const [, setGloss] = useGloss();
+  const setLanguage = useLanguageSetter();
+  const setGloss = useGlossSetter();
   const { history: browserHistory } = useRouter();
 
   const appIsActive = useCallback(() => {

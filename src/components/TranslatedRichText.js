@@ -15,7 +15,7 @@ import i18n from "i18next";
 export default function TranslateRichText(props) {
   const { t } = useTranslation();
   const contentArea = useRef(null);
-  const [gloss] = useGloss();
+  const gloss = useGloss();
 
   useEffect(() => {
     /*
