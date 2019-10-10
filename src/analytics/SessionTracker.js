@@ -79,7 +79,12 @@ export default class SessionTracker {
   }
 
   calculateSD(data) {
+    // sd cannot be calculated on one item
+    if (data.length < 2) {
+      return 0;
+    }
     let m = this.calculateMean(data);
+
     return Math.sqrt(
       data.reduce(function(sq, n) {
         return sq + Math.pow(n - m, 2);
