@@ -2,10 +2,11 @@ $gloss-background-color: #333;
 
 .gloss {
   position: absolute;
+  width: 250px;
+  height: 110px;
   background-color: #333;
   color: white;
   padding: 10px;
-  cursor: pointer;
 
   p:last-child {
     margin-bottom: 0;
@@ -16,6 +17,7 @@ $gloss-background-color: #333;
     top: 5px;
     right: 5px;
     color: white;
+    cursor: pointer;
   }
 
   &:after {

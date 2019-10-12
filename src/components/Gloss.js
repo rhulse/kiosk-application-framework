@@ -1,284 +1,192 @@
-import React, { Component } from "react";
-
+import React, { useRef } from "react";
+import { createPortal } from "react-dom";
 import Icon, { close, speaker } from "./Icon";
-
-import glossData from "../content/glossData";
-import { TrackerContext } from "../contexts/EventTracker";
-import {
-  dispatchPlayingEvent,
-  dispatchStopMediaEvent,
-  addStopMediaEventListener,
-  removeStopMediaEventListener
-} from "../utils/dom-events";
+import { useAnalytics } from "../analytics/Analytics";
 
 import AudioPlayer from "./audio/ReactAudioPlayer";
 
-/* 
-  Design Note
+import { useGloss, useGlossDispatcher } from "../contexts/GlossContext";
 
-  The design was complicated by the need to dyamically update the gloss content
-  for each work clicked.
-
-  The Gloss component includes all Gloss related logic, including that used
-  to attach the gloss to any onClick events. This approach was taken - rather
-  than moving the add/remove event to specific components - in order to encasulate
-  all Gloss-related concerns in one place.
-  
-  This make it simpler to maintain, and the add/remove won't have to be repeated
-
-  That choice did mean storing a gloss object reference in the Global state, so it 
-  could be accessed anywhere. Better of two evils, IMHO.
-
-*/
+import {
+  useStopMediaEventListener,
+  dispatchPlayingEvent,
+  dispatchStopMediaEvent
+} from "../utils/dom-events";
 
 const defaultPosition = {
   position: "absolute",
-  left: "-9990px",
-  top: "-9990px"
-};
-
-const defaultGlossInformation = {
-  word: "Unknown Word",
-  description: "No desciption",
-  language: "No Lang",
-  partOfSpeech: "No Part",
-  audioFile: ""
+  left: "-98696px",
+  top: "-98696px"
 };
 
 const downEventTypes = ["mousedown", "touchdown"];
 
-export default class Gloss extends Component {
-  static contextType = TrackerContext;
+const calculateGlossXY = (glossContainer, clickedElement) => {
+  const { top, left, width } = clickedElement.getBoundingClientRect();
+  const ARROW_SIZE = 14;
 
-  playing = false;
-  showing = false;
+  const {
+    height: glossHeight,
+    width: glossWidth
+  } = glossContainer.getBoundingClientRect();
 
-  state = { ...defaultPosition, ...defaultGlossInformation };
+  const glossLeftOffset = glossWidth / 2;
 
-  componentDidMount = () => {
-    addStopMediaEventListener(this._pause);
-  };
+  const middleOfElement = width / 2;
+  const newLeft = left + middleOfElement - glossLeftOffset;
+  const newTop = top - glossHeight - ARROW_SIZE;
 
-  componentWillUnmount = () => {
-    removeStopMediaEventListener(this._pause);
-  };
+  return { top: newTop, left: newLeft };
+};
 
-  analyticsEvent = event => {
-    this.context.analytics.event(event);
-  };
+export default function Gloss() {
+  const glossContainerRef = useRef(null);
+  const audioPlayerRef = useRef(null);
+  const isPlaying = useRef(false);
+  const analytics = useAnalytics();
+  let glossPosition = defaultPosition;
 
-  show = event => {
+  let {
+    show,
+    callingEvent,
+    word,
+    description,
+    language,
+    partOfSpeech,
+    audioFile
+  } = useGloss();
+
+  const glossDispatcher = useGlossDispatcher();
+
+  const play = event => {
     event.preventDefault();
-    dispatchStopMediaEvent();
 
-    const glossedElement = event.target;
-
-    const wordInformation = this._getWordInformation(glossedElement);
-
-    // set the words first
-    this.setState({
-      ...wordInformation
-    });
-
-    // then calulate XY based on the size
-    const glossXY = this._calculateGlossXY(glossedElement);
-
-    this._addCheckForExternalClicks();
-
-    this.setState({
-      ...glossXY
-    });
-
-    this.analyticsEvent({
-      eventCategory: "Gloss",
-      eventAction: "Open",
-      eventLabel: this.state.clickedWord
-    });
-
-    this.showing = true;
-  };
-
-  hide = event => {
-    if (!this.showing) {
+    if (!audioPlayerRef.current || isPlaying.current) {
       return;
     }
 
-    // if called by screen saver (i.e. with no event...)
-    event && event.preventDefault();
+    audioPlayerRef.current.play();
 
-    if (this.playing) {
-      dispatchStopMediaEvent();
-    }
-    this._notPlaying();
-
-    this._removeCheckForExternalClicks();
-
-    // this state change stop the gloss playing although we
-    // also dispatch a stop event above (which the AudioPlayer responds to)
-    this.setState({ ...defaultPosition, ...defaultGlossInformation });
-    /*
-      We don't track the close event on Gloss. Close events just clutter 
-      up the analytics. If a Gloss is opened - and we DO care about tracking 
-      what word was clicked - it has to close at some stage. Knowing that it
-      was closed tells us nothing. What goes up, must come down. QED.
-
-      The length of the open *might* be useful, but I doubt it. In the case of
-      audio (if available), the numbers of plays per open would be more useful.
-    */
-    this.showing = false;
-  };
-
-  addGlossListeners = containerElement => {
-    const glossElements = this._fetchGlossElements(containerElement);
-
-    glossElements.forEach(glossElement => {
-      glossElement.addEventListener("click", this.show);
-    });
-  };
-
-  removeGlossListeners = containerElement => {
-    const glossElements = this._fetchGlossElements(containerElement);
-
-    glossElements.forEach(glossElement => {
-      glossElement.removeEventListener("click", this.show);
-    });
-  };
-
-  styles = () => {
-    const { top, left } = this.state;
-
-    return { ...defaultPosition, top: top, left: left };
-  };
-
-  _play = e => {
-    e.preventDefault();
-
-    if (!this.audioPlayer || this.playing) {
-      return;
-    }
-
-    this.audioPlayer.play();
-
-    this.analyticsEvent({
+    analytics.event({
       eventCategory: "Gloss",
       eventAction: "Play",
-      eventLabel: this.state.clickedWord
+      eventLabel: word
     });
   };
 
-  _pause = e => {
-    e.preventDefault();
-
-    if (!this.audioPlayer || !this.playing) {
+  const pause = event => {
+    event.preventDefault();
+    if (!audioPlayerRef.current || !isPlaying.current) {
       return;
     }
-
-    this.audioPlayer.pause();
+    audioPlayerRef.current.pause();
   };
 
-  _isPlaying = () => {
-    this.playing = true;
+  useStopMediaEventListener(pause);
+
+  const hide = event => {
+    event.preventDefault();
+    if (isPlaying.current) {
+      dispatchStopMediaEvent();
+    }
+
+    removeCheckForExternalClicks();
+
+    glossDispatcher({ action: "hide" });
+
+    glossPosition = defaultPosition;
+
+    /*
+        We don't track the close event on Gloss. Close events just clutter 
+        up the analytics. If a Gloss is opened - and we DO care about tracking 
+        what word was clicked - it has to close at some stage. Knowing that it
+        was closed tells us nothing. What goes up, must come down. QED.
+        
+        The length of the open *might* be useful, but I doubt it. In the case of
+        audio (if available), the numbers of plays per open would be more useful.
+        */
   };
 
-  _notPlaying = () => {
-    this.playing = false;
+  const showGloss = () => {
+    dispatchStopMediaEvent();
+
+    const glossedElement = callingEvent.target;
+
+    // then calulate XY based on the size
+    glossPosition = calculateGlossXY(glossContainerRef.current, glossedElement);
+
+    addCheckForExternalClicks();
+
+    analytics.event({
+      eventCategory: "Gloss",
+      eventAction: "Show",
+      eventLabel: word
+    });
   };
 
-  render() {
-    const { word, description, language, partOfSpeech, audioFile } = this.state;
-
-    return (
-      <div
-        // store on 'this' rather than state to avoid a rerender
-        ref={ref => (this.glossContainer = ref)}
-        style={this.styles()}
-        className="gloss"
-      >
-        <Icon
-          icon={close}
-          size="1x"
-          onClick={this.hide}
-          className="gloss-close"
-        />
-        <h6>
-          {audioFile && (
-            <>
-              <button className="audio-button" onClick={this._play}>
-                <Icon icon={speaker} size="1x" />
-              </button>{" "}
-              <AudioPlayer
-                src={audioFile}
-                onTimeUpdate={dispatchPlayingEvent}
-                onPlay={this._isPlaying}
-                onPause={this._notPlaying}
-                onEnded={this._notPlaying}
-                ref={ref => {
-                  this.audioPlayer = ref;
-                }}
-              />
-            </>
-          )}
-          {word}
-        </h6>
-        <p>{description}</p>
-        <p>
-          {language} | {partOfSpeech}
-        </p>
-      </div>
-    );
-  }
-  _getWordInformation = element => {
-    const contentKey = element.getAttribute("data-gloss");
-
-    const info = glossData[contentKey] || defaultGlossInformation;
-
-    return {
-      clickedWord: element.innerHTML,
-      word: info.word,
-      description: info.description,
-      language: info.language,
-      partOfSpeech: info.partOfSpeech,
-      audioFile: info.audioFile
-    };
-  };
-
-  _calculateGlossXY = element => {
-    const { top, left, width } = element.getBoundingClientRect();
-    const ARROW_SIZE = 14;
-
-    const {
-      height: glossHeight,
-      width: glossWidth
-    } = this.glossContainer.getBoundingClientRect();
-
-    const glossLeftOffset = glossWidth / 2;
-
-    const middleOfElement = width / 2;
-    const newLeft = left + middleOfElement - glossLeftOffset;
-    const newTop = top - glossHeight - ARROW_SIZE;
-
-    return { top: newTop, left: newLeft };
-  };
-
-  _checkForExternalAction = event => {
-    if (!this.glossContainer.contains(event.target)) {
-      this.hide();
+  const checkForExternalAction = event => {
+    if (!glossContainerRef.current.contains(event.target)) {
+      hide(event);
     }
   };
 
-  _addCheckForExternalClicks = () => {
+  const addCheckForExternalClicks = () => {
     downEventTypes.forEach(eventType => {
-      window.addEventListener(eventType, this._checkForExternalAction);
+      window.addEventListener(eventType, checkForExternalAction);
     });
   };
 
-  _removeCheckForExternalClicks = () => {
+  const removeCheckForExternalClicks = () => {
     downEventTypes.forEach(eventType => {
-      window.removeEventListener(eventType, this._checkForExternalAction);
+      window.removeEventListener(eventType, checkForExternalAction);
     });
   };
 
-  _fetchGlossElements(containerElement) {
-    return containerElement.querySelectorAll("[data-gloss]");
+  if (show) {
+    showGloss();
   }
+
+  /* 
+        we create the portal directly (rather than show &&) because the gloss content 
+        changes and the position has to be calculated each time.
+        */
+  return createPortal(
+    <div
+      // store on 'this' rather than state to avoid a rerender
+      ref={glossContainerRef}
+      style={{ ...glossPosition }}
+      className="gloss"
+    >
+      <Icon icon={close} size="1x" onClick={hide} className="gloss-close" />
+      <h6>
+        {audioFile && (
+          <>
+            <button className="audio-button" onClick={play}>
+              <Icon icon={speaker} size="1x" />
+            </button>{" "}
+            <AudioPlayer
+              src={audioFile}
+              onTimeUpdate={dispatchPlayingEvent}
+              onPlay={() => {
+                isPlaying.current = true;
+              }}
+              onPause={() => {
+                isPlaying.current = false;
+              }}
+              onEnded={() => {
+                isPlaying.current = false;
+              }}
+              ref={audioPlayerRef}
+            />
+          </>
+        )}
+        {word}
+      </h6>
+      <p>{description}</p>
+      <p>
+        {language} | {partOfSpeech}
+      </p>
+    </div>,
+    document.body
+  );
 }

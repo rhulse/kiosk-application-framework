@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo, createContext } from "react";
+import React, { useState, useContext, createContext } from "react";
 import config from "../configuration";
 import i18n from "../i18n";
 

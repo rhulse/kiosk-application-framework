@@ -3,9 +3,12 @@ import React, { useRef, useEffect, useCallback } from "react";
 import config from "../configuration";
 import { analytics } from "../analytics/Analytics";
 import useRouter from "../hooks/useRouter";
-import { useGlossSetter } from "../contexts/GlossContext";
-import { useLanguageSetter } from "../contexts/LanguageContext";
-import { dispatchStopMediaEvent } from "../utils/dom-events";
+import { useGlossDispatcher } from "../contexts/GlossContext";
+import { useLanguage, useLanguageSetter } from "../contexts/LanguageContext";
+import {
+  dispatchStopMediaEvent,
+  useGlossClickListeners
+} from "../utils/dom-events";
 
 import ScreenSaver from "./ScreenSaver";
 import IdleTimer, { ACTIVE_EVENTS } from "./IdleTimer";
@@ -36,10 +39,11 @@ const listenForRouteChanges = (analytics, history) => {
 };
 
 function Kiosk(props) {
-  const glossRef = useRef(null);
   const screenSaver = useRef(null);
   const setLanguage = useLanguageSetter();
-  const setGloss = useGlossSetter();
+  const language = useLanguage();
+
+  const glossDispatcher = useGlossDispatcher();
   const { history: browserHistory } = useRouter();
 
   const appIsActive = useCallback(() => {
@@ -62,7 +66,7 @@ function Kiosk(props) {
     config.screenSaver.logging > 0 && console.log("[APPLICATION] Idle");
 
     // Hide any glosses left open
-    glossRef.current.hide();
+    glossDispatcher({ action: "hide" });
 
     // set language to the default
     setLanguage(config.i18n.defaultLocale);
@@ -73,15 +77,12 @@ function Kiosk(props) {
     browserHistory.push("/", "reset");
 
     screenSaver.current.start();
-  }, [browserHistory, setLanguage]);
+  }, [browserHistory, setLanguage, glossDispatcher]);
 
-  useEffect(() => {
-    /* 
-      NB: This causes a second render at startup when the gloss reference is set.
-      See gloss module for more information on why this is needed
-    */
-    setGloss(glossRef.current);
-  }, [setGloss]);
+  useGlossClickListeners(language, event => {
+    event.preventDefault();
+    glossDispatcher({ action: "show", callingEvent: event });
+  });
 
   useEffect(() => {
     // start watching for route changes AFTER the above startup regime
@@ -100,7 +101,7 @@ function Kiosk(props) {
         <Header />
         <Main />
       </div>
-      <Gloss ref={glossRef} />
+      <Gloss />
       <IdleTimer
         onActive={appIsActive}
         events={ACTIVE_EVENTS}

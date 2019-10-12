@@ -1,9 +1,33 @@
 import React, { createContext, useReducer, useContext } from "react";
-import Gloss from "../components/Gloss";
 
-const initialState = null;
+import glossData from "../content/glossData";
 
-const GlossContext = createContext();
+export const defaultGlossInformation = {
+  show: false,
+  callingEvent: null,
+  word: "Unknown Word",
+  description: "No desciption",
+  language: "No Lang",
+  partOfSpeech: "No Part",
+  audioFile: ""
+};
+
+const getWordInformation = element => {
+  const contentKey = element.getAttribute("data-gloss");
+
+  const info = glossData[contentKey] || defaultGlossInformation;
+
+  return {
+    clickedWord: element.innerHTML,
+    word: info.word,
+    description: info.description,
+    language: info.language,
+    partOfSpeech: info.partOfSpeech,
+    audioFile: info.audioFile
+  };
+};
+
+const GlossContext = createContext(defaultGlossInformation);
 const GlossReducerContext = createContext();
 
 function useGloss() {
@@ -14,32 +38,45 @@ function useGloss() {
   return gloss;
 }
 
-function useGlossSetter() {
-  const glossSetter = useContext(GlossReducerContext);
-  if (typeof glossSetter === undefined) {
-    throw new Error(`useGlossSetter must be used within a GlossProvider`);
+function useGlossDispatcher() {
+  const glossDispatcher = useContext(GlossReducerContext);
+  if (typeof glossDispatcher === undefined) {
+    throw new Error(`useGlossDispatcher must be used within a GlossProvider`);
   }
-  return glossSetter;
+  return glossDispatcher;
 }
 
-const glossReducer = (state, gloss) => {
-  if (gloss instanceof Gloss) {
-    return gloss;
-  } else {
-    return state;
+const glossReducer = (state, action) => {
+  switch (action.action) {
+    case "show":
+      const glossedElement = action.callingEvent.target;
+      return {
+        ...state,
+        show: true,
+        callingEvent: action.callingEvent,
+        ...getWordInformation(glossedElement)
+      };
+
+    case "hide":
+      return { ...defaultGlossInformation };
+
+    default:
+      return state;
   }
 };
 
 const GlossProvider = props => {
-  const [gloss, setGloss] = useReducer(glossReducer, initialState);
-
+  const [gloss, glossDispatcher] = useReducer(
+    glossReducer,
+    defaultGlossInformation
+  );
   return (
     <GlossContext.Provider value={gloss}>
-      <GlossReducerContext.Provider value={setGloss}>
+      <GlossReducerContext.Provider value={glossDispatcher}>
         {props.children}
       </GlossReducerContext.Provider>
     </GlossContext.Provider>
   );
 };
 
-export { GlossProvider, useGloss, useGlossSetter };
+export { GlossProvider, useGloss, useGlossDispatcher };
