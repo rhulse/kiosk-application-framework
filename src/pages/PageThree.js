@@ -1,7 +1,7 @@
 import React from "react";
 import TranslatedRichText from "../components/TranslatedRichText";
 
-export default function PageFour() {
+export default function PageThree() {
   return (
     <>
       <TranslatedRichText wrappingTag="h1">

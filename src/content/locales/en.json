@@ -22,6 +22,10 @@
       "content": "This is the content of page three."
     },
 
+    "video-page": {
+      "heading": "Fullscreen Video"
+    },
+
     "labels": {
       "home": "Home",
       "pageOne": "Page One",

@@ -1,0 +1,11 @@
+{
+  "key": {
+    "src": "The source of the video. Can be local or remote",
+    "description": "Description of the content, for reference purposes."
+  },
+
+  "videoOne": {
+    "src": "https://media.w3.org/2010/05/sintel/trailer_hd.mp4",
+    "description": "Trailer for the film sintel."
+  }
+}

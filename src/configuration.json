@@ -20,7 +20,7 @@
     "idleTimeout": 120,
     "attractorFadeDuration": 0.675,
     "attractorHideDuration": 0,
-    "attractorShowDuration": 5
+    "attractorShowDuration": 5,
     "logging": 0
   },
   "analytics": {

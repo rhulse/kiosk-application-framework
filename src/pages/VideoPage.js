@@ -1,10 +1,22 @@
 import React from "react";
-import VideoPlayer from "../components/video/VideoPlayer";
+
+import TranslatedRichText from "../components/TranslatedRichText";
+import { useVideoDispatcher } from "../contexts/VideoContext";
 
 export default function VideoPage(props) {
+  const videoDispatcher = useVideoDispatcher();
+
+  const playVideo = () => {
+    videoDispatcher({ action: "show", key: "videoOne" });
+  };
+
   return (
     <>
-      <VideoPlayer src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
+      <TranslatedRichText wrappingTag="h1">
+        video-page.heading
+      </TranslatedRichText>
+
+      <button onClick={playVideo}>Play fullscreen video</button>
     </>
   );
 }

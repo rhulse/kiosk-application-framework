@@ -144,6 +144,10 @@ This component supports dragable children with next and previous arrows. It is c
 
 Child components should have a `path` props which is used by the component to integrate seamlessly with React Router, so that `<Link to={path} />` slides to the required page in the correct sequence.
 
+### Video Player
+
+The Video player currently will play a single video in fullscreen mode.
+
 ## Roadmap (Features to be done)
 
 ### Styling
@@ -154,13 +158,13 @@ At the moment the project is using Bootstrap, to bootstrap the project. The plan
 
 This will display a set of images, with thumbnail navigation.
 
+### Video Player
+
+The Video player will eventually support mulitple language subtitles, and dual video tracking to allow switching between regular video and one with Sign Language interpretations embedded.
+
 ### Image Viewer
 
 This component will allow high resolution viewing of an image.
-
-### Video Player
-
-The Video player will support mulitple language subtitles, and dual video tracking to allow switching between regular video and one with Sign Language interpretations imbedded. Corrently considering video-react for this component.
 
 ### Deployment
 

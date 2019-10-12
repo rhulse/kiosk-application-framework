@@ -15,6 +15,7 @@ import IdleTimer, { ACTIVE_EVENTS } from "./IdleTimer";
 import Header from "./Header";
 import Main from "./Main";
 import Gloss from "./Gloss";
+import FullScreenVideoPlayer from "./video/FullScreenVideoPlayer";
 
 const listenForRouteChanges = (analytics, history) => {
   let previousPage = null;
@@ -102,6 +103,7 @@ function Kiosk(props) {
         <Main />
       </div>
       <Gloss />
+      <FullScreenVideoPlayer />
       <IdleTimer
         onActive={appIsActive}
         events={ACTIVE_EVENTS}

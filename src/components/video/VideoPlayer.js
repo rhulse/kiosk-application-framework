@@ -1,28 +1,18 @@
-import React, { useRef, useCallback, useEffect } from "react";
-import { Player } from "video-react";
+import React from "react";
+import ReactPlayer from "react-player";
 
-import {
-  dispatchPlayingEvent,
-  useStopMediaEventListener
-} from "../../utils/dom-events";
+import { dispatchPlayingEvent } from "../../utils/dom-events";
 
 export default function VideoPlayer(props) {
-  const playerRef = useRef();
-
-  const onStateChange = useCallback(state => {
-    dispatchPlayingEvent();
-  }, []);
-
-  useEffect(() => {
-    playerRef.current.subscribeToStateChange(onStateChange);
-  }, [onStateChange]);
-
-  const stop = useCallback(() => {
-    playerRef.current.pause();
-    playerRef.current.seek(0);
-  }, [playerRef]);
-
-  useStopMediaEventListener(stop);
-
-  return <Player ref={playerRef} {...props} />;
+  return (
+    <ReactPlayer
+      width="100%"
+      height="100%"
+      url={props.src}
+      playing={props.playing}
+      controls={true}
+      onEnded={props.onEnded}
+      onProgress={dispatchPlayingEvent}
+    />
+  );
 }
