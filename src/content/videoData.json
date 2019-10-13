@@ -1,11 +1,13 @@
 {
   "key": {
     "src": "The source of the video. Can be local or remote",
-    "description": "Description of the content, for reference purposes."
+    "name": "Short Name. Required",
+    "description": "Optional Description of the content"
   },
 
   "videoOne": {
     "src": "https://media.w3.org/2010/05/sintel/trailer_hd.mp4",
+    "name": "Sintel Trailer",
     "description": "Trailer for the film sintel."
   }
 }

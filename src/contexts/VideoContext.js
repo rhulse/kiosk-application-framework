@@ -5,7 +5,8 @@ import videoData from "../content/videoData";
 const defaultVideoInformation = {
   show: false,
   src: null,
-  description: "No item"
+  name: "None",
+  description: "No description"
 };
 
 const getVideoInformation = key => {
