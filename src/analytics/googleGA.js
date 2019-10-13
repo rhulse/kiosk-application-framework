@@ -29,8 +29,7 @@ export default class GoogleGA {
         applicationVersion
       );
     } else {
-      logging > 0 &&
-        console.log("No provider ID - logging to console instead.");
+      console.log("No provider ID - logging to console instead.");
       return;
     }
   }
