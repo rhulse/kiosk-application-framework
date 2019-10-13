@@ -124,7 +124,7 @@ class Analytics {
     });
   }
 
-  endSession() {
+  endSession(idleResetUrl = "/") {
     if (!this.session.running) {
       return;
     }
@@ -134,8 +134,6 @@ class Analytics {
     if (!durationOfSession) {
       return;
     }
-
-    const finalPage = this.currentPageURL;
 
     // fake page so as not to skew real page views
     this.setPage("session-end");
@@ -155,7 +153,7 @@ class Analytics {
     this.timeTracker.reset();
 
     // restore orignal page state after fake session page
-    this.setPage(finalPage);
+    this.setPage(idleResetUrl);
   }
 
   raw(args) {

@@ -64,6 +64,9 @@ function Kiosk(props) {
 
   // Cleanup when the session is over
   const appIsIdle = useCallback(() => {
+    // the url to return to when the app is idle
+    const idleResetUrl = "/";
+
     config.screenSaver.logging > 0 && console.log("[APPLICATION] Idle");
 
     // Hide any glosses left open
@@ -72,10 +75,11 @@ function Kiosk(props) {
     // set language to the default
     setLanguage(config.i18n.defaultLocale);
 
-    analytics.endSession();
-
     // return the application to the home page (with no analytics)
-    browserHistory.push("/", "reset");
+    // still need to set page in analytics ??!!!!!!!!!
+    browserHistory.push(idleResetUrl, "reset");
+
+    analytics.endSession(idleResetUrl);
 
     screenSaver.current.start();
   }, [browserHistory, setLanguage, glossDispatcher]);
