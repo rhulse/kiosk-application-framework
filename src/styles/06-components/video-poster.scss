@@ -1,0 +1,22 @@
+.video-poster {
+  // align-items: center;
+  width: 400px;
+  height: 250px;
+  position: relative;
+  border: 1px solid lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &__information {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0px 10px;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}

@@ -2,12 +2,14 @@
   "key": {
     "src": "The source of the video. Can be local or remote",
     "name": "Short Name. Required",
-    "description": "Optional Description of the content"
+    "description": "Optional Description of the content",
+    "duration": "Duration of the clip in any format"
   },
 
   "videoOne": {
     "src": "https://media.w3.org/2010/05/sintel/trailer_hd.mp4",
     "name": "Sintel Trailer",
-    "description": "Trailer for the film sintel."
+    "description": "Trailer for the film sintel.",
+    "duration": "52 seconds"
   }
 }

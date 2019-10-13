@@ -4,7 +4,8 @@ export {
   faTimes as close,
   faChevronLeft as chevronLeft,
   faChevronRight as chevronRight,
-  faHome as home
+  faHome as home,
+  faPlayCircle as play
 } from "@fortawesome/free-solid-svg-icons";
 
 export default Icon;

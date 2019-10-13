@@ -61,4 +61,4 @@ const VideoProvider = props => {
   );
 };
 
-export { VideoProvider, useVideo, useVideoDispatcher };
+export { VideoProvider, useVideo, useVideoDispatcher, getVideoInformation };
