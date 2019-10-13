@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 
 import FullScreenOverlayContainer from "../FullScreenOverlay";
 import VideoPlayer from "./VideoPlayer";
 import { useVideo, useVideoDispatcher } from "../../contexts/VideoContext";
+import { useAnalytics } from "../../analytics/Analytics";
 
-import { useStopMediaEventListener } from "../../utils/dom-events";
+import {
+  useStopMediaEventListener,
+  dispatchPlayingEvent
+} from "../../utils/dom-events";
 /*
   When doing fullscreen video, the containing element needs to be fullscreen
   already, as it is not possible to make the player go fullscreen without
@@ -14,13 +18,29 @@ import { useStopMediaEventListener } from "../../utils/dom-events";
 */
 
 export default function FullScreenVideoPlayer() {
+  const timingData = useRef();
   const videoData = useVideo();
   const videoDispatcher = useVideoDispatcher();
+  const analytics = useAnalytics();
+
   let playing = false;
 
-  const onClose = () => {
-    pause();
-    videoDispatcher({ action: "hide" });
+  const videoEvent = type => {
+    analytics.event({
+      eventCategory: "Video",
+      eventAction: type,
+      eventLabel: videoData.name
+    });
+
+    // add timing events for Ended and Closed
+    if (type !== "Play") {
+      analytics.timing({
+        timingCategory: "Video",
+        timingVar: "Length",
+        timingValue: Math.ceil(timingData.current.playedSeconds),
+        timingLabel: `${type}: ${videoData.name}`
+      });
+    }
   };
 
   const play = () => {
@@ -31,11 +51,27 @@ export default function FullScreenVideoPlayer() {
     playing = false;
   };
 
+  const onProgress = useCallback(
+    data => {
+      dispatchPlayingEvent();
+      timingData.current = data;
+    },
+    [timingData]
+  );
+
+  const onClose = () => {
+    pause();
+    videoEvent("Closed");
+    videoDispatcher({ action: "hide" });
+  };
+
   const onEnded = () => {
+    videoEvent("Ended");
     videoDispatcher({ action: "hide" });
   };
 
   if (videoData.show) {
+    videoEvent("Play");
     play();
   }
 
@@ -47,7 +83,12 @@ export default function FullScreenVideoPlayer() {
       className="video-player"
       onClose={onClose}
     >
-      <VideoPlayer playing={playing} src={videoData.src} onEnded={onEnded} />
+      <VideoPlayer
+        playing={playing}
+        src={videoData.src}
+        onEnded={onEnded}
+        onProgress={onProgress}
+      />
     </FullScreenOverlayContainer>,
     document.body
   );

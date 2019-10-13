@@ -1,8 +1,6 @@
 import React from "react";
 import ReactPlayer from "react-player";
 
-import { dispatchPlayingEvent } from "../../utils/dom-events";
-
 export default function VideoPlayer(props) {
   return (
     <ReactPlayer
@@ -12,7 +10,7 @@ export default function VideoPlayer(props) {
       playing={props.playing}
       controls={true}
       onEnded={props.onEnded}
-      onProgress={dispatchPlayingEvent}
+      onProgress={props.onProgress}
     />
   );
 }
