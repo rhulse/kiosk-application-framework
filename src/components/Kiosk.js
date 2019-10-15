@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useCallback } from "react";
+import get from "lodash-es/get";
 
 import config from "../configuration";
 import { analytics } from "../analytics/Analytics";
@@ -29,7 +30,7 @@ const listenForRouteChanges = (analytics, history) => {
     previousPage = location.pathname;
 
     // if this is a reset (the app is idle), we don't do a pageview either
-    if (location.state === "reset") {
+    if (get(location, "state.action", false) === "reset") {
       return;
     }
 
@@ -76,8 +77,7 @@ function Kiosk(props) {
     setLanguage(config.i18n.defaultLocale);
 
     // return the application to the home page (with no analytics)
-    // still need to set page in analytics ??!!!!!!!!!
-    browserHistory.push(idleResetUrl, "reset");
+    browserHistory.push(idleResetUrl, { action: "reset" });
 
     analytics.endSession(idleResetUrl);
 
