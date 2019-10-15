@@ -3,9 +3,11 @@ import { useSprings, animated } from "react-spring";
 import { useGesture } from "react-use-gesture";
 import { Link } from "react-router-dom";
 import clamp from "lodash-es/clamp";
-import Icon, { chevronLeft, chevronRight } from "./Icon";
+import get from "lodash-es/get";
 
+import Icon, { chevronLeft, chevronRight } from "./Icon";
 import useRouter from "../hooks/useRouter";
+import { useAnalytics } from "../analytics/Analytics";
 
 class Routes {
   constructor(routes) {
@@ -66,7 +68,8 @@ const compileRoutes = children => {
   return new Routes(routes);
 };
 
-export default function RoutingCarousel({ children }) {
+export default function RoutingCarousel({ children, carouselName = "Main" }) {
+  const analytics = useAnalytics();
   const routes = useMemo(() => compileRoutes(children), [children]);
 
   const { history } = useRouter();
@@ -97,8 +100,33 @@ export default function RoutingCarousel({ children }) {
 
   useEffect(() => {
     history.listen(location => {
-      // we don't run on swipe location changes, only on <Link to={x} />
-      if (location.state === "viaDrag") {
+      /*
+        This handles <Link to={} /> requests for the component, but only accepts changes
+        for this component by `carouselName`.
+        
+        This allows us to use the component more than once in 
+        a project by giving each component its own name.
+      */
+      const targetCarousel = get(location, "state.targetCarousel", false);
+
+      if (targetCarousel !== carouselName) {
+        return;
+      }
+
+      const navAction = get(location, "state.action", false);
+
+      // track the specific navigation action types
+      // can be useful to learn what the user's preferences were for an interactive
+      // and to compare accross all interactives in a museum.
+      if (navAction) {
+        analytics.event({
+          eventCategory: `${carouselName} Nav`,
+          eventAction: navAction
+        });
+      }
+
+      // We don't run on swipe location changes - swip actions are handled in the useGesture function
+      if (navAction === "viaDrag") {
         return;
       }
 
@@ -112,7 +140,7 @@ export default function RoutingCarousel({ children }) {
       // the index has changed, so we update springs, which will then slide the content to the new index
       updateSprings();
     });
-  }, [routes, updateSprings, history, index]);
+  }, [routes, updateSprings, history, index, carouselName, analytics]);
 
   const bind = useGesture({
     onDrag: ({
@@ -132,7 +160,10 @@ export default function RoutingCarousel({ children }) {
         // stops drag going off the edge
         cancel((index.current = newIndex));
 
-        history.push(routes.getPathByIndex(newIndex), "viaDrag");
+        history.push(routes.getPathByIndex(newIndex), {
+          targetCarousel: carouselName,
+          action: "viaDrag"
+        });
       }
       // we pass xMovement on as this allows to element to move as it is dragged.
       updateSprings(down ? xMovement : 0);
@@ -144,7 +175,10 @@ export default function RoutingCarousel({ children }) {
       <Link
         to={{
           pathname: routes.getPreviousRouteForIndex(index),
-          state: "viaChevron"
+          state: {
+            targetCarousel: carouselName,
+            action: "viaChevron"
+          }
         }}
         className="slider-arrow sliderArrow__left"
       >
@@ -167,7 +201,10 @@ export default function RoutingCarousel({ children }) {
       <Link
         to={{
           pathname: routes.getNextRouteForIndex(index),
-          state: "viaChevron"
+          state: {
+            targetCarousel: carouselName,
+            action: "viaChevron"
+          }
         }}
         className="slider-arrow sliderArrow__right"
       >

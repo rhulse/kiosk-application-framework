@@ -26,7 +26,7 @@ export default function Header() {
         className="btn btn-secondary mr-4"
         to={{
           pathname: "/",
-          state: "viaNav"
+          state: { targetCarousel: "Main", action: "viaNav" }
         }}
       >
         <Icon icon={home} size="1x" /> {translateText("labels.home")}
@@ -35,7 +35,7 @@ export default function Header() {
         className="btn mr-2"
         to={{
           pathname: "/page-one",
-          state: "viaNav"
+          state: { targetCarousel: "Main", action: "viaNav" }
         }}
       >
         {translateText("labels.pageOne")}
@@ -44,7 +44,7 @@ export default function Header() {
         className="btn mr-2"
         to={{
           pathname: "/page-two",
-          state: "viaNav"
+          state: { targetCarousel: "Main", action: "viaNav" }
         }}
       >
         {translateText("labels.pageTwo")}
@@ -53,7 +53,7 @@ export default function Header() {
         className="btn"
         to={{
           pathname: "/page-three",
-          state: "viaNav"
+          state: { targetCarousel: "Main", action: "viaNav" }
         }}
       >
         {translateText("labels.pageThree")}
@@ -62,7 +62,7 @@ export default function Header() {
         className="btn"
         to={{
           pathname: "/video-page",
-          state: "viaNav"
+          state: { targetCarousel: "Main", action: "viaNav" }
         }}
       >
         {translateText("labels.videoPage")}
