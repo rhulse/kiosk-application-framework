@@ -54,7 +54,9 @@ class Routes {
 const compileRoutes = children => {
   const routes = children.map(child => {
     if (child.props.path === undefined) {
-      throw new Error("Children of RoutingSlider must have a 'path' prop");
+      throw new Error(
+        "All children of Routable Carousel must have a 'path' prop"
+      );
     }
     return {
       path: child.props.path,
