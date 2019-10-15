@@ -66,7 +66,7 @@ const compileRoutes = children => {
   return new Routes(routes);
 };
 
-export default function RoutingSlider({ children }) {
+export default function RoutingCarousel({ children }) {
   const routes = useMemo(() => compileRoutes(children), [children]);
 
   const { history } = useRouter();
