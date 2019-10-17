@@ -21,9 +21,9 @@ export default function VideoPoster({ videoKey }) {
   };
 
   return (
-    <div className="video-poster" onClick={playVideo}>
+    <div className="poster" onClick={playVideo}>
       <Icon icon={play} size="5x" />
-      <div className="video-poster__information">
+      <div className="poster__information">
         <div className="name">{videoInfo.name}</div>
         <div className="duration">{videoInfo.duration}</div>
       </div>
