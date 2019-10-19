@@ -18,7 +18,7 @@ export default function Gallery({
   showGallery = false,
   onClose,
   galleryData,
-  galleryKey
+  galleryI18nKey
 }) {
   const { history: browserHistory } = useRouter();
   const lastRoute = useRef(null);
@@ -48,7 +48,7 @@ export default function Gallery({
           return (
             <GalleryImage
               key={image.key}
-              imageKey={`${galleryKey}.${image.key}`}
+              imageI18nKey={`${galleryI18nKey}.${image.key}`}
               number={idx}
               path={baseRoute + image.path}
               src={image.sourceFile}

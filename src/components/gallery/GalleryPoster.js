@@ -8,7 +8,7 @@ import Gallery from "./Gallery";
 export default function GalleryPoster({ galleryID }) {
   const [showGallery, setShowGallery] = useState(false);
   const galleryData = allGalleryData[galleryID];
-  const galleryKey = `galleries.${galleryID}`;
+  const galleryI18nKey = `galleries.${galleryID}`;
 
   const openGallery = () => {
     setShowGallery(true);
@@ -23,7 +23,7 @@ export default function GalleryPoster({ galleryID }) {
       <div className="poster" onClick={openGallery}>
         <Icon icon={picture} size="5x" />
         <div className="poster__information">
-          <div className="name">{translateText(`${galleryKey}.name`)}</div>
+          <div className="name">{translateText(`${galleryI18nKey}.name`)}</div>
           <div className="duration">
             {galleryData.images.length} {translateText("misc.images")}
           </div>
@@ -33,7 +33,7 @@ export default function GalleryPoster({ galleryID }) {
         <Gallery
           showGallery={showGallery}
           galleryData={galleryData}
-          galleryKey={galleryKey}
+          galleryI18nKey={galleryI18nKey}
           onClose={onClose}
         />
       )}
