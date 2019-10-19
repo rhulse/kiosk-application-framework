@@ -1,4 +1,5 @@
 import React from "react";
+import { useDrag } from "react-use-gesture";
 
 import Icon, { close } from "./Icon";
 
@@ -20,6 +21,15 @@ export default function FullScreenOverlayContainer({
   className,
   onClose
 }) {
+  const bind = useDrag(({ event }) => {
+    /* 
+      We capture drag events in the overlay to stop any leakage of these events to parent layers.
+      This is needed if a draggable component is nested in the overlay, but its drag binding does not
+      extend to the edges of the overlay. This will almost always be true (due to other nav, etc)
+    */
+    event.stopPropagation();
+  });
+
   let styles = defaultStyles;
 
   if (show) {
@@ -29,7 +39,7 @@ export default function FullScreenOverlayContainer({
   }
 
   return (
-    <div style={{ ...styles }} className={className}>
+    <div {...bind()} style={{ ...styles }} className={className}>
       <Icon
         className="close-overlay"
         icon={close}
