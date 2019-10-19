@@ -93,9 +93,9 @@ function Kiosk(props) {
     // start watching for route changes AFTER the above startup regime
     // we don't want the first page render to register on startup as this
     // can throw off page view stats
-    const unlisten = listenForRouteChanges(analytics, browserHistory);
+    const unlistenCallback = listenForRouteChanges(analytics, browserHistory);
 
-    return unlisten;
+    return unlistenCallback;
     // ignore linting rule
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

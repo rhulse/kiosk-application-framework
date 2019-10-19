@@ -99,7 +99,7 @@ export default function RoutingCarousel({ children, carouselName = "Main" }) {
   );
 
   useEffect(() => {
-    history.listen(location => {
+    const unlistenCallback = history.listen(location => {
       /*
         This handles <Link to={} /> requests for the component, but only accepts changes
         for this component by `carouselName`.
@@ -140,6 +140,8 @@ export default function RoutingCarousel({ children, carouselName = "Main" }) {
       // the index has changed, so we update springs, which will then slide the content to the new index
       updateSprings();
     });
+
+    return unlistenCallback;
   }, [routes, updateSprings, history, index, carouselName, analytics]);
 
   const bind = useGesture({
