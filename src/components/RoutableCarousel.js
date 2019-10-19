@@ -146,12 +146,14 @@ export default function RoutingCarousel({ children, carouselName = "Main" }) {
 
   const bind = useGesture({
     onDrag: ({
+      event,
       down,
       movement: [xMovement],
       direction: [xDir],
       distance,
       cancel
     }) => {
+      event.stopPropagation();
       // pass the position to move to next
       if (down && distance > window.innerWidth / 2) {
         const newIndex = clamp(
