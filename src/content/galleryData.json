@@ -1,0 +1,32 @@
+{
+  "testGallery": {
+    "galleryPath": "/gallery-path",
+    "images": [
+      {
+        "key": "imageOne",
+        "sourceFile": "https://via.placeholder.com/800x400?text=1",
+        "path": "/image-one"
+      },
+      {
+        "key": "imageTwo",
+        "sourceFile": "https://via.placeholder.com/800x400?text=2",
+        "path": "/image-two"
+      },
+      {
+        "key": "imageThree",
+        "sourceFile": "https://via.placeholder.com/800x400?text=3",
+        "path": "/image-three"
+      },
+      {
+        "key": "imageFour",
+        "sourceFile": "https://via.placeholder.com/800x400?text=4",
+        "path": "/image-four"
+      },
+      {
+        "key": "imageFive",
+        "sourceFile": "https://via.placeholder.com/800x400?text=5",
+        "path": "/image-five"
+      }
+    ]
+  }
+}

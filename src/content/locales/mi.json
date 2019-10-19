@@ -22,12 +22,33 @@
       "content": "MI: This is the content of page three."
     },
 
+    "galleries": {
+      "testGallery": {
+        "__comment": "Each image name must match the image keys in the galleryData.json file. The component sort out which translation to call automatically",
+        "name": "MI: Test Gallery",
+        "imageOne": {
+          "title": "MI: Image One",
+          "description": "MI: Image One description",
+          "copyright": "MI: Image One copyright"
+        },
+        "imageTwo": {
+          "title": "MI: Image Two",
+          "description": "MI: Image Two description",
+          "copyright": "MI: Image Two copyright"
+        }
+      }
+    },
+
     "labels": {
       "home": "Kāinga",
       "pageOne": "MI: Page One",
       "pageTwo": "MI: Page Two",
       "pageThree": "MI: Page Three",
       "videoPage": "MI: Video"
+    },
+
+    "misc": {
+      "images": "MI: Images"
     }
   }
 }

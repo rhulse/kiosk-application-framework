@@ -26,12 +26,34 @@
       "heading": "Fullscreen Video"
     },
 
+    "galleries": {
+      "testGallery": {
+        "_comment": "Each image key must match the image keys in the galleryData.json file.",
+        "__comment": "The component sorts out which translation to call automatically",
+        "name": "Test Gallery",
+        "imageOne": {
+          "title": "Image One",
+          "description": "Image One description",
+          "copyright": "Image One copyright"
+        },
+        "imageTwo": {
+          "title": "Image Two",
+          "description": "Image Two description",
+          "copyright": "Image Two copyright"
+        }
+      }
+    },
+
     "labels": {
       "home": "Home",
       "pageOne": "Page One",
       "pageTwo": "Page Two",
       "pageThree": "Page Three",
       "videoPage": "Video"
+    },
+
+    "misc": {
+      "images": "Images"
     }
   }
 }

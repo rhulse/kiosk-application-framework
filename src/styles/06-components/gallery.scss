@@ -1,0 +1,22 @@
+.gallery {
+  padding: 30px;
+}
+
+img {
+  user-select: none;
+}
+
+.gallery-image {
+  &__information {
+    color: white;
+  }
+
+  &__title {
+    font-size: 130%;
+  }
+
+  &__copyright {
+    font-size: 80%;
+    font-style: italic;
+  }
+}
