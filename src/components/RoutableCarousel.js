@@ -9,64 +9,7 @@ import Icon, { chevronLeft, chevronRight } from "./Icon";
 import useRouter from "../hooks/useRouter";
 import { useAnalytics } from "../analytics/Analytics";
 
-class Routes {
-  constructor(routes) {
-    this.routes = routes;
-  }
-
-  length = () => {
-    return this.routes.length;
-  };
-
-  getIndexOfRoute = pathname => {
-    return this.routes.findIndex(x => {
-      return x.path === pathname;
-    });
-  };
-
-  getPathByIndex = index => {
-    return this.routes[index].path;
-  };
-
-  getComponentByIndex = index => {
-    return this.routes[index].component;
-  };
-
-  getPreviousRouteForIndex = i => {
-    const index = i.current;
-
-    if (index > 0) {
-      return this.getPathByIndex(index - 1);
-    } else {
-      return this.getPathByIndex(this.length() - 1);
-    }
-  };
-
-  getNextRouteForIndex = i => {
-    const index = i.current;
-
-    if (index < this.length() - 1) {
-      return this.getPathByIndex(index + 1);
-    } else {
-      return this.getPathByIndex(0);
-    }
-  };
-}
-
-const compileRoutes = children => {
-  const routes = children.map(child => {
-    if (child.props.path === undefined) {
-      throw new Error(
-        "All children of Routable Carousel must have a 'path' prop"
-      );
-    }
-    return {
-      path: child.props.path,
-      component: child
-    };
-  });
-  return new Routes(routes);
-};
+import { compileRoutes } from "../utils/routes";
 
 export default function RoutingCarousel({ children, carouselName = "Main" }) {
   const analytics = useAnalytics();
