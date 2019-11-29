@@ -14,7 +14,7 @@ class TimeTracker {
   }
 
   restartTimer(key, time = new Date()) {
-    const elapsed = this.checkKey(key);
+    const elapsed = this.checkTime(key);
 
     this.timers[key] = new Date();
 
@@ -22,14 +22,14 @@ class TimeTracker {
   }
 
   stopTimer(key) {
-    const elapsed = this.checkKey(key);
+    const elapsed = this.checkTime(key);
 
     delete this.timers[key];
 
     return elapsed;
   }
 
-  checkKey(key) {
+  checkTime(key) {
     let elapsed = null;
     const startedAt = this.timers[key];
 
