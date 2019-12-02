@@ -5,7 +5,7 @@ import Icon, { home } from "./Icon";
 
 import config from "../configuration";
 import { useLanguage, useLanguageSetter } from "../contexts/LanguageContext";
-import { useAnalytics } from "../analytics/Analytics";
+import { analytics } from "../utils/analytics";
 import { translateText } from "./TranslatedRichText";
 
 import LanguageControls from "./LanguageControls";
@@ -13,7 +13,6 @@ import LanguageControls from "./LanguageControls";
 export default function Header() {
   const language = useLanguage();
   const setLanguage = useLanguageSetter();
-  const analytics = useAnalytics();
 
   const changeLanguage = language => {
     analytics.setLanguage(language);

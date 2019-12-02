@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { createPortal } from "react-dom";
 import Icon, { close, speaker } from "./Icon";
-import { useAnalytics } from "../analytics/Analytics";
+import { analytics } from "../utils/analytics";
 
 import AudioPlayer from "./audio/ReactAudioPlayer";
 
@@ -43,7 +43,6 @@ export default function Gloss() {
   const glossContainerRef = useRef(null);
   const audioPlayerRef = useRef(null);
   const isPlaying = useRef(false);
-  const analytics = useAnalytics();
   let glossPosition = defaultPosition;
 
   let {

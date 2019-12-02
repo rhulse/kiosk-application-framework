@@ -9,35 +9,22 @@ import {
 
 import config from "../configuration";
 
-import timeTracker from "../analytics/TimeTracker";
-
-import GoogleAnalyticsProvider from "./googleGA";
+import timeTracker from "./TimeTracker";
 import SessionTracker from "./SessionTracker";
 
-const provider = new GoogleAnalyticsProvider({
-  providerId: config.analytics.providers.googleGA,
-  defaultLanguage: config.i18n.defaultLocale,
-  applicationName: config.application.name,
-  applicationVersion: config.application.version,
-  logging: config.analytics.logging,
-  debug: config.analytics.debug
-});
+export default class Analytics {
+  constructor({ providers, idleTimeout, useEstimatedSessionTiming, logging }) {
+    this.dispatch = (...args) => {
+      providers.forEach(provider => provider.dispatch(...args));
+    };
 
-class Analytics {
-  constructor({
-    provider,
-    timeTracker,
-    idleTimeout,
-    useEstimatedSessionTiming,
-    logging
-  }) {
-    this.dispatch = (...args) => provider.dispatch(...args);
     this.session = new SessionTracker(
       timeTracker,
       idleTimeout,
       useEstimatedSessionTiming,
       logging
     );
+
     this.timeTracker = timeTracker;
     this.timeOnPage = null;
     this.currentPageURL = null;
@@ -159,16 +146,4 @@ class Analytics {
   raw(args) {
     return this.dispatch(args);
   }
-}
-
-export const analytics = new Analytics({
-  provider: provider,
-  timeTracker: timeTracker,
-  idleTimeout: config.screenSaver.idleTimeout * 1000,
-  useEstimatedSessionTiming: config.analytics.useEstimatedSessionTiming,
-  logging: config.analytics.logging
-});
-
-export function useAnalytics(props) {
-  return analytics;
 }

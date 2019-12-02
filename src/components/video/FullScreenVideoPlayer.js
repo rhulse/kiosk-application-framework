@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import FullScreenOverlayContainer from "../FullScreenOverlay";
 import VideoPlayer from "./VideoPlayer";
 import { useVideo, useVideoDispatcher } from "../../contexts/VideoContext";
-import { useAnalytics } from "../../analytics/Analytics";
+import { analytics } from "../../utils/analytics";
 
 import {
   useStopMediaEventListener,
@@ -21,7 +21,6 @@ export default function FullScreenVideoPlayer() {
   const timingData = useRef();
   const videoData = useVideo();
   const videoDispatcher = useVideoDispatcher();
-  const analytics = useAnalytics();
 
   let playing = false;
 

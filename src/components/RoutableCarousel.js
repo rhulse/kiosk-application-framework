@@ -7,12 +7,11 @@ import get from "lodash-es/get";
 
 import Icon, { chevronLeft, chevronRight } from "./Icon";
 import useRouter from "../hooks/useRouter";
-import { useAnalytics } from "../analytics/Analytics";
+import { analytics } from "../utils/analytics";
 
 import { compileRoutes } from "../utils/routes";
 
 export default function RoutingCarousel({ children, carouselName = "Main" }) {
-  const analytics = useAnalytics();
   const routes = useMemo(() => compileRoutes(children), [children]);
 
   const { history } = useRouter();

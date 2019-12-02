@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useCallback } from "react";
 import get from "lodash-es/get";
 
 import config from "../configuration";
-import { analytics } from "../analytics/Analytics";
+import { analytics } from "../utils/analytics";
 import useRouter from "../hooks/useRouter";
 import { useGlossDispatcher } from "../contexts/GlossContext";
 import { useLanguage, useLanguageSetter } from "../contexts/LanguageContext";
