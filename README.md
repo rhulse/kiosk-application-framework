@@ -1,6 +1,7 @@
 # The Kiosk Application Framework
 
-NB: This framework is currently ALPHA grade software. It is an ongoing work in progress. I will ensure that master always runs, so you can try this out, but some functionality is likely to be missing. If you find any bugs, or have comments (I am learning React as I write this app) I'd appreciate a report. To run this, clone the repo, type **Yarn && Yarn Start** and you should be away.
+NB: This framework is a work in progress. I will ensure that master always runs, so you can try this out, but some functionality is likely to be missing. If you find any bugs, or have comments I'd appreciate a report.
+To run this, clone the repo, type **Yarn && Yarn Start** and you should be away.
 
 ## What is this?
 
