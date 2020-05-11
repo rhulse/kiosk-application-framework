@@ -7,8 +7,6 @@ import {
   SET_PAGE,
 } from "./types";
 
-import config from "../configuration";
-
 import timeTracker from "./TimeTracker";
 import SessionTracker from "./SessionTracker";
 
