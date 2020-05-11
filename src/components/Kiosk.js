@@ -3,12 +3,12 @@ import get from "lodash-es/get";
 
 import config from "../configuration";
 import { analytics } from "../utils/analytics";
-import useRouter from "../hooks/useRouter";
+import { useHistory } from "react-router-dom";
 import { useGlossDispatcher } from "../contexts/GlossContext";
 import { useLanguage, useLanguageSetter } from "../contexts/LanguageContext";
 import {
   dispatchStopMediaEvent,
-  useGlossClickListeners
+  useGlossClickListeners,
 } from "../utils/dom-events";
 
 import ScreenSaver from "./ScreenSaver";
@@ -46,7 +46,7 @@ function Kiosk(props) {
   const language = useLanguage();
 
   const glossDispatcher = useGlossDispatcher();
-  const { history: browserHistory } = useRouter();
+  const history = useHistory();
 
   const appIsActive = useCallback(() => {
     config.screenSaver.logging > 0 && console.log("[APPLICATION] Active");
@@ -77,14 +77,14 @@ function Kiosk(props) {
     setLanguage(config.i18n.defaultLocale);
 
     // return the application to the home page (with no analytics)
-    browserHistory.push(idleResetUrl, { action: "reset" });
+    history.push(idleResetUrl, { action: "reset" });
 
     analytics.endSession(idleResetUrl);
 
     screenSaver.current.start();
-  }, [browserHistory, setLanguage, glossDispatcher]);
+  }, [history, setLanguage, glossDispatcher]);
 
-  useGlossClickListeners(language, event => {
+  useGlossClickListeners(language, (event) => {
     event.preventDefault();
     glossDispatcher({ action: "show", callingEvent: event });
   });
@@ -93,7 +93,7 @@ function Kiosk(props) {
     // start watching for route changes AFTER the above startup regime
     // we don't want the first page render to register on startup as this
     // can throw off page view stats
-    const unlistenCallback = listenForRouteChanges(analytics, browserHistory);
+    const unlistenCallback = listenForRouteChanges(analytics, history);
 
     return unlistenCallback;
     // ignore linting rule

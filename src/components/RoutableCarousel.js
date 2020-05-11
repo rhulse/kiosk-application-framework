@@ -6,7 +6,7 @@ import clamp from "lodash-es/clamp";
 import get from "lodash-es/get";
 
 import Icon, { chevronLeft, chevronRight } from "./Icon";
-import useRouter from "../hooks/useRouter";
+import { useHistory } from "react-router-dom";
 import { analytics } from "../utils/analytics";
 
 import { compileRoutes } from "../utils/routes";
@@ -14,17 +14,17 @@ import { compileRoutes } from "../utils/routes";
 export default function RoutingCarousel({ children, carouselName = "Main" }) {
   const routes = useMemo(() => compileRoutes(children), [children]);
 
-  const { history } = useRouter();
+  const history = useHistory();
   // using ref as changes to the index value don't re-render (spring does the rendering)
   const index = useRef(0);
-  const [springs, setSprings] = useSprings(routes.length(), i => ({
+  const [springs, setSprings] = useSprings(routes.length(), (i) => ({
     x: i * window.innerWidth,
-    display: "block"
+    display: "block",
   }));
 
   const updateSprings = useCallback(
     (offset = 0) => {
-      setSprings(i => {
+      setSprings((i) => {
         const x = (i - index.current) * window.innerWidth + offset;
         /*
           We update the position of pages even though they are hidden so
@@ -41,7 +41,7 @@ export default function RoutingCarousel({ children, carouselName = "Main" }) {
   );
 
   useEffect(() => {
-    const unlistenCallback = history.listen(location => {
+    const unlistenCallback = history.listen((location) => {
       /*
         This handles <Link to={} /> requests for the component, but only accepts changes
         for this component by `carouselName`.
@@ -63,7 +63,7 @@ export default function RoutingCarousel({ children, carouselName = "Main" }) {
       if (navAction) {
         analytics.event({
           eventCategory: `${carouselName} Nav`,
-          eventAction: navAction
+          eventAction: navAction,
         });
       }
 
@@ -93,7 +93,7 @@ export default function RoutingCarousel({ children, carouselName = "Main" }) {
       movement: [xMovement],
       direction: [xDir],
       distance,
-      cancel
+      cancel,
     }) => {
       event.stopPropagation();
       // pass the position to move to next
@@ -108,12 +108,12 @@ export default function RoutingCarousel({ children, carouselName = "Main" }) {
 
         history.push(routes.getPathByIndex(newIndex), {
           targetCarousel: carouselName,
-          action: "viaDrag"
+          action: "viaDrag",
         });
       }
       // we pass xMovement on as this allows to element to move as it is dragged.
       updateSprings(down ? xMovement : 0);
-    }
+    },
   });
 
   return (
@@ -123,8 +123,8 @@ export default function RoutingCarousel({ children, carouselName = "Main" }) {
           pathname: routes.getPreviousRouteForIndex(index),
           state: {
             targetCarousel: carouselName,
-            action: "viaChevron"
-          }
+            action: "viaChevron",
+          },
         }}
         className="slider-arrow sliderArrow__left"
       >
@@ -137,7 +137,7 @@ export default function RoutingCarousel({ children, carouselName = "Main" }) {
             key={i}
             style={{
               display,
-              transform: x.interpolate(x => `translate3d(${x}px,0,0)`)
+              transform: x.interpolate((x) => `translate3d(${x}px,0,0)`),
             }}
           >
             <div className="slide">{routes.getComponentByIndex(i)}</div>
@@ -149,8 +149,8 @@ export default function RoutingCarousel({ children, carouselName = "Main" }) {
           pathname: routes.getNextRouteForIndex(index),
           state: {
             targetCarousel: carouselName,
-            action: "viaChevron"
-          }
+            action: "viaChevron",
+          },
         }}
         className="slider-arrow sliderArrow__right"
       >

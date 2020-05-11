@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { createPortal } from "react-dom";
 
-import useRouter from "../../hooks/useRouter";
+import { useHistory } from "react-router-dom";
 
 import FullScreenOverlayContainer from "../FullScreenOverlay";
 import RoutableCarousel from "../../components/RoutableCarousel";
@@ -18,21 +18,21 @@ export default function Gallery({
   showGallery = false,
   onClose,
   galleryData,
-  galleryI18nKey
+  galleryI18nKey,
 }) {
-  const { history: browserHistory } = useRouter();
+  const { history } = useHistory();
   const lastRoute = useRef(null);
 
   const baseRoute = galleryData.galleryPath;
 
   if (lastRoute.current === null) {
-    lastRoute.current = browserHistory.location.pathname;
+    lastRoute.current = history.location.pathname;
     const firstRoute = baseRoute + galleryData.images[0].path;
-    browserHistory.push(firstRoute);
+    history.push(firstRoute);
   }
 
   const resetRouteAndClose = () => {
-    browserHistory.push(lastRoute.current);
+    history.push(lastRoute.current);
     lastRoute.current = null;
     onClose();
   };
