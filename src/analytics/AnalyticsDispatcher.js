@@ -4,7 +4,7 @@ import {
   EVENT,
   TIMING,
   SESSION,
-  SET_PAGE
+  SET_PAGE,
 } from "./types";
 
 import config from "../configuration";
@@ -12,10 +12,10 @@ import config from "../configuration";
 import timeTracker from "./TimeTracker";
 import SessionTracker from "./SessionTracker";
 
-export default class Analytics {
+export default class AnalyticsDispatcher {
   constructor({ providers, idleTimeout, useEstimatedSessionTiming, logging }) {
     this.dispatch = (...args) => {
-      providers.forEach(provider => provider.dispatch(...args));
+      providers.forEach((provider) => provider.dispatch(...args));
     };
 
     this.session = new SessionTracker(
@@ -37,7 +37,7 @@ export default class Analytics {
     this.startSession({ withEvent: true });
     this.dispatch({
       type: SET_LANGUAGE,
-      payload: { language: language }
+      payload: { language: language },
     });
   }
 
@@ -45,7 +45,7 @@ export default class Analytics {
     this.startSession({ withEvent: true });
     this.dispatch({
       type: EVENT,
-      payload: { eventData: eventData }
+      payload: { eventData: eventData },
     });
   }
 
@@ -54,7 +54,7 @@ export default class Analytics {
 
     this.dispatch({
       type: SET_PAGE,
-      payload: { url: url }
+      payload: { url: url },
     });
   }
 
@@ -70,7 +70,7 @@ export default class Analytics {
 
     this.dispatch({
       type: PAGE_VIEW,
-      payload: { url: url }
+      payload: { url: url },
     });
   }
 
@@ -80,14 +80,14 @@ export default class Analytics {
       timingCategory: "Page View",
       timingVar: "Length",
       timingValue: time,
-      timingLabel: previousPageURL
+      timingLabel: previousPageURL,
     });
   }
 
   timing(timingData) {
     this.dispatch({
       type: TIMING,
-      payload: { timingData: timingData }
+      payload: { timingData: timingData },
     });
   }
 
@@ -107,7 +107,7 @@ export default class Analytics {
 
     this.dispatch({
       type: SESSION,
-      payload: { state: "start" }
+      payload: { state: "start" },
     });
   }
 
@@ -126,14 +126,14 @@ export default class Analytics {
     this.setPage("session-end");
     this.dispatch({
       type: SESSION,
-      payload: { state: "end" }
+      payload: { state: "end" },
     });
 
     // send a timing event with the duration
     this.timing({
       timingCategory: "Session",
       timingVar: "Length",
-      timingValue: durationOfSession
+      timingValue: durationOfSession,
     });
 
     // stop all tracking

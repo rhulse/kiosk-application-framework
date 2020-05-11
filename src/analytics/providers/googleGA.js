@@ -4,17 +4,17 @@ import {
   EVENT,
   TIMING,
   SESSION,
-  SET_PAGE
-} from "./types";
+  SET_PAGE,
+} from "../types";
 
-export default class GoogleGA {
+export default class GoogleGAProvider {
   constructor({
     providerId,
     defaultLanguage,
     applicationName,
     applicationVersion,
     debug,
-    logging
+    logging,
   }) {
     this.debug = debug;
     this.logging = logging;
@@ -45,11 +45,11 @@ export default class GoogleGA {
     */
 
     /* eslint-disable */
-    (function(i, s, o, g, r, a, m) {
+    (function (i, s, o, g, r, a, m) {
       i["GoogleAnalyticsObject"] = r;
       (i[r] =
         i[r] ||
-        function() {
+        function () {
           (i[r].q = i[r].q || []).push(arguments);
         }),
         (i[r].l = 1 * new Date());
@@ -60,21 +60,12 @@ export default class GoogleGA {
     })(window, document, "script", analyticsScript, "ga");
     /* eslint-enable */
 
-    this.ga("create", providerID, "auto");
-    this.ga("set", "appName", applicationName);
-    this.ga("set", "appVersion", applicationVersion);
+    this._dispatchToProvider("create", providerID, "auto");
+    this._dispatchToProvider("set", "appName", applicationName);
+    this._dispatchToProvider("set", "appVersion", applicationVersion);
 
     // initial language setting is done without sending an event (which would start a false session)
     this.setLanguage(defaultLanguage, false);
-  }
-
-  ga(...args) {
-    // ga must be accessed this way, creating an alias does not work
-    if (window.ga) {
-      window.ga(...args);
-    } else {
-      console.log(...args);
-    }
   }
 
   dispatch(event) {
@@ -110,43 +101,52 @@ export default class GoogleGA {
     }
   }
 
+  _dispatchToProvider(...args) {
+    // ga must be accessed this way, creating an alias does not work
+    if (window.ga) {
+      window.ga(...args);
+    } else {
+      console.log(...args);
+    }
+  }
+
   // ga('send', 'pageview', [page], [fieldsObject]);
   pageView(url) {
     this.logging > 1 && console.log("[PAGEVIEW]", url);
     this.setPage(url);
-    this.ga("send", "pageview");
+    this._dispatchToProvider("send", "pageview");
   }
 
   setPage(url) {
-    this.ga("set", "page", url);
+    this._dispatchToProvider("set", "page", url);
   }
 
   setLanguage(lang, withEvent = true) {
     this.logging > 1 && console.log("[LANGUAGE]", lang);
-    this.ga("set", "language", lang);
+    this._dispatchToProvider("set", "language", lang);
     withEvent &&
       this.event({
         eventCategory: "Language",
         eventAction: "Change",
-        eventLabel: lang
+        eventLabel: lang,
       });
   }
 
   // ga('send', 'event', [eventCategory]*, [eventAction]*, [eventLabel], [eventValue], [fieldsObject]);
   event(eventData) {
     this.logging > 1 && console.log("[EVENT]", eventData);
-    this.ga("send", "event", eventData);
+    this._dispatchToProvider("send", "event", eventData);
   }
 
   // ga('send', 'timing', [timingCategory], [timingVar], [timingValue], [timingLabel], [fieldsObject]);
   timing(timingData) {
     this.logging > 1 && console.log("[TIMING]", timingData);
-    this.ga("send", "timing", timingData);
+    this._dispatchToProvider("send", "timing", timingData);
   }
 
   session(state) {
     this.logging > 1 && console.log("[SESSION]", state);
-    this.ga("send", "pageview", { sessionControl: state });
+    this._dispatchToProvider("send", "pageview", { sessionControl: state });
   }
 
   // ga('send', 'screenview', [fieldsObject]);

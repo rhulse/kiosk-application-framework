@@ -1,4 +1,4 @@
-import { SET_LANGUAGE, PAGE_VIEW } from "./types";
+import { SET_LANGUAGE, PAGE_VIEW } from "../types";
 
 /* 
   GTAG does not seem to support session control which is needed to track how
@@ -6,14 +6,14 @@ import { SET_LANGUAGE, PAGE_VIEW } from "./types";
   or for when session control are supported in the future.
 */
 
-export default class GoogleGtag {
+export default class GoogleGtagProvider {
   constructor({
     providerId,
     defaultLanguage,
     applicationName,
     applicationVersion,
     debug,
-    consoleLogging
+    consoleLogging,
   }) {
     console.log("Initialsing GA Analytics.");
 
@@ -74,10 +74,10 @@ export default class GoogleGtag {
 
   pageView(url) {
     this.consoleLoggging && console.log("[PAGEVIEW]", url);
-    this.gtag("config", this.providerID, { page_path: "url" });
+    this._dispatchToProvider("config", this.providerID, { page_path: "url" });
   }
 
-  gtag(...args) {
+  _dispatchToProvider(...args) {
     // ga must be accessed this way, creating an alias does not work
     if (window.ga) {
       window.gtag(...args);
