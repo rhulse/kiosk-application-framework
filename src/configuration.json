@@ -29,7 +29,7 @@
       "googleGTAG": ""
     },
     "useEstimatedSessionTiming": true,
-    "logging": 2,
+    "loggingLevel": 2,
     "debug": false
   }
 }

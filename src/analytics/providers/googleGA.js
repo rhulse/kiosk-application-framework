@@ -14,12 +14,12 @@ export default class GoogleGAProvider {
     applicationName,
     applicationVersion,
     debug,
-    logging,
+    loggingLevel,
   }) {
     this.debug = debug;
-    this.logging = logging;
+    this.loggingLevel = loggingLevel;
 
-    logging > 0 && console.log("Initialsing GA Analytics.");
+    loggingLevel > 0 && console.log("Initialsing GA Analytics.");
 
     if (providerId) {
       this.initialise(
@@ -112,7 +112,7 @@ export default class GoogleGAProvider {
 
   // ga('send', 'pageview', [page], [fieldsObject]);
   pageView(url) {
-    this.logging > 1 && console.log("[PAGEVIEW]", url);
+    this.loggingLevel > 1 && console.log("[PAGEVIEW]", url);
     this.setPage(url);
     this._dispatchToProvider("send", "pageview");
   }
@@ -122,7 +122,7 @@ export default class GoogleGAProvider {
   }
 
   setLanguage(lang, withEvent = true) {
-    this.logging > 1 && console.log("[LANGUAGE]", lang);
+    this.loggingLevel > 1 && console.log("[LANGUAGE]", lang);
     this._dispatchToProvider("set", "language", lang);
     withEvent &&
       this.event({
@@ -134,18 +134,18 @@ export default class GoogleGAProvider {
 
   // ga('send', 'event', [eventCategory]*, [eventAction]*, [eventLabel], [eventValue], [fieldsObject]);
   event(eventData) {
-    this.logging > 1 && console.log("[EVENT]", eventData);
+    this.loggingLevel > 1 && console.log("[EVENT]", eventData);
     this._dispatchToProvider("send", "event", eventData);
   }
 
   // ga('send', 'timing', [timingCategory], [timingVar], [timingValue], [timingLabel], [fieldsObject]);
   timing(timingData) {
-    this.logging > 1 && console.log("[TIMING]", timingData);
+    this.loggingLevel > 1 && console.log("[TIMING]", timingData);
     this._dispatchToProvider("send", "timing", timingData);
   }
 
   session(state) {
-    this.logging > 1 && console.log("[SESSION]", state);
+    this.loggingLevel > 1 && console.log("[SESSION]", state);
     this._dispatchToProvider("send", "pageview", { sessionControl: state });
   }
 

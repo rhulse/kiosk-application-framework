@@ -20,7 +20,7 @@ export default class AnalyticsDispatcher {
       timeTracker,
       idleTimeout,
       useEstimatedSessionTiming,
-      logging
+      loggingLevel
     );
 
     this.timeTracker = timeTracker;
