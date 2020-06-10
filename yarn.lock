@@ -1778,6 +1778,11 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
+analytics-provider@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/analytics-provider/-/analytics-provider-0.3.2.tgz#63c3ab684e3d828039b9503cfba57a3eddadddda"
+  integrity sha512-3w+qmpn0xHLV+6Ra2YiZ60ZWDMtS98sjwAFi4jueY51k6rAS1RlHOAEnUeKcd9NHA6+sq7dkWuLLXS+HUvjrOA==
+
 ansi-colors@^3.0.0:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-3.2.4.tgz#e3a3da4bfbae6c86a9c285625de124a234026fbf"
