@@ -20,7 +20,7 @@ export default function Gallery({
   galleryData,
   galleryI18nKey,
 }) {
-  const { history } = useHistory();
+  const history = useHistory();
   const lastRoute = useRef(null);
 
   const baseRoute = galleryData.galleryPath;
